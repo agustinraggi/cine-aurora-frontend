@@ -15,3 +15,4 @@ donde se les pedirán datos personas como (dni, nombre, apellido, email) con el 
 4) Cada entrada tendrá asociada un número único que las identifica y pertenece a una única persona.
 5) Las ofertas que el cine decida se le enviaran al usuario junto a un código que él mismo ingresa para aplicar dichos descuentos.
 6) Cada película será presentada en una sala, también identificado con un número/letra.
+
