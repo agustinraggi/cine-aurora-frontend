@@ -53,20 +53,20 @@
     );
 }
 
-.slider .list .item .content {
+/* .slider .list .item .content {
     position: absolute;
     left: 10%;
     top: 20%;
     max-width: 80%;
     z-index: 1;
-}
+} */
 
-.slider .list .item .content p:nth-child(1) {
+.slider .list .item  p:nth-child(1) {
     text-transform: uppercase;
     letter-spacing: 10px;
 }
 
-.slider .list .item .content h2 {
+.slider .list .item  h2 {
     font-size: 35px;
     margin: 0;
 }
