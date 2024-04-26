@@ -1,0 +1,21 @@
+.viewtrailer{
+    min-height: 900px;
+    background-size: cover;
+    background-position:center;
+    display: flex;
+    align-items: center;
+}
+.boton{
+    background-color: #0F1014;
+    color: white;
+    outline: none;
+    border: 1px solid white;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.reproductor{
+    width: 100%;
+    height: 600px;
+}
+
