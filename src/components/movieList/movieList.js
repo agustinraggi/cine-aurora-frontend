@@ -21,7 +21,8 @@ const MovieList = () => {
                 url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`;
                 break;
             default:
-                url = `https://api.themoviedb.org/3/movie/popular?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`;
+                // Cambia 'popular' por 'now_playing' para mostrar películas en cartelera por defecto
+                url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`;
         }
         fetch(url)
         .then(res => res.json())
@@ -36,7 +37,7 @@ const MovieList = () => {
             case "now_playing":
                 return "En cartelera";
             default:
-                return "Cartelera";
+                return "En cartelera"; // Cambia 'Cartelera' por 'En cartelera' para consistencia
         }
     };
 
