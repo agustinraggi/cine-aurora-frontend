@@ -59,7 +59,7 @@ function Movie() {
                     <div className="movie__detailRightTop">
                         <div className="movie__name">{currentMovieDetail.original_title}</div>
                         <div className="movie__tagline">{currentMovieDetail.tagline}</div>
-                        <div className="movie__releaseDate">Release date: {currentMovieDetail.release_date}</div>
+                        <div className="movie__releaseDate">Proximamente: {currentMovieDetail.release_date}</div>
                         <div className="movie__genres">
                             {currentMovieDetail.genres && currentMovieDetail.genres.map(genre => (
                                 <span key={genre.id} className="movie__genre">{genre.name}</span>

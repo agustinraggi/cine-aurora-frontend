@@ -4,15 +4,16 @@
     align-items: center;
     display: flex;
     justify-content:space-between;
+    position: sticky;
+    z-index: 1000;
 }
 
 .headerLeft, .headerRight {
     display: flex;
     align-items: center;
-
 }
 
-a > span{
+a > span {
     margin: 0 30px;
     font-size: 1.3rem;
     cursor: pointer;
@@ -32,3 +33,7 @@ a > span:hover {
     font-size: 2rem;
 }
 
+#userActive {
+    font-size: 1.3rem;
+    margin-left: 100px;
+}

@@ -13,3 +13,9 @@ necesitaremos tener descardo las siguientes bibliotecas:
 cd "nombre app"
 "para verificar que este todo bien hacemos" npm start 
 
+#intalar para que funcione el carrusel 
+4)  npm install react-loading-skeleton
+    npm install react-responsive-carousel
+ 
+#instalar firebase 
+5) npm install firebase
