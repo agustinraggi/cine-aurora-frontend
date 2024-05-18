@@ -37,7 +37,7 @@ const MovieList = () => {
             case "now_playing":
                 return "En cartelera";
             default:
-                return "En cartelera"; // Cambia 'Cartelera' por 'En cartelera' para consistencia
+                return "En cartelera"; 
         }
     };
 
