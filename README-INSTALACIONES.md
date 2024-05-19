@@ -19,3 +19,10 @@ cd "nombre app"
  
 #instalar firebase 
 5) npm install firebase
+
+#intalar datepicker es para las fechas
+5)  npm install react-datepicker
+    npm i @material-ui/pickers
+    npm i @date-io/date-fns@1.x date-fns
+    npm i @material-ui/core
+
