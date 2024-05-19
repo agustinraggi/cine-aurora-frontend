@@ -15,14 +15,13 @@ const MovieList = () => {
         let url;
         switch (type) {
             case "upcoming":
-                url = `https://api.themoviedb.org/3/movie/upcoming?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`;
+                url = `https://api.themoviedb.org/3/movie/upcoming?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`;
                 break;
             case "now_playing":
-                url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`;
+                url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`;
                 break;
             default:
-                // Cambia 'popular' por 'now_playing' para mostrar películas en cartelera por defecto
-                url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`;
+                url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`;
         }
         fetch(url)
         .then(res => res.json())
