@@ -1,8 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
-.title {
-    color: black;
-    margin-bottom: 10px;
-}
 
 .login-form {
     margin-bottom: 30px; 
@@ -51,7 +47,6 @@ button:hover {
     background-color: #ddd;
 }
 
-
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -71,7 +66,6 @@ button:hover {
 .table td {
     text-align: center;
 }
-
 
 .btnEdit {
     background-color:rgb(255, 193, 7);
@@ -99,29 +93,18 @@ button:hover {
 }
 
 
-.contenedor {
-	width: 90%;
-	max-width: 1000px;
-	margin: 50px auto;
-	text-align: center;
-	background: #fff;
-	box-shadow: 0px 0px 20px 0px rgba(209, 209, 209, 0.5);
-	padding: 40px;
-	border-radius: 5px;
-	display: flex;
-	gap: 20px;
-}
-
-label {
-	width: 100%;
-	font-size: 14px;
-	color:#3f51b5;
-}
-
 .grupo {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
+}
+
+
+#fecha {
+    text-align: center;
+	width: 100%;
+	font-size: 14px;
+	color:#3f51b5;
 }
 
 .MuiInputBase-input.MuiInput-input {
@@ -130,3 +113,17 @@ label {
 	font-size: 18px;
 	text-transform: uppercase;
 }
+
+.custom-datepicker {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+}
+
+.react-datepicker__year-dropdown-container {
+    margin-top: 10px;
+}
+
+
+
+
