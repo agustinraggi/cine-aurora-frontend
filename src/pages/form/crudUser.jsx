@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./form.css";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
 function User() {
     const [listPeople, setListPeople] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [todayDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     useEffect(() => {
         ReadData();
     }, []);
-
-    function calculateAge(birthday) {
-        const ageDate = new Date(Date.now() - birthday.getTime());
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
-    }
 
     function validateForm() {
         let email = document.getElementById('inputEmail').value;
@@ -50,7 +44,7 @@ function User() {
             let name = document.getElementById('inputName').value;
             let dni = document.getElementById('inputDni').value;
             let fecha = selectedDate.toISOString();
-            let age = calculateAge(selectedDate);
+            let age = calculateAge(new Date(selectedDate));
 
             let newListPeople;
 
@@ -77,6 +71,11 @@ function User() {
             document.getElementById('inputDni').value = "";
             setSelectedDate(null);
         }
+    }
+
+    function calculateAge(birthday) {
+        const ageDate = new Date(Date.now() - birthday.getTime());
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 
     function ReadData() {
@@ -112,7 +111,7 @@ function User() {
                 newListPeople[index].name = document.getElementById('inputName').value;
                 newListPeople[index].dni = document.getElementById('inputDni').value;
                 newListPeople[index].fecha = selectedDate.toISOString();
-                newListPeople[index].age = calculateAge(selectedDate);
+                newListPeople[index].age = calculateAge(new Date(selectedDate));
 
                 localStorage.setItem("listPeople", JSON.stringify(newListPeople));
                 ReadData();
@@ -159,14 +158,21 @@ function User() {
                             <input type="number" className="form-control" id="inputDni" placeholder="Ingrese su número D.N.I" />
                         </div>
                         <div className="login-form">
-                            <label className="form-label" id="text">Fecha de Nacimiento</label>
-                            <div>
-                                <DatePicker 
-                                    selected={selectedDate} 
-                                    onChange={date => setSelectedDate(date)} 
+                            <div className="grupo">
+                                <label className="form-label" id="text">Fecha de Nacimiento</label>
+                                <DatePicker
+                                    selected={selectedDate}
+                                    onChange={date => setSelectedDate(date)}
+                                    dateFormat="dd/MM/yyyy"
+                                    minDate={new Date("1900-01-01")}
+                                    maxDate={new Date()}
+                                    className="custom-datepicker"
                                     showYearDropdown
+                                    yearDropdownItemNumber={10}
                                     scrollableYearDropdown
-                                    yearDropdownItemNumber={50}
+                                    showMonthDropdown
+                                    useShortMonthInDropdown
+                                    dropdownMode="select"
                                 />
                             </div>
                         </div>
@@ -193,7 +199,7 @@ function User() {
                             <td>{element.email}</td>
                             <td>{element.name}</td>
                             <td>{element.dni}</td>
-                            <td>{element.fecha}</td>
+                            <td>{new Date(element.fecha).toLocaleDateString()}</td>
                             <td>{element.age}</td>
                             <td>
                                 <button
@@ -216,5 +222,5 @@ function User() {
         </div>
     );
 }
-
 export default User;
+
