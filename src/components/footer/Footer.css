@@ -1,29 +1,13 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.content-wrap {
-    flex: 1;
-}
-
 .footer {
-    background-color: rgb(51, 51, 51);
+    background-image: linear-gradient(79deg, #333333, #271425 48%, #291b12);
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center; 
     padding: 20px 0;
     position: relative;
-    bottom: 0;
+    gap: 25px;
+
 }
 
 .socials-container {
@@ -31,8 +15,8 @@ html, body {
     align-items: center;
     justify-content: center;
     gap: 25px;
-    padding: 20px 40px;
-    background-color: #333333;
+    padding: 20px;
+    background-image: linear-gradient(79deg, #333333, #271425 48%, #291b12);
 }
 
 .social {
@@ -89,4 +73,10 @@ html, body {
 .social svg {
     fill: white;
     height: 20px;
+}
+
+.footer.movie-footer {
+    margin-top: 500px;
+    position: static;
+    bottom: 0;
 }

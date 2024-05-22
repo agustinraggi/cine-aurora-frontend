@@ -96,6 +96,9 @@ function Movie() {
                     </div>
                 </div>
             </div>
+            <div className="footer movie-footer">
+
+            </div>
         </div>
     );
 }
