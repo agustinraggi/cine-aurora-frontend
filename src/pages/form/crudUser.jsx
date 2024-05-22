@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./form.css";
+import "./crudUser.css";
 
 function User() {
     const [listPeople, setListPeople] = useState([]);
@@ -145,6 +145,7 @@ function User() {
             <div className="container mb-5">
                 <div className="row">
                     <form>
+                        <h1>REGISTRAR USUARIO</h1>
                         <div className="login-form">
                             <label className="form-label" id="text">Correo Electrónico</label>
                             <input type="email" className="form-control" id="inputEmail" placeholder="Ingrese su correo electrónico" />
@@ -176,7 +177,7 @@ function User() {
                                 />
                             </div>
                         </div>
-                        <button type="button" className="btn btn-primary" id="btnAdd" onClick={AddData}>Enviar</button>
+                        <button type="button" className="Btn btn btn-primary" id="btnAdd" onClick={AddData}>Enviar</button>
                         <button type="button" className="btn btn-primary" id="btnUpdate" style={{ display: 'none' }}>Actualizar</button>
                     </form>
                 </div>
