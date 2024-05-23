@@ -18,15 +18,18 @@ function Movie() {
         const { data } = await axios.get(`${API_URL}/movie/${id}`, {
             params: {
                 api_key: API_KEY,
-                append_to_response: "videos"
+                append_to_response: "videos",
+                language: "es-ES"
             }
         });
+
         if (data.videos && data.videos.results) {
             const trailer = data.videos.results.find(
-                (vid) => vid.type === "Trailer"
+                (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es"
             );
-            setTrailer(trailer ? trailer : data.videos.results[0]);
+            setTrailer(trailer ? trailer : data.videos.results.find(vid => vid.iso_639_1 === "es"));
         }
+
         setCurrentMovieDetail(data);
     }
 
@@ -97,7 +100,7 @@ function Movie() {
                 </div>
             </div>
             <div className="footer movie-footer">
-
+                <button onClick={closeTrailer}>Cerrar Trailer</button>
             </div>
         </div>
     );
