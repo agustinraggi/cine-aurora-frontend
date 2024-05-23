@@ -79,7 +79,7 @@ function User() {
     function ReadData() {
         const newListPeople = localStorage.getItem('listPeople') ? JSON.parse(localStorage.getItem('listPeople')) : [];
         setListPeople(newListPeople);
-        setFilteredPeople(newListPeople);  // Ensure filteredPeople is updated
+        setFilteredPeople(newListPeople);
     }
 
     function updateAges() {
@@ -223,7 +223,7 @@ function User() {
                             <td>{element.email}</td>
                             <td>{element.name}</td>
                             <td>{element.dni}</td>
-                            <td>{new Date(element.fecha).toLocaleDateString()}</td>
+                            <td>{new Date(element.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
                             <td>{element.age}</td>
                             <td>
                                 <button
