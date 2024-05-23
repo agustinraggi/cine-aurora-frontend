@@ -5,11 +5,18 @@ import "./crudUser.css";
 
 function User() {
     const [listPeople, setListPeople] = useState([]);
+    const [filteredPeople, setFilteredPeople] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
+        updateAges();
         ReadData();
     }, []);
+
+    useEffect(() => {
+        filterPeople();
+    }, [search, listPeople]);
 
     function validateForm() {
         let email = document.getElementById('inputEmail').value;
@@ -90,6 +97,23 @@ function User() {
         setListPeople(newListPeople);
     }
 
+    function updateAges() {
+        let newListPeople;
+
+        if (localStorage.getItem('listPeople') === null) {
+            newListPeople = [];
+        } else {
+            newListPeople = JSON.parse(localStorage.getItem('listPeople'));
+        }
+
+        const updatedPeople = newListPeople.map(person => {
+            person.age = calculateAge(new Date(person.fecha));
+            return person;
+        });
+
+        localStorage.setItem("listPeople", JSON.stringify(updatedPeople));
+    }
+
     function editData(index) {
         document.getElementById('btnAdd').style.display = 'none';
         document.getElementById('btnUpdate').style.display = 'block';
@@ -140,6 +164,15 @@ function User() {
 
         ReadData();
     }
+
+    // filtrar la persona que se busca
+    function filterPeople() {
+        const filtered = listPeople.filter(person =>
+            person.name.toLowerCase().includes(search.toLowerCase())
+        );
+        setFilteredPeople(filtered);
+    }
+
     return (
         <div className="container">
             <div className="container mb-5">
@@ -182,6 +215,18 @@ function User() {
                     </form>
                 </div>
             </div>
+            <div className="btnSearch">
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
+                    <g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g>
+                </svg>
+                <input 
+                    type="text" 
+                    className="form-control-search" 
+                    placeholder="Buscar por nombre" 
+                    value={search} 
+                    onChange={e => setSearch(e.target.value)} 
+                />
+            </div>
             <hr />
             <table className="table table-bordered" id="tableData">
                 <thead>
@@ -195,7 +240,7 @@ function User() {
                     </tr>
                 </thead>
                 <tbody>
-                    {listPeople.map((element, index) => (
+                    {filteredPeople.map((element, index) => (
                         <tr key={index}>
                             <td>{element.email}</td>
                             <td>{element.name}</td>
@@ -223,5 +268,5 @@ function User() {
         </div>
     );
 }
-export default User;
 
+export default User;

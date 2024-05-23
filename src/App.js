@@ -7,12 +7,9 @@ import Home from './pages/home/home';
 import MovieList from './components/movieList/movieList';
 import Movie from './pages/movieDetail/movie';
 import User from './pages/form/crudUser';
-// import FormsFirebase from './pages/form/formsFirebase';
-// import { AuthProvider } from './context/authContext';
 
 function App() {
   return (
-    // <AuthProvider>
       <div className="App">
         <Router>
           <Header />
@@ -26,7 +23,6 @@ function App() {
           <Footer />
         </Router>
       </div>
-    /* </AuthProvider> */
   );
 }
 
