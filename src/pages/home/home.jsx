@@ -34,8 +34,13 @@ const Home = () => {
                                     <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} alt={movie.title} />
                                 </div>
                                 <div className="posterImage__overlay">
+                                    <div className="scrolldown" style={{ "--color": "skyblue" }}>
+                                        <div className="chevrons">
+                                            <div className="chevrondown"></div>
+                                            <div className="chevrondown"></div>
+                                        </div>
+                                    </div>
                                     <div className="posterImage__title">{movie ? movie.title : ""}</div>
-                                    <div className="posterImage__description">{movie ? movie.overview : ""}</div>
                                 </div>
                             </Link>
                         ))
