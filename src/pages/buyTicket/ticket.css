@@ -1,0 +1,15 @@
+.ticket__intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.ticket__backdrop {
+    width: 50%;
+    height: auto; 
+    object-fit: cover;
+    object-position: 0 35%;
+}
