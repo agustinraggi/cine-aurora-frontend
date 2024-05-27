@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import YouTube from "react-youtube";
 import "./movie.css";
@@ -13,6 +13,7 @@ function Movie() {
     const [playing, setPlaying] = useState(false);
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const fetchMovie = async () => {
         const { data } = await axios.get(`${API_URL}/movie/${id}`, {
@@ -47,6 +48,10 @@ function Movie() {
         setPlaying(false);
     }
 
+    const handleCartClick = () => {
+        navigate(`/buyTicket/${id}`);
+    }
+
     return (
         <div className="movie">
             <div className="movie__intro">
@@ -72,6 +77,16 @@ function Movie() {
                     <div className="movie__detailRightBottom">
                         <div className="synopsisText">Synopsis</div>
                         <div>{currentMovieDetail.overview}</div>
+                    </div>
+                    <div data-tooltip="Precio $5.000" className="button" onClick={handleCartClick}>
+                        <div className="button-wrapper">
+                            <div className="text"></div>
+                                <span className="icon">
+                                    <svg viewBox="0 0 16 16" className="bi bi-cart2" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                    </svg>
+                                </span>
+                        </div>
                     </div>
                     {/* ver el trailer */}
                     <div className="viewtrailer">

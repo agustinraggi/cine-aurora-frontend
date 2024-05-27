@@ -23,6 +23,7 @@ function User() {
         let email = document.getElementById('inputEmail').value;
         let name = document.getElementById('inputName').value;
         let dni = document.getElementById('inputDni').value;
+        let password = document.getElementById('inputPassword').value;
 
         if (email === "") {
             alert('Por favor complete el correo electrónico');
@@ -43,6 +44,10 @@ function User() {
             alert('Por favor seleccione una fecha de nacimiento');
             return false;
         }
+        if (password === "") {
+            alert('Por favor complete la contraseña');
+            return false;
+        }
         return true;
     }
 
@@ -51,6 +56,7 @@ function User() {
             let email = document.getElementById('inputEmail').value;
             let name = document.getElementById('inputName').value;
             let dni = document.getElementById('inputDni').value;
+            let password = document.getElementById('inputPassword').value;
             let fecha = selectedDate.toISOString();
             let age = calculateAge(new Date(selectedDate));
 
@@ -61,7 +67,8 @@ function User() {
                 name: name,
                 dni: dni,
                 fecha: fecha,
-                age: age
+                age: age,
+                password: password
             });
 
             localStorage.setItem("listPeople", JSON.stringify(newListPeople));
@@ -100,6 +107,7 @@ function User() {
         document.getElementById('inputEmail').value = person.email;
         document.getElementById('inputName').value = person.name;
         document.getElementById('inputDni').value = person.dni;
+        document.getElementById('inputPassword').value = person.dni;
         setSelectedDate(new Date(person.fecha));
     }
 
@@ -110,6 +118,7 @@ function User() {
             let dni = document.getElementById('inputDni').value;
             let fecha = selectedDate.toISOString();
             let age = calculateAge(new Date(selectedDate));
+            let password = document.getElementById('inpuPassword').value;
 
             let newListPeople = [...listPeople];
             newListPeople[editIndex] = {
@@ -117,7 +126,8 @@ function User() {
                 name: name,
                 dni: dni,
                 fecha: fecha,
-                age: age
+                age: age,
+                password: password
             };
 
             localStorage.setItem("listPeople", JSON.stringify(newListPeople));
@@ -134,6 +144,7 @@ function User() {
         document.getElementById('inputEmail').value = "";
         document.getElementById('inputName').value = "";
         document.getElementById('inputDni').value = "";
+        document.getElementById('inputPassword').value = "";
         setSelectedDate(new Date());
     }
 
@@ -188,15 +199,16 @@ function User() {
                                 />
                             </div>
                         </div>
+                        <div className="login-form">
+                            <label className="form-label" id="text">contraseña</label>
+                            <input type="password" className="form-control" id="inputPassword" placeholder="*****" />
+                        </div>
                         <button type="button" className="Btn btn btn-primary" id="btnAdd" onClick={AddData}>Enviar</button>
                         <button type="button" className="Btn btn-primary" id="btnUpdate" style={{ display: 'none' }} onClick={updateData}>Actualizar</button>
                     </form>
                 </div>
             </div>
             <div className="btnSearch">
-                <svg viewBox="0 0 24 24" aria-hidden="true" className="icon">
-                    <g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g>
-                </svg>
                 <input 
                     type="text" 
                     className="form-control-search" 
@@ -214,6 +226,7 @@ function User() {
                         <th>DNI</th>
                         <th>Fecha de Nacimiento</th>
                         <th>Edad</th>
+                        <th>Contraseña</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -225,6 +238,7 @@ function User() {
                             <td>{element.dni}</td>
                             <td>{new Date(element.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
                             <td>{element.age}</td>
+                            <td>{element.password}</td>
                             <td>
                                 <button
                                     onClick={() => deleteData(index)}
