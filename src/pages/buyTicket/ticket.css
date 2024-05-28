@@ -13,3 +13,31 @@
     object-fit: cover;
     object-position: 0 35%;
 }
+
+.chair {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    justify-content: center;
+}
+ .allChair{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ }
+
+.screen {
+    margin-top: 45px;
+    display: flex;
+    justify-content: center;
+}
+.svgButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.svgButton:focus {
+    outline: none;
+}
