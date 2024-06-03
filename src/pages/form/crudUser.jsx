@@ -107,38 +107,46 @@ function User() {
         document.getElementById('inputEmail').value = person.email;
         document.getElementById('inputName').value = person.name;
         document.getElementById('inputDni').value = person.dni;
-        document.getElementById('inputPassword').value = person.dni;
+        document.getElementById('inputPassword').value = person.password;
         setSelectedDate(new Date(person.fecha));
     }
 
     function updateData() {
         if (validateForm()) {
-            let email = document.getElementById('inputEmail').value;
-            let name = document.getElementById('inputName').value;
-            let dni = document.getElementById('inputDni').value;
-            let fecha = selectedDate.toISOString();
-            let age = calculateAge(new Date(selectedDate));
-            let password = document.getElementById('inpuPassword').value;
-
-            let newListPeople = [...listPeople];
-            newListPeople[editIndex] = {
-                email: email,
-                name: name,
-                dni: dni,
-                fecha: fecha,
-                age: age,
-                password: password
-            };
-
-            localStorage.setItem("listPeople", JSON.stringify(newListPeople));
-            ReadData();
-
-            clearForm();
-            setEditIndex(null);
-            document.getElementById('btnAdd').style.display = 'block';
-            document.getElementById('btnUpdate').style.display = 'none';
+            const emailInput = document.getElementById('inputEmail');
+            const nameInput = document.getElementById('inputName');
+            const dniInput = document.getElementById('inputDni');
+            const passwordInput = document.getElementById('inputPassword');
+            if (emailInput && nameInput && dniInput && passwordInput) {
+                let email = emailInput.value;
+                let name = nameInput.value;
+                let dni = dniInput.value;
+                let fecha = selectedDate.toISOString();
+                let age = calculateAge(new Date(selectedDate));
+                let password = passwordInput.value;
+                let newListPeople = [...listPeople];
+                newListPeople[editIndex] = {
+                    email: email,
+                    name: name,
+                    dni: dni,
+                    fecha: fecha,
+                    age: age,
+                    password: password
+                };
+    
+                localStorage.setItem("listPeople", JSON.stringify(newListPeople));
+                ReadData();
+    
+                clearForm();
+                setEditIndex(null);
+                document.getElementById('btnAdd').style.display = 'block';
+                document.getElementById('btnUpdate').style.display = 'none';
+            } else {
+                console.error('Algunos elementos de entrada no están disponibles.');
+            }
         }
     }
+    
 
     function clearForm() {
         document.getElementById('inputEmail').value = "";
