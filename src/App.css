@@ -3,3 +3,11 @@
   color: white;
   font-family: sans-serif;
 }
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root, .App {
+  min-height: 100%;
+}
