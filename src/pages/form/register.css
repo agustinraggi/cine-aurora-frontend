@@ -17,7 +17,7 @@ form {
     padding: 20px;
     background-image: linear-gradient(79deg, #7439db, #c66fbc 48%, #f7944d);
     border-radius: 3px;
-    height: 700px;
+    height: 800px;
 }
 
 input {
@@ -240,7 +240,9 @@ button:hover {
     transition: 0.3s ease;
 }
 
-
+.datesPeople {
+    color: white !important;
+}
 
 
 

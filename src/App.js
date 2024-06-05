@@ -1,13 +1,16 @@
 import './App.css';
-import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Home from './pages/home/home';
 import MovieList from './components/movieList/movieList';
 import Movie from './pages/movieDetail/movie';
-import User from './pages/form/crudUser';
+import Login from './pages/form/login';
+import Register from './pages/form/register';
 import Ticket from './pages/buyTicket/ticket';
+
 
 function App() {
   return (
@@ -19,7 +22,8 @@ function App() {
             <Route path="movie/:id" element={<Movie />}></Route>
             <Route path="movies/:type" element={<MovieList />}></Route>
             <Route path="buyTicket/:id" element={<Ticket />} />
-            <Route path="crudUser" element={<User />}></Route>
+            <Route path="login" element={<Login />}></Route>
+            <Route path='register' element={<Register />}></Route>
             <Route path="/*" element={<h1>Error Page</h1>}></Route>
           </Routes>
           <Footer />
