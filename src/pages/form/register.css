@@ -244,6 +244,10 @@ button:hover {
     color: white !important;
 }
 
+#btnCancel{
+    margin-left: 20px;
+}
 
-
-
+.btn-warning{
+    margin-right: 16px;
+}
