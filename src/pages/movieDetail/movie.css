@@ -39,7 +39,7 @@
     color: white;
     display: flex;
     flex-direction: column;
-    height: 450px;
+    height: 520px;
     justify-content:space-between ;
 }
 
@@ -72,7 +72,7 @@
 .movie__detailRightBottom {
     margin: 2rem 0;
     flex: 0.8;
-    margin-top: 8rem;
+    margin-top: 4rem;
 }
 
 .synopsisText {
