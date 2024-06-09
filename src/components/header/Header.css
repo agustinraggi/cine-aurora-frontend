@@ -33,7 +33,7 @@ a > span:hover {
     font-size: 2rem;
 }
 
-#userActive {
+.userActive {
     font-size: 1.3rem;
-    margin-left: 100px;
+    color: white;
 }

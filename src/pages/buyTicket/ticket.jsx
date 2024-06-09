@@ -67,7 +67,7 @@ function Ticket() {
                         aria-labelledby="headingOne"
                         data-bs-parent="#accordionExample"
                     >
-                        <div class="accordion-body">
+                        <div className="accordion-body">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi quia in minima repellendus porro repudiandae est ducimus, possimus eligendi ratione minus quae quod adipisci pariatur culpa nemo provident explicabo delectus?
                         </div>
                     </div>
