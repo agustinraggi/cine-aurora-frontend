@@ -16,6 +16,7 @@ function User() {
 
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
     const [dni, setDni] = useState("");
     const [password, setPassword] = useState("");
 
@@ -28,6 +29,7 @@ function User() {
         axios.post("http://localhost:3001/create", {
             mail,
             name,
+            surname,
             dni,
             date: formattedDate,
             password
@@ -62,6 +64,7 @@ const update = () => {
             id,
             mail,
             name,
+            surname,
             dni,
             date: formattedDate,
             password
@@ -166,6 +169,10 @@ const deleteData = (id, name) => {
             alert('Por favor complete el nombre');
             return false;
         }
+        if (!surname) {
+            alert('Por favor complete el nombre');
+            return false;
+        }
         if (!dni || (dni.length !== 7 && dni.length !== 8)) {
             alert('Por favor escribe un DNI válido (de 7 u 8 caracteres)');
             return false;
@@ -185,6 +192,7 @@ const deleteData = (id, name) => {
         setId(null);
         setMail("");
         setName("");
+        setSurname("");
         setDni("");
         setPassword("");
         setSelectedDate(new Date());
@@ -206,6 +214,7 @@ const deleteData = (id, name) => {
         setId(val.id);
         setMail(val.mail);
         setName(val.name);
+        setSurname(val.surname);
         setDni(val.dni);
         setSelectedDate(new Date(val.date));
         setPassword(val.password);
@@ -223,8 +232,12 @@ const deleteData = (id, name) => {
                             <input onChange={(event) => setMail(event.target.value)} value={mail} type="email" className="form-control" id="inputEmail" placeholder="Ingrese su correo electrónico" />
                         </div>
                         <div className="login-form">
-                            <label className="form-label" id="text">Nombre Completo</label>
-                            <input onChange={(event) => setName(event.target.value)} value={name} type="text" className="form-control" id="inputName" placeholder="Ingrese su nombre completo" />
+                            <label className="form-label" id="text">Nombre</label>
+                            <input onChange={(event) => setName(event.target.value)} value={name} type="text" className="form-control" id="inputName" placeholder="Ingrese su nombre" />
+                        </div>
+                        <div className="login-form">
+                            <label className="form-label" id="text">Apellido</label>
+                            <input onChange={(event) => setSurname(event.target.value)} value={surname} type="text" className="form-control" id="inputSurname" placeholder="Ingrese su apellido" />
                         </div>
                         <div className="login-form">
                             <label className="form-label" id="text">DNI</label>
@@ -280,7 +293,8 @@ const deleteData = (id, name) => {
                 <thead>
                     <tr>
                         <th className="datesPeople">Correo</th>
-                        <th className="datesPeople">Nombre Completo</th>
+                        <th className="datesPeople">Nombre</th>
+                        <th className="datesPeople">Apellido</th>
                         <th className="datesPeople">DNI</th>
                         <th className="datesPeople">Fecha de Nacimiento</th>
                         <th className="datesPeople">Edad</th>
@@ -293,6 +307,7 @@ const deleteData = (id, name) => {
                         <tr key={client.id}>
                             <td>{client.mail}</td>
                             <td>{client.name}</td>
+                            <td>{client.surname}</td>
                             <td>{client.dni}</td>
                             <td>{new Date(client.date).toLocaleDateString()}</td>
                             <td>{client.age}</td>

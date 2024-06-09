@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios';
 
 function Login({ onLogin }) {
     const [email, setEmail] = useState("");
@@ -24,6 +23,7 @@ function Login({ onLogin }) {
                         onChange={e => setEmail(e.target.value)}
                         placeholder="Ingrese su correo electrónico"
                         required
+                        autoComplete="current-email"
                     />
                 </div>
                 <div className="form-group">
@@ -45,7 +45,6 @@ function Login({ onLogin }) {
                 </button>
                 <p>¿No tienes una cuenta? <Link to="/register">Regístrate aquí</Link>.</p>
             </form>
-            
         </div>
     );
 }

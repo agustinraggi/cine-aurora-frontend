@@ -7,28 +7,32 @@ import Footer from './components/footer/Footer';
 import Home from './pages/home/home';
 import MovieList from './components/movieList/movieList';
 import Movie from './pages/movieDetail/movie';
-import Login from './pages/form/login';
+import LoginWrapper from './pages/form/LoginWrapper';
 import Register from './pages/form/register';
+import User from './pages/form/register';
 import Ticket from './pages/buyTicket/ticket';
-
+import { useState } from 'react';
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
-      <div className="App">
-        <Router>
-          <Header />
-          <Routes>
-            <Route index element={<Home />}></Route>
-            <Route path="movie/:id" element={<Movie />}></Route>
-            <Route path="movies/:type" element={<MovieList />}></Route>
-            <Route path="buyTicket/:id" element={<Ticket />} />
-            <Route path="login" element={<Login />}></Route>
-            <Route path='register' element={<Register />}></Route>
-            <Route path="/*" element={<h1>Error Page</h1>}></Route>
-          </Routes>
-          <Footer />
-        </Router>
-      </div>
+    <div className="App">
+      <Router>
+        <Header user={user} />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="movie/:id" element={<Movie />} />
+          <Route path="movies/:type" element={<MovieList />} />
+          <Route path="buyTicket/:id" element={<Ticket />} />
+          <Route path="login" element={<LoginWrapper setUser={setUser} />} />
+          <Route path='register' element={<Register />} />
+          <Route path='user' element={User}></Route>
+          <Route path="/*" element={<h1>Error Page</h1>} />
+        </Routes>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 
