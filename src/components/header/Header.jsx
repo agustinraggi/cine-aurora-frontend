@@ -34,7 +34,7 @@ const Header = ({ user }) => {
                         </li>
                         <li className="nav-item">
                             {user ? (
-                            <Link to="/user" style={{ textDecoration: "none" }} className="navbar-brand">
+                            <Link to="/userActive" style={{ textDecoration: "none" }} className="navbar-brand">
                                 <span className="userActive">{user.name}</span>
                             </Link>
                             ) : (

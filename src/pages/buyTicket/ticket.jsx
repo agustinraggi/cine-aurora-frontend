@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import "./ticket.css";
+import chairImage from './assets/chair.png';
+
 
 function Ticket() {
     const API_KEY = '6a5fa2aa71d234b5f1b196ce04746bc5';
@@ -166,7 +168,7 @@ function Ticket() {
                             <div className="chair">
                                 <div className="allChair">
                                     <p className="chairText">Disponible</p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#4c4cf3d5"><path d="M200-120q-17 0-28.5-11.5T160-160v-40q-50 0-85-35t-35-85v-200q0-50 35-85t85-35v-80q0-50 35-85t85-35h400q50 0 85 35t35 85v80q50 0 85 35t35 85v200q0 50-35 85t-85 35v40q0 17-11.5 28.5T760-120q-17 0-28.5-11.5T720-160v-40H240v40q0 17-11.5 28.5T200-120Zm-40-160h640q17 0 28.5-11.5T840-320v-200q0-17-11.5-28.5T800-560q-17 0-28.5 11.5T760-520v160H200v-160q0-17-11.5-28.5T160-560q-17 0-28.5 11.5T120-520v200q0 17 11.5 28.5T160-280Zm120-160h400v-80q0-27 11-49t29-39v-112q0-17-11.5-28.5T680-760H280q-17 0-28.5 11.5T240-720v112q18 17 29 39t11 49v80Zm200 0Zm0 160Zm0-80Z"/>disponible</svg>
+                                    <img src={chairImage} alt="" />
                                 </div>
                                 <div className="allChair">
                                     <p className="chairText">No Disponible</p>
@@ -187,6 +189,7 @@ function Ticket() {
                                     <tr>
                                         <td>
                                             <button className={`svgButton ${selectedSeats.includes(1) ? "selected" : ""}`} aria-label="Asiento Disponible" onClick={() => handleSeatClick(1)}>
+                                            <img src={chairImage} alt="" fill={selectedSeats.includes(1) ? "purple" : "#4c4cf3d5"}/>
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={selectedSeats.includes(1) ? "purple" : "#4c4cf3d5"}>
                                                     <path d="M200-120q-17 0-28.5-11.5T160-160v-40q-50 0-85-35t-35-85v-200q0-50 35-85t85-35v-80q0-50 35-85t85-35h400q50 0 85 35t35 85v80q50 0 85 35t35 85v200q0 50-35 85t-85 35v40q0 17-11.5 28.5T760-120q-17 0-28.5-11.5T720-160v-40H240v40q0 17-11.5 28.5T200-120Zm-40-160h640q17 0 28.5-11.5T840-320v-200q0-17-11.5-28.5T800-560q-17 0-28.5 11.5T760-520v160H200v-160q0-17-11.5-28.5T160-560q-17 0-28.5 11.5T120-520v200q0 17 11.5 28.5T160-280Zm120-160h400v-80q0-27 11-49t29-39v-112q0-17-11.5-28.5T680-760H280q-17 0-28.5 11.5T240-720v112q18 17 29 39t11 49v80Zm200 0Zm0 160Zm0-80Z"/>
                                                 </svg>
