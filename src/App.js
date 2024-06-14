@@ -9,7 +9,7 @@ import MovieList from './components/movieList/movieList';
 import Movie from './pages/movieDetail/movie';
 import LoginWrapper from './pages/form/LoginWrapper';
 import Register from './pages/form/register';
-import User from './pages/form/register';
+import UserActive from './pages/userActive/loggedUser';
 import Ticket from './pages/buyTicket/ticket';
 import { useState } from 'react';
 
@@ -27,7 +27,7 @@ function App() {
           <Route path="buyTicket/:id" element={<Ticket />} />
           <Route path="login" element={<LoginWrapper setUser={setUser} />} />
           <Route path='register' element={<Register />} />
-          <Route path='user' element={User}></Route>
+          <Route path='userActive' element={<UserActive />}></Route>
           <Route path="/*" element={<h1>Error Page</h1>} />
         </Routes>
         <Footer />

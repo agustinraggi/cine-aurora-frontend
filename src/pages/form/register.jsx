@@ -19,6 +19,7 @@ function User() {
     const [surname, setSurname] = useState("");
     const [dni, setDni] = useState("");
     const [password, setPassword] = useState("");
+    const [guy, setGuy] = useState("cliente");
 
     const [listPeople, setListPeople] = useState([]);
 
@@ -32,7 +33,8 @@ function User() {
             surname,
             dni,
             date: formattedDate,
-            password
+            password,
+            guy
         })
         .then(() => {
             getCustomer();
@@ -67,7 +69,8 @@ const update = () => {
             surname,
             dni,
             date: formattedDate,
-            password
+            password,
+            guy
         })
         .then(() => {
             Swal.fire({
@@ -195,6 +198,7 @@ const deleteData = (id, name) => {
         setSurname("");
         setDni("");
         setPassword("");
+        setGuy("cliente");
         setSelectedDate(new Date());
         setEditIndex(null);
     }
@@ -218,6 +222,7 @@ const deleteData = (id, name) => {
         setDni(val.dni);
         setSelectedDate(new Date(val.date));
         setPassword(val.password);
+        setGuy(val.guy);
     }
 
 
@@ -288,7 +293,6 @@ const deleteData = (id, name) => {
                     onChange={e => setSearch(e.target.value)}
                 />
             </div>
-            <hr />
             <table className="table table-bordered" id="tableData">
                 <thead>
                     <tr>
@@ -298,6 +302,7 @@ const deleteData = (id, name) => {
                         <th className="datesPeople">DNI</th>
                         <th className="datesPeople">Fecha de Nacimiento</th>
                         <th className="datesPeople">Edad</th>
+                        <th className="datesPeople">Tipo</th>
                         <th className="datesPeople">Contraseña</th>
                         <th className="datesPeople">Acción</th>
                     </tr>
@@ -311,6 +316,7 @@ const deleteData = (id, name) => {
                             <td>{client.dni}</td>
                             <td>{new Date(client.date).toLocaleDateString()}</td>
                             <td>{client.age}</td>
+                            <td>{client.guy}</td>
                             <td>{client.password}</td>
                             <td>
                                 <button className="btn btn-warning"
