@@ -4,7 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import Home from './pages/home/home';
+import Carrusel from './pages/carrusel/carrusel';
 import MovieList from './components/movieList/movieList';
 import Movie from './pages/movieDetail/movie';
 import LoginWrapper from './pages/form/LoginWrapper';
@@ -21,7 +21,7 @@ function App() {
       <Router>
         <Header user={user} />
         <Routes>
-          <Route index element={<Home />} />
+          <Route index element={<Carrusel />} />
           <Route path="movie/:id" element={<Movie />} />
           <Route path="movies/:type" element={<MovieList />} />
           <Route path="buyTicket/:id" element={<Ticket />} />

@@ -24,9 +24,9 @@ const MovieList = () => {
                 url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`;
         }
         fetch(url)
-        .then(res => res.json())
-        .then(data => setMovieList(data.results))
-        .catch(error => console.error("Error fetching data:", error));
+            .then(res => res.json())
+            .then(data => setMovieList(data.results))
+            .catch(error => console.error("Error fetching data:", error));
     };
 
     const getTitle = () => {
@@ -45,7 +45,7 @@ const MovieList = () => {
             <h2 className="list__title">{getTitle()}</h2>
             <div className="list__cards">
                 {movieList.map(movie => (
-                    <Cards key={movie.id} movie={movie} />
+                    <Cards key={movie.id} movie={movie} className="card" />
                 ))}
             </div>
         </div>
