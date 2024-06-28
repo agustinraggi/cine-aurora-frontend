@@ -232,23 +232,23 @@ const deleteData = (id, name) => {
                 <div className="row">
                     <form>
                         <h1>REGISTRAR USUARIO</h1>
-                        <div className="login-form">
+                        <div className="registerForm">
                             <label className="form-label" id="text">Correo Electrónico</label>
                             <input onChange={(event) => setMail(event.target.value)} value={mail} type="email" className="form-control" id="inputEmail" placeholder="Ingrese su correo electrónico" />
                         </div>
-                        <div className="login-form">
+                        <div className="registerForm">
                             <label className="form-label" id="text">Nombre</label>
                             <input onChange={(event) => setName(event.target.value)} value={name} type="text" className="form-control" id="inputName" placeholder="Ingrese su nombre" />
                         </div>
-                        <div className="login-form">
+                        <div className="registerForm">
                             <label className="form-label" id="text">Apellido</label>
                             <input onChange={(event) => setSurname(event.target.value)} value={surname} type="text" className="form-control" id="inputSurname" placeholder="Ingrese su apellido" />
                         </div>
-                        <div className="login-form">
+                        <div className="registerForm">
                             <label className="form-label" id="text">DNI</label>
                             <input onChange={(event) => setDni(event.target.value)} value={dni} type="number" className="form-control" id="inputDni" placeholder="Ingrese su número D.N.I" />
                         </div>
-                        <div className="login-form">
+                        <div className="registerForm">
                             <div className="grupo">
                                 <label className="form-label" id="inputFecha">Fecha de Nacimiento</label>
                                 <DatePicker
@@ -267,7 +267,7 @@ const deleteData = (id, name) => {
                                 />
                             </div>
                         </div>
-                        <div className="login-form">
+                        <div className="registerForm">
                             <label className="form-label" id="text">Contraseña</label>
                             <input onChange={(event) => setPassword(event.target.value)} value={password} type="password" className="form-control" id="inputPassword" placeholder="*****" />
                         </div>
