@@ -32,17 +32,29 @@ const Header = ({ user }) => {
                                 <span>Proximamente</span>
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            {user ? (
-                            <Link to="/userActive" style={{ textDecoration: "none" }} className="navbar-brand">
-                                <span className="userActive">{user.name}</span>
-                            </Link>
-                            ) : (
+                        {user ? (
+                            <>
+                                {user.tips === 'admin' ? (
+                                    <li className="nav-item">
+                                        <Link to="/adminActive" style={{ textDecoration: "none" }} className="navbar-brand">
+                                            <span className="userActive">{user.name}</span>
+                                        </Link>
+                                    </li>
+                                ) : (
+                                    <li className="nav-item">
+                                        <Link to="/userActive" style={{ textDecoration: "none" }} className="navbar-brand">
+                                            <span className="userActive">{user.name}</span>
+                                        </Link>
+                                    </li>
+                                )}
+                            </>
+                        ) : (
+                            <li className="nav-item">
                                 <Link to="/login" style={{ textDecoration: "none" }} className="navbar-brand">
                                     <span>Usuario</span>
                                 </Link>
-                            )}
-                        </li>
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>
