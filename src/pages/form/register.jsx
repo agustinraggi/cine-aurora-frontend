@@ -19,7 +19,7 @@ function User() {
     const [surname, setSurname] = useState("");
     const [dni, setDni] = useState("");
     const [password, setPassword] = useState("");
-    const [guy, setGuy] = useState("cliente");
+    const [tips, setTips] = useState("cliente");
 
     const [listPeople, setListPeople] = useState([]);
 
@@ -34,7 +34,7 @@ function User() {
             dni,
             date: formattedDate,
             password,
-            guy
+            tips
         })
         .then(() => {
             getCustomer();
@@ -70,7 +70,7 @@ const update = () => {
             dni,
             date: formattedDate,
             password,
-            guy
+            tips
         })
         .then(() => {
             Swal.fire({
@@ -198,7 +198,7 @@ const deleteData = (id, name) => {
         setSurname("");
         setDni("");
         setPassword("");
-        setGuy("cliente");
+        setTips("cliente");
         setSelectedDate(new Date());
         setEditIndex(null);
     }
@@ -222,7 +222,7 @@ const deleteData = (id, name) => {
         setDni(val.dni);
         setSelectedDate(new Date(val.date));
         setPassword(val.password);
-        setGuy(val.guy);
+        setTips(val.tips);
     }
 
 
@@ -316,7 +316,7 @@ const deleteData = (id, name) => {
                             <td>{client.dni}</td>
                             <td>{new Date(client.date).toLocaleDateString()}</td>
                             <td>{client.age}</td>
-                            <td>{client.guy}</td>
+                            <td>{client.tips}</td>
                             <td>{client.password}</td>
                             <td>
                                 <button className="btn btn-warning"

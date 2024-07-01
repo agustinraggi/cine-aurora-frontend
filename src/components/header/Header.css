@@ -36,4 +36,5 @@ a > span:hover {
 .userActive {
     font-size: 1.3rem;
     color: white;
+    text-transform: uppercase;
 }

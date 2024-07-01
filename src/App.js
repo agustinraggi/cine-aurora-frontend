@@ -10,6 +10,7 @@ import Movie from './pages/movieDetail/movie';
 import LoginWrapper from './pages/form/LoginWrapper';
 import Register from './pages/form/register';
 import UserActive from './pages/userActive/loggedUser';
+import AdminActive from './pages/userActive/loggedAdmin'
 import Ticket from './pages/buyTicket/ticket';
 import { useState } from 'react';
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="login" element={<LoginWrapper setUser={setUser} />} />
           <Route path='register' element={<Register />} />
           <Route path='userActive' element={<UserActive />}></Route>
+          <Route path='adminActive' element={<AdminActive />}></Route>
           <Route path="/*" element={<h1>Error Page</h1>} />
         </Routes>
         <Footer />

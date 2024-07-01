@@ -23,7 +23,7 @@ const Carrusel = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 5000,
+        autoplaySpeed: 3000,
         fade: true,
         arrows: false,
         appendDots: dots => (
@@ -53,6 +53,12 @@ const Carrusel = () => {
                             <Link style={{ textDecoration: "none", color: "white" }} to={`/movie/${movie.id}`}>
                                 <div className="posterImage">
                                     <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} alt={movie.title} />
+                                </div>
+                                <div className="scrolldown" style={{ "--color": "skyblue" }}>
+                                    <div className="chevrons">
+                                        <div className="chevrondown"></div>
+                                        <div className="chevrondown"></div>
+                                    </div>
                                 </div>
                                 <div className="posterImage__overlay">
                                     <div className="posterImage__title">{movie ? movie.title : ""}</div>
