@@ -15,7 +15,7 @@ function Login({ onLogin }) {
         <div className="container">
             <div className="container mb-5">
                 <div className="row">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="formLogin">
                         <h1>Iniciar Sesión</h1>
                         <div className="form-group">
                             <label className="form-label">Correo Electrónico</label>

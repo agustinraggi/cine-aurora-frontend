@@ -2,7 +2,7 @@ h1 {
     text-align: center;
     margin-bottom: 50px;
 }
-form {
+.formLogin {
     display: flex;
     justify-content: center;
     align-items: center;

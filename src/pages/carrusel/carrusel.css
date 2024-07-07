@@ -11,7 +11,7 @@
 .posterImage > img {
     margin: auto;
     display: block;
-    width: 100%;
+    width: 40%;
     transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
 
@@ -32,7 +32,7 @@
 
 .posterImage__title {
     font-weight: 900;
-    font-size: 4rem;
+    font-size: 2rem;
     margin-bottom: 0.4rem;
     text-align: left;
     margin-bottom: 160px;
