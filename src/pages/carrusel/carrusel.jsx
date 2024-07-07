@@ -1,20 +1,64 @@
 import React, { useEffect, useState } from "react";
-import "./carrusel.css";
 import Slider from "react-slick";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import MovieList from "../../components/movieList/movieList";
+import "./carrusel.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import MovieList from "../../components/movieList/movieList";
 
 const Carrusel = () => {
-    const [popularMovies, setPopularMovies] = useState([]);
+    const [dbMovies, setDbMovies] = useState([]);
+    const [moviePosters, setMoviePosters] = useState([]);
 
     useEffect(() => {
-        fetch("https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES")
-            .then(res => res.json())
-            .then(data => setPopularMovies(data.results))
-            .catch(error => console.error("Error fetching data:", error));
+        fetchDbMovies();
     }, []);
+
+    useEffect(() => {
+        const fetchMoviePosters = async () => {
+            const posters = await Promise.all(
+                dbMovies.map(async (dbMovie) => {
+                    const movieData = await fetchMovieData(dbMovie.codeFilm);
+                    if (movieData) {
+                        return {
+                            ...dbMovie,
+                            posterPath: movieData.poster_path,
+                            id: movieData.id
+                        };
+                    } else {
+                        return {
+                            ...dbMovie,
+                            posterPath: null,
+                            id: null
+                        };
+                    }
+                })
+            );
+            setMoviePosters(posters.filter(movie => movie.posterPath !== null));
+        };
+
+        fetchMoviePosters();
+    }, [dbMovies]);
+
+    const fetchDbMovies = async () => {
+        try {
+            const response = await axios.get("http://localhost:3001/showFilm");
+            setDbMovies(response.data);
+        } catch (error) {
+            console.error("Error fetching database movies:", error);
+        }
+    };
+
+    const fetchMovieData = async (codeFilm) => {
+        try {
+            const response = await axios.get(`https://api.themoviedb.org/3/movie/${codeFilm}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`);
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching movie data:", error);
+            return null;
+        }
+    };
 
     const settings = {
         dots: true,
@@ -47,30 +91,26 @@ const Carrusel = () => {
     return (
         <div className="poster">
             <Slider {...settings}>
-                {
-                    popularMovies.map(movie => (
-                        <div key={movie.id}>
-                            <Link style={{ textDecoration: "none", color: "white" }} to={`/movie/${movie.id}`}>
-                                <div className="posterImage">
-                                    <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} alt={movie.title} />
-                                </div>
-                                <div className="scrolldown" style={{ "--color": "skyblue" }}>
-                                    <div className="chevrons">
-                                        <div className="chevrondown"></div>
-                                        <div className="chevrondown"></div>
-                                    </div>
-                                </div>
+                {moviePosters.map((movie, index) => (
+                    <div key={index} className="slider-item">
+                        <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                            <div className="posterImage">
+                                {movie.posterPath ? (
+                                    <img src={`https://image.tmdb.org/t/p/original${movie.posterPath}`} alt={movie.nameFilm} />
+                                ) : (
+                                    <div>No se encontró el póster para {movie.nameFilm}</div>
+                                )}
                                 <div className="posterImage__overlay">
-                                    <div className="posterImage__title">{movie ? movie.title : ""}</div>
+                                    <div className="posterImage__title">{movie.nameFilm}</div>
                                 </div>
-                            </Link>
-                        </div>
-                    ))
-                }
+                            </div>
+                        </Link>
+                    </div>
+                ))}
             </Slider>
             <MovieList />
         </div>
     );
-}
+};
 
 export default Carrusel;

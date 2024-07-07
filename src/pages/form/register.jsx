@@ -13,7 +13,6 @@ function User() {
     const [search, setSearch] = useState("");
     const [editIndex, setEditIndex] = useState(null);
     const [id, setId] = useState(null);
-
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -230,7 +229,7 @@ const deleteData = (id, name) => {
         <div className="container">
             <div className="container mb-5">
                 <div className="row">
-                    <form>
+                    <form className="formUserRegister">
                         <h1>REGISTRAR USUARIO</h1>
                         <div className="registerForm">
                             <label className="form-label" id="text">Correo Electrónico</label>
@@ -278,7 +277,10 @@ const deleteData = (id, name) => {
                                     <button type="button" className="Btn btn-primary" id="btnCancel" onClick={clearForm}>Cancelar</button>
                                 </div>
                                 :
-                                <button type="button" className="Btn btn btn-primary" id="btnAdd" onClick={add}>Enviar</button>
+                                <Link to="/login">
+                                    <button type="button" className="Btn btn btn-primary" id="btnAdd" onClick={add}>Enviar</button>
+                                </Link>
+                                
                         }
                         <p>Ingresar aquí <Link to="/login">aquí</Link></p>
                     </form>

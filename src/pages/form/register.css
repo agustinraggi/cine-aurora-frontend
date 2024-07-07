@@ -5,7 +5,7 @@ h1 {
     margin-bottom: 50px;
 }
 
-form {
+.formUserRegister {
     display: flex;
     justify-content: center;
     align-items: center;

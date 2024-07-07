@@ -15,7 +15,7 @@ function Admin() {
                 <Link to="/admin/..." className="adminLink">
                     <span>Administrar Usuarios</span>
                 </Link>
-                <Link to="/admin/..." className="adminLink">
+                <Link to="/addFilmAdmin" className="adminLink">
                     <span>Administrar Películas</span>
                 </Link>
             </div>
