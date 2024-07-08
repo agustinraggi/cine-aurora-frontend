@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./register.css";
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import "./editData.css"
 
 
-function User() {
+function EditAdminData() {
     const [filteredPeople, setFilteredPeople] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [search, setSearch] = useState("");
@@ -33,11 +33,7 @@ const validateForm = () => {
         return false;
     }
     if (!surname) {
-        alert('Por favor complete el nombre');
-        return false;
-    }
-    if (!dni || (dni.length !== 7 && dni.length !== 8)) {
-        alert('Por favor escribe un DNI válido (de 7 u 8 caracteres)');
+        alert('Por favor complete el apellido');
         return false;
     }
     if (!selectedDate) {
@@ -50,6 +46,7 @@ const validateForm = () => {
     }
     return true;
 }
+
 
     // REGISTRAR USUARIO
     const add = () => {
@@ -84,6 +81,93 @@ const validateForm = () => {
         });
     }
 }
+
+
+// UPDATE
+const update = () => {
+    if (validateForm()) {
+        const formattedDate = selectedDate.toISOString().split('T')[0];
+        axios.put("http://localhost:3001/update", {
+            id,
+            mail,
+            name,
+            surname,
+            dni,
+            date: formattedDate,
+            password,
+            tips
+        })
+        .then(() => {
+            Swal.fire({
+                title: "<strong>Usuario Actualizado</strong>",
+                html: "<i>El usuario <strong>" + name + "</strong> fue ACTUALIZADO con éxito!</i>",
+                icon: "success",
+                timer: 2000
+            });
+            getCustomer();
+            clearForm();
+            setEditIndex(null);
+        })
+        .catch((error) => {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "No se pudo registrar el usuario!",
+                footer: JSON.parse(JSON.stringify(error)).message === "Network Error" ? "Intente más tarde" : JSON.parse(JSON.stringify(error)).message
+            });
+        });
+    }
+}
+
+
+// DELETE
+const deleteData = (id, name) => {
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: `No podrás revertir esta acción. ¿Estás seguro de que deseas eliminar a ${name}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar!",
+        cancelButtonText: "No, cancelar",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`http://localhost:3001/delete/${id}`)
+            .then(() => {
+                Swal.fire({
+                    title: "¡Eliminado!",
+                    text: `El usuario ${name} ha sido eliminado.`,
+                    icon: "success",
+                    timer: 2000
+                });
+                getCustomer();
+                clearForm();
+                setEditIndex(null);
+            })
+            .catch((error) => {
+                console.error("Hubo un error al eliminar el usuario:", error);
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                title: "Cancelado",
+                text: "Tu archivo está a salvo :)",
+                icon: "error",
+                timer: 2000
+            });
+        }
+    })
+    .catch((error) => {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "No se pudo Eliminar Usuario!",
+            footer: JSON.parse(JSON.stringify(error)).message === "Network Error" ? "Intente mas tarde" : JSON.parse(JSON.stringify(error)).message
+        });
+    });
+}
+
+
+
 
     // MOSTRAR DATOS
     const getCustomer = () => {
@@ -124,12 +208,26 @@ const validateForm = () => {
         }
     }
 
+    // EDIT
+    const editData = (val) => {
+        setEditIndex(true);
+        setId(val.id);
+        setMail(val.mail);
+        setName(val.name);
+        setSurname(val.surname);
+        setDni(val.dni);
+        setSelectedDate(new Date(val.date));
+        setPassword(val.password);
+        setTips(val.tips);
+    }
+
+
     return (
         <div className="container">
             <div className="container mb-5">
                 <div className="row">
                     <form className="formUserRegister">
-                        <h1>REGISTRAR USUARIO</h1>
+                        <h1>PANEL DE USUARIOS</h1>
                         <div className="registerForm">
                             <label className="form-label" id="text">Correo Electrónico</label>
                             <input onChange={(event) => setMail(event.target.value)} value={mail} type="email" className="form-control" id="inputEmail" placeholder="Ingrese su correo electrónico" />
@@ -181,12 +279,55 @@ const validateForm = () => {
                                 </Link>
                                 
                         }
-                        <p>Ingresar aquí <Link to="/login">aquí</Link></p>
                     </form>
                 </div>
             </div>
+            <div className="btnSearch">
+                <input
+                    type="text"
+                    className="form-control-search"
+                    placeholder="Buscar por nombre"
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                />
+            </div>
+            <table className="table table-bordered" id="tableData">
+                <thead>
+                    <tr>
+                        <th className="datesPeople">Correo</th>
+                        <th className="datesPeople">Nombre</th>
+                        <th className="datesPeople">Apellido</th>
+                        <th className="datesPeople">DNI</th>
+                        <th className="datesPeople">Fecha de Nacimiento</th>
+                        <th className="datesPeople">Edad</th>
+                        <th className="datesPeople">Tipo</th>
+                        <th className="datesPeople">Contraseña</th>
+                        <th className="datesPeople">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredPeople.map((client, index) => (
+                        <tr key={client.id}>
+                            <td>{client.mail}</td>
+                            <td>{client.name}</td>
+                            <td>{client.surname}</td>
+                            <td>{client.dni}</td>
+                            <td>{new Date(client.date).toLocaleDateString()}</td>
+                            <td>{client.age}</td>
+                            <td>{client.tips}</td>
+                            <td>{client.password}</td>
+                            <td>
+                                <button className="btn btn-warning"
+                                    onClick={() => {
+                                        editData(client);
+                                    }}>Editar</button>
+                                <button className="btn btn-danger" onClick={() => deleteData(client.id, client.name)}>Eliminar</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }
-
-export default User;
+export default EditAdminData;

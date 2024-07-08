@@ -114,8 +114,7 @@ function Movie() {
                     </div>
                 </div>
             </div>
-            <div className="footer movie-footer">
-                <button onClick={closeTrailer}>Cerrar Trailer</button>
+            <div className="movieFooter">
             </div>
         </div>
     );

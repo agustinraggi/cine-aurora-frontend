@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "./card.css";
 import { Link } from "react-router-dom";
+import "./card.css";
 
-const Cards = ({ movie, className }) => {
+const Cards = ({ movie }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -15,15 +15,16 @@ const Cards = ({ movie, className }) => {
     return (
         <>
             {isLoading ? (
-                <div className={`cards ${className}`}>
+                <div className="cards">
                     <SkeletonTheme color="#202020" highlightColor="#444">
                         <Skeleton height={300} duration={2} />
                     </SkeletonTheme>
                 </div>
             ) : (
                 <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "white" }}>
-                    <div className={`cards ${className}`}>
-                        <img className="cards__img" src={`https://image.tmdb.org/t/p/original${movie ? movie.poster_path : ""}`} alt={movie ? movie.original_title : ""} />
+                    <div className="cards">
+                        <img className="cards__img" src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt={movie.original_title} />
+                        <h3 className="card__title">{movie.title}</h3>
                     </div>
                 </Link>
             )}

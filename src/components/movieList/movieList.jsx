@@ -1,51 +1,82 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import "./movieList.css";
-import { useParams } from "react-router-dom";
-import Cards from "../card/card";
 
 const MovieList = () => {
-    const [movieList, setMovieList] = useState([]);
-    const { type } = useParams();
+    const [dbMovies, setDbMovies] = useState([]);
+    const [moviePosters, setMoviePosters] = useState([]);
 
     useEffect(() => {
-        getData();
-    }, [type]);
+        fetchDbMovies();
+    }, []);
 
-    const getData = () => {
-        let url;
-        switch (type) {
-            case "upcoming":
-                url = `https://api.themoviedb.org/3/movie/upcoming?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`;
-                break;
-            case "now_playing":
-                url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`;
-                break;
-            default:
-                url = `https://api.themoviedb.org/3/movie/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`;
+    useEffect(() => {
+        const fetchMoviePosters = async () => {
+            const posters = await Promise.all(
+                dbMovies.map(async (dbMovie) => {
+                    const movieData = await fetchMovieData(dbMovie.codeFilm);
+                    if (movieData) {
+                        return {
+                            ...dbMovie,
+                            posterPath: movieData.poster_path,
+                            id: movieData.id,
+                            nameFilm: movieData.title 
+                        };
+                    } else {
+                        return {
+                            ...dbMovie,
+                            posterPath: null,
+                            id: null,
+                            nameFilm: dbMovie.nameFilm
+                        };
+                    }
+                })
+            );
+            setMoviePosters(posters.filter(movie => movie.posterPath !== null));
+        };
+
+        fetchMoviePosters();
+    }, [dbMovies]);
+
+    const fetchDbMovies = async () => {
+        try {
+            const response = await axios.get("http://localhost:3001/allFilm");
+            setDbMovies(response.data);
+        } catch (error) {
+            console.error("Error fetching database movies:", error);
         }
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setMovieList(data.results))
-            .catch(error => console.error("Error fetching data:", error));
     };
 
-    const getTitle = () => {
-        switch (type) {
-            case "upcoming":
-                return "Próximamente";
-            case "now_playing":
-                return "En cartelera";
-            default:
-                return "En cartelera"; 
+    const fetchMovieData = async (codeFilm) => {
+        try {
+            const response = await axios.get(`https://api.themoviedb.org/3/movie/${codeFilm}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`);
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching movie data:", error);
+            return null;
         }
     };
 
     return (
         <div className="movie__list">
-            <h2 className="list__title">{getTitle()}</h2>
+            <h2 className="list__title">Películas</h2>
             <div className="list__cards">
-                {movieList.map(movie => (
-                    <Cards key={movie.id} movie={movie} className="card" />
+                {moviePosters.map((movie, index) => (
+                    <div key={index}>
+                        <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                            <div className="cards">
+                                {movie.posterPath ? (
+                                    <img src={`https://image.tmdb.org/t/p/original${movie.posterPath}`} alt={movie.nameFilm} className="cards__img" />
+                                ) : (
+                                    <div>No se encontró el póster para {movie.nameFilm}</div>
+                                )}
+                                <div className="cards__overlay">
+                                    <div className="card__title">{movie.nameFilm}</div>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                 ))}
             </div>
         </div>
