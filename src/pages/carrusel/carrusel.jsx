@@ -43,7 +43,7 @@ const Carrusel = () => {
 
     const fetchDbMovies = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/showFilm");
+            const response = await axios.get("http://localhost:3001/allFilm");
             setDbMovies(response.data);
         } catch (error) {
             console.error("Error fetching database movies:", error);
@@ -102,6 +102,12 @@ const Carrusel = () => {
                                 )}
                                 <div className="posterImage__overlay">
                                     <div className="posterImage__title">{movie.nameFilm}</div>
+                                </div>
+                            </div>
+                            <div class="scrolldown" style={{ "--color": "skyblue" }}>
+                                <div class="chevrons">
+                                    <div class="chevrondown"></div>
+                                    <div class="chevrondown"></div>
                                 </div>
                             </div>
                         </Link>

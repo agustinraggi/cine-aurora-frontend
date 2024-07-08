@@ -23,12 +23,7 @@ const Header = ({ user }) => {
                 <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul id="barra__tareas" className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link to="/movies/popular" style={{ textDecoration: "none" }} className="navbar-brand">
-                                <span>Cartelera</span>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/movies/upcoming" style={{ textDecoration: "none" }} className="navbar-brand">
+                            <Link to="/upcoming" style={{ textDecoration: "none" }} className="navbar-brand">
                                 <span>Proximamente</span>
                             </Link>
                         </li>

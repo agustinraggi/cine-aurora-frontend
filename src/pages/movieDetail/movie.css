@@ -236,9 +236,6 @@
     height: 24px;
   }
   
-  .button:hover {
-    background: #222;
-  }
   
   .button:hover .text {
     top: -100%;
@@ -260,7 +257,6 @@
   .button:hover:before {
     bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
   }
-  
-  
-  
-  
+.movieFooter {
+  margin-bottom: 300px;
+}
