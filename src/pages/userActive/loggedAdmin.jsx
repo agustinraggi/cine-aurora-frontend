@@ -23,7 +23,7 @@ function Admin() {
                     <span>Administrar Usuarios</span>
                 </Link>
                 <Link to="/addFilmAdmin" className="adminLink">
-                    <span>Administrar Películas</span>
+                    <span>Agregar Películas</span>
                 </Link>
                 <Link to="/deleteFilmAdmin" className="adminLink">
                     <span>Eliminar Películas</span>
