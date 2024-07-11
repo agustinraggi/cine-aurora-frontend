@@ -18,6 +18,7 @@ import AddFilmAdmin from './pages/userActive/admin/addFilmAdmin';
 import DeleteFilmAdmin from "./pages/userActive/admin/deleteFilmAdmin";
 import EditAdminData from "./pages/userActive/admin/editAdminData";
 import Ticket from './pages/buyTicket/ticket';
+import MercadoPago from "./pages/buyTicket/mercadoPago/mercadoPago";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -32,6 +33,7 @@ function App() {
                     <Route path="movies/:type" element={<MovieList />} />
                     <Route path="upcoming" element={<Upcoming />} />
                     <Route path="buyTicket/:id" element={<Ticket />} />
+                    <Route path="mercadoPago" element={<MercadoPago />} />
                     <Route path="login" element={<LoginWrapper setUser={setUser} />} />
                     <Route path='register' element={<Register />} />
                     <Route path='userActive' element={<UserActive />}></Route>
