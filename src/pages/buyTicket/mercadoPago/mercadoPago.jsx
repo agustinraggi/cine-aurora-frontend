@@ -4,6 +4,7 @@ import "../ticket.css";
 
 function MercadoPago({ ticketData }) {
   const [showButton, setShowButton] = useState(false);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     const initializeMercadoPago = async () => {
@@ -14,7 +15,6 @@ function MercadoPago({ ticketData }) {
           price: ticketData.price,
         };
 
-        // Lógica para cargar los scripts de Mercado Pago si no están cargados
         if (!window.MercadoPago) {
           const script = document.createElement("script");
           script.src = "https://sdk.mercadopago.com/js/v2";
@@ -35,9 +35,11 @@ function MercadoPago({ ticketData }) {
     initializeMercadoPago();
   }, [ticketData]);
 
+  // Evitamos crear múltiples contenedores de Mercado Pago
   const handleCheckout = async () => {
+    if (initialized) return; 
     try {
-      const mp = new window.MercadoPago("TEST-04c83bfa-d99c-4d89-883d-3caa1b545a1a", {
+      const mp = new window.MercadoPago("APP_USR-a6a60bed-1354-4351-8e53-c9b95c56e5d2", {
         locale: "es-AR",
       });
 
@@ -55,6 +57,9 @@ function MercadoPago({ ticketData }) {
           preferenceId: preference.id,
         },
       });
+
+      setInitialized(true);
+      setShowButton(false);
     } catch (error) {
       console.error("Error al procesar el pago:", error);
       alert("Error al procesar el pago.");
@@ -69,7 +74,7 @@ function MercadoPago({ ticketData }) {
         {showButton && <button id="checkout-btn" onClick={handleCheckout}>Comprar</button>}
       </div>
       <div className="btn-MP">
-      <div id="wallet_container"></div>
+        <div id="wallet_container"></div>
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ import DeleteFilmAdmin from "./pages/userActive/admin/deleteFilmAdmin";
 import EditAdminData from "./pages/userActive/admin/editAdminData";
 import Ticket from './pages/buyTicket/ticket';
 import MercadoPago from "./pages/buyTicket/mercadoPago/mercadoPago";
+import ProtectedRoute from './components/protectedRoute/portectedRoute';
 
 function App() {
     const [user, setUser] = useState(null);
@@ -28,21 +29,63 @@ function App() {
             <Router>
                 <Header user={user} />
                 <Routes>
-                    <Route index element={<Carrusel />} />
+                    <Route path="/" element={<Carrusel />} />
                     <Route path="movie/:id" element={<Movie />} />
                     <Route path="movies/:type" element={<MovieList />} />
                     <Route path="upcoming" element={<Upcoming />} />
                     <Route path="buyTicket/:id" element={<Ticket />} />
                     <Route path="mercadoPago" element={<MercadoPago />} />
                     <Route path="login" element={<LoginWrapper setUser={setUser} />} />
-                    <Route path='register' element={<Register />} />
-                    <Route path='userActive' element={<UserActive />}></Route>
-                    <Route path='/editUser' element={<EditUser setUser={setUser} />} />
-                    <Route path='adminActive' element={<AdminActive />}></Route>
-                    <Route path='addFilmAdmin' element={<AddFilmAdmin />}></Route>
-                    <Route path='deleteFilmAdmin' element={<DeleteFilmAdmin />}></Route>
-                    <Route path='editAdminData' element={<EditAdminData />}></Route>
-                    <Route path="/*" element={<h1>Error Page</h1>} />
+                    <Route path="register" element={<Register />} />
+                    <Route 
+                        path="userActive" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <UserActive />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="editUser" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <EditUser setUser={setUser} />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="adminActive" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <AdminActive />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="addFilmAdmin" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <AddFilmAdmin />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="deleteFilmAdmin" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <DeleteFilmAdmin />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="editAdminData" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <EditAdminData />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route path="*" element={<h1>Error Page</h1>} />
                 </Routes>
                 <Footer />
             </Router>

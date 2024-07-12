@@ -17,7 +17,6 @@ function Admin() {
                 <button className="buttonUser" onClick={handleLogout}>Salir</button>
             </div>
             <h1>ADMIN</h1>
-            <h5 className="title">Panel de Administrador</h5>
             <div className="adminFeatures">
                 <Link to="/editAdminData" className="adminLink">
                     <span>Administrar Usuarios</span>
@@ -28,6 +27,12 @@ function Admin() {
                 <Link to="/deleteFilmAdmin" className="adminLink">
                     <span>Eliminar Películas</span>
                 </Link>
+                <Link to="/." className="adminLink">
+                    <span>Agregar Sala y Horario</span>
+                </Link>
+            </div>
+            <div className="footerLogged">
+
             </div>
         </div>
     );

@@ -19,7 +19,7 @@ const MovieList = () => {
                     if (movieData) {
                         return {
                             ...dbMovie,
-                            posterPath: movieData.poster_path,
+                            posterPath: getPosterPath(movieData),
                             id: movieData.id,
                             nameFilm: movieData.title 
                         };
@@ -50,12 +50,25 @@ const MovieList = () => {
 
     const fetchMovieData = async (codeFilm) => {
         try {
-            const response = await axios.get(`https://api.themoviedb.org/3/movie/${codeFilm}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`);
+            const response = await axios.get(`https://api.themoviedb.org/3/movie/${codeFilm}`, {
+                params: {
+                    api_key: "4e44d9029b1270a757cddc766a1bcb63",
+                    language: "es-MX"
+                }
+            });
             return response.data;
         } catch (error) {
-            console.error("Error fetching movie data:", error);
+            console.error("Error fetching movie data in es-MX:", error);
             return null;
         }
+    };
+
+    const getPosterPath = (movieData) => {
+        if (movieData.poster_path && movieData.original_language === "es-MX") {
+            return movieData.poster_path;
+        }
+
+        return movieData.poster_path && movieData.original_language === "en" ? movieData.poster_path : null;
     };
 
     return (

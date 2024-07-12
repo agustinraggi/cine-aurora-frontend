@@ -18,6 +18,7 @@ const MovieForm = () => {
                         params: {
                             api_key: API_KEY,
                             query: title,
+                            language: "es-MX"
                         },
                     });
                     setSearchResults(data.results);
@@ -43,6 +44,7 @@ const MovieForm = () => {
                 params: {
                     api_key: API_KEY,
                     query: title,
+                    language: "es-MX"
                 },
             });
             const newMovie = data.results[0];
@@ -116,6 +118,9 @@ const MovieForm = () => {
                     )}
                 </div>
                 <button type="submit">Agregar</button>
+                <div className="footerAddFilm">
+
+                </div>
             </form>
         </div>
     );

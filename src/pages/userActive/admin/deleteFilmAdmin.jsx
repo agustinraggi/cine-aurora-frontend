@@ -105,6 +105,9 @@ function DeleteFilmAdmin() {
                     ))}
                 </tbody>
             </table>
+            <div className="footerDeleteFilm">
+
+            </div>
         </div>
     );
 }

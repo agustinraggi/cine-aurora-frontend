@@ -20,15 +20,32 @@ function Movie() {
             params: {
                 api_key: API_KEY,
                 append_to_response: "videos",
-                language: "es-ES"
+                language: "es-MX"
             }
         });
 
         if (data.videos && data.videos.results) {
-            const trailer = data.videos.results.find(
-                (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es"
+            let selectedTrailer;
+            selectedTrailer = data.videos.results.find(
+                (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "MX"
             );
-            setTrailer(trailer ? trailer : data.videos.results.find(vid => vid.iso_639_1 === "es"));
+            if (!selectedTrailer) {
+                selectedTrailer = data.videos.results.find(
+                    (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "ES"
+                );
+            }
+            if (!selectedTrailer) {
+                selectedTrailer = data.videos.results.find(
+                    (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.name.toLowerCase().includes("subtitulado")
+                );
+            }
+            if (!selectedTrailer) {
+                selectedTrailer = data.videos.results.find(
+                    (vid) => vid.type === "Trailer"
+                );
+            }
+
+            setTrailer(selectedTrailer);
         }
 
         setCurrentMovieDetail(data);
@@ -110,7 +127,9 @@ function Movie() {
                                     },
                                 }}
                             />
-                        ) : null}
+                        ) : (
+                            <div className="no-trailer">Trailer no disponible :(</div>
+                        )}
                     </div>
                 </div>
             </div>
