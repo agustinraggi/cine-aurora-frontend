@@ -22,12 +22,15 @@ function User(){
                 <button className="buttonUser" onClick={handleLogout}>Salir</button>
             </div>
             </div>
-            <h5 className="title">Historial de Compras</h5>
+            <h5 className="titleLogged">Historial de Compras</h5>
             <tr className="userHistory">
                 <th>Fecha de Compra</th>
                 <th>Codigo</th>
                 <th>Pelicula</th>
             </tr>
+            <div className="footerLoggedUser">
+
+            </div>
         </div>
         
     );

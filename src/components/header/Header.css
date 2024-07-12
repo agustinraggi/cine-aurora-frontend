@@ -3,11 +3,15 @@
     padding: .5rem 0;
     align-items: center;
     display: flex;
-    justify-content:space-between;
+    justify-content:center;
     position: sticky;
     z-index: 1000;
 }
-
+.navHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .headerLeft, .headerRight {
     display: flex;
     align-items: center;
