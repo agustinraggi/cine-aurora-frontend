@@ -1,21 +1,19 @@
-.header {
-    margin: 0 2.5rem;
+.headerNav {
     padding: .5rem 0;
     align-items: center;
     display: flex;
-    justify-content:center;
-    position: sticky;
-    z-index: 1000;
-}
-.navHeader {
-    display: flex;
     justify-content: center;
-    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
 }
-.headerLeft, .headerRight {
-    display: flex;
-    align-items: center;
+
+.navbar-collapse {
+    justify-content: center;
 }
+
 
 a > span {
     margin: 0 30px;
@@ -28,17 +26,10 @@ a > span:hover {
     color: purple;
 }
 
-.header__icon {
-    width: 80px;
-    cursor: pointer;
-}
-
-.user__avatar {
-    font-size: 2rem;
-}
-
 .userActive {
     font-size: 1.3rem;
     color: white;
     text-transform: uppercase;
+    margin: 0px 10px;
 }
+

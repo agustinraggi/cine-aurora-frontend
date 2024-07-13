@@ -258,7 +258,7 @@
     bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
   }
 .movieFooter {
-  margin-bottom: 300px;
+  margin-bottom: 500px;
 }
 .no-trailer {
   display: flex;
