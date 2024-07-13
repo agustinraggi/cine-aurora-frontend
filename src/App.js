@@ -23,7 +23,6 @@ import ProtectedRoute from './components/protectedRoute/portectedRoute';
 
 function App() {
     const [user, setUser] = useState(null);
-
     return (
         <div className="App">
             <Router>
@@ -33,8 +32,6 @@ function App() {
                     <Route path="movie/:id" element={<Movie />} />
                     <Route path="movies/:type" element={<MovieList />} />
                     <Route path="upcoming" element={<Upcoming />} />
-                    <Route path="buyTicket/:id" element={<Ticket />} />
-                    <Route path="mercadoPago" element={<MercadoPago />} />
                     <Route path="login" element={<LoginWrapper setUser={setUser} />} />
                     <Route path="register" element={<Register />} />
                     <Route 
@@ -49,7 +46,7 @@ function App() {
                         path="editUser" 
                         element={
                             <ProtectedRoute user={user}>
-                                <EditUser setUser={setUser} />
+                                <EditUser user={user} setUser={setUser} />
                             </ProtectedRoute>
                         } 
                     />
@@ -82,6 +79,22 @@ function App() {
                         element={
                             <ProtectedRoute user={user}>
                                 <EditAdminData />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route
+                        path="buyTicket/:id"
+                        element={
+                            <ProtectedRoute user={user}>
+                                <Ticket userId={user ? user.id : null} />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="mercadoPago"
+                        element={
+                            <ProtectedRoute user={user}>
+                                <MercadoPago user={user} />
                             </ProtectedRoute>
                         } 
                     />

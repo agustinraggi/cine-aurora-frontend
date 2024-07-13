@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../ticket.css";
 
-function MercadoPago({ ticketData }) {
+function MercadoPago({ ticketData, userId }) {
   const [showButton, setShowButton] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
@@ -35,9 +35,18 @@ function MercadoPago({ ticketData }) {
     initializeMercadoPago();
   }, [ticketData]);
 
-  // Evitamos crear múltiples contenedores de Mercado Pago
+  const getSeatLabel = (index) => {
+    const seatsPerRow = 21;
+    const row = String.fromCharCode(65 + Math.floor(index / seatsPerRow));
+    const seatNumber = (index % seatsPerRow) + 1;
+    return `${row}${seatNumber}`;
+  };
+
+  const seatLabels = ticketData.seats.map(getSeatLabel);
+
   const handleCheckout = async () => {
-    if (initialized) return; 
+    if (initialized) return;
+
     try {
       const mp = new window.MercadoPago("APP_USR-a6a60bed-1354-4351-8e53-c9b95c56e5d2", {
         locale: "es-AR",
@@ -47,16 +56,27 @@ function MercadoPago({ ticketData }) {
         title: ticketData.title,
         quantity: 1,
         price: ticketData.price,
+        idUser: userId,
       });
 
       const preference = response.data;
-      const bricksBuilder = mp.bricks();
 
+      const bricksBuilder = mp.bricks();
       bricksBuilder.create("wallet", "wallet_container", {
         initialization: {
           preferenceId: preference.id,
         },
       });
+
+      const ticketInfo = {
+        nameFilm: ticketData.title,
+        chair: seatLabels,
+        finalPrice: ticketData.price,
+        voucher: preference.id,
+        idUser: userId,
+      };
+
+      await axios.post("http://localhost:3001/createTicket", ticketInfo);
 
       setInitialized(true);
       setShowButton(false);
@@ -68,8 +88,11 @@ function MercadoPago({ ticketData }) {
 
   return (
     <div className="checkout-btn-container">
-      <h2 className="titleMP">{ticketData.title}</h2>
-      <p className="priceMP">$ {ticketData.price}</p>
+      <h2 className="titleMP">Resumen de la compra</h2>
+      <p className="titleFilmMP">Película: {ticketData.title}</p>
+      <p className="priceMP">Cantidad de Entradas: {ticketData.quantity}</p>
+      <p className="chairMP">Asientos: {seatLabels.join(", ")}</p>
+      <p className="finalPriceMP">Total a pagar: ${ticketData.price}</p>
       <div className="checkout-btn">
         {showButton && <button id="checkout-btn" onClick={handleCheckout}>Comprar</button>}
       </div>

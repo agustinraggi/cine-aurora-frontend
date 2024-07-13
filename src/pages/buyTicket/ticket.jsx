@@ -5,11 +5,13 @@ import "./ticket.css";
 import Chair from "./chair/chair";
 import MercadoPago from "./mercadoPago/mercadoPago";
 
-function Ticket() {
+function Ticket({userId}) {
     const API_KEY = '6a5fa2aa71d234b5f1b196ce04746bc5';
     const API_URL = 'https://api.themoviedb.org/3';
 
     const [currentMovieDetail, setCurrentMovieDetail] = useState({});
+    const [ticketQuantity, setTicketQuantity] = useState(0);
+    const [selectedSeats, setSelectedSeats] = useState([]);
     const { id } = useParams();
 
     const fetchMovie = async () => {
@@ -31,6 +33,21 @@ function Ticket() {
             fetchMovie();
         }
     }, [id]);
+
+    const handleQuantityChange = (event) => {
+        setTicketQuantity(parseInt(event.target.value));
+    };
+
+    const handleSeatsSelected = (seats) => {
+        setSelectedSeats(seats);
+    };
+
+    const ticketData = {
+        title: currentMovieDetail.title,
+        price: 5000 * ticketQuantity,
+        quantity: ticketQuantity,
+        seats: selectedSeats
+    };
 
     return (
         <div className="ticket-container">
@@ -101,7 +118,7 @@ function Ticket() {
                                         <td>Standard</td>
                                         <td>$ 5.000</td>
                                         <td>
-                                            <select id="standard-quantity">
+                                            <select id="standard-quantity" value={ticketQuantity} onChange={handleQuantityChange}>
                                                 {[...Array(11).keys()].map(num => (
                                                     <option key={num} value={num}>{num}</option>
                                                 ))}
@@ -133,7 +150,11 @@ function Ticket() {
                         data-bs-parent="#accordionExample"
                     >
                         <div className="accordion-body">
-                            <Chair />
+                            {ticketQuantity > 0 ? (
+                                <Chair ticketQuantity={ticketQuantity} onSeatsSelected={handleSeatsSelected} />
+                            ) : (
+                                <p>Seleccione la cantidad de entradas primero.</p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -157,7 +178,11 @@ function Ticket() {
                         data-bs-parent="#accordionExample"
                     >
                         <div className="accordion-body">
-                            <MercadoPago ticketData={{ title: currentMovieDetail.title, price: 5000 }} />
+                            {selectedSeats.length === ticketQuantity ? (
+                                <MercadoPago ticketData={ticketData} userId={userId} />
+                            ) : (
+                                <p>Seleccione la cantidad de asientos que coincide con la cantidad de entradas.</p>
+                            )}
                         </div>
                     </div>
                 </div>

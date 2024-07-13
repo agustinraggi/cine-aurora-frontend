@@ -113,9 +113,14 @@
     display: flex;
     justify-content: center;
 }
-
-.priceMP {
+.titleFilmMP{
     font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.priceMP, .chairMP, .finalPriceMP {
+    font-size: 1.2rem;
     display: flex;
     justify-content: center;
 }

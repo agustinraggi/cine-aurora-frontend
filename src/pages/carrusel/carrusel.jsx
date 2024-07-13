@@ -104,10 +104,10 @@ const Carrusel = () => {
                                     <div className="posterImage__title">{movie.nameFilm}</div>
                                 </div>
                             </div>
-                            <div class="scrolldown" style={{ "--color": "skyblue" }}>
-                                <div class="chevrons">
-                                    <div class="chevrondown"></div>
-                                    <div class="chevrondown"></div>
+                            <div className="scrolldown" style={{ "--color": "skyblue" }}>
+                                <div className="chevrons">
+                                    <div className="chevrondown"></div>
+                                    <div className="chevrondown"></div>
                                 </div>
                             </div>
                         </Link>
