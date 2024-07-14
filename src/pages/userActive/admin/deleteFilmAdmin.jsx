@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import "./deleteFilm.css"
+import "./deleteFilm.css";
 
 function DeleteFilmAdmin() {
     const [listFilm, setListFilm] = useState([]);
     const [filteredFilm, setFilteredFilm] = useState([]);
-    const [search] = useState("");
+    const [search, setSearch] = useState("");
 
     // Obtener todas las películas
     const getFilm = () => {
@@ -21,7 +21,7 @@ function DeleteFilmAdmin() {
     };
 
     // Eliminar una película por su ID
-    const deleteData = (id, nameFilm) => {
+    const deleteData = (idFilm, nameFilm) => {
         Swal.fire({
             title: "¿Estás seguro?",
             text: `No podrás revertir esta acción. ¿Estás seguro de que deseas eliminar ${nameFilm}?`,
@@ -32,7 +32,7 @@ function DeleteFilmAdmin() {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:3001/deleteFilm/${id}`)
+                axios.delete(`http://localhost:3001/deleteFilm/${idFilm}`)
                     .then(() => {
                         Swal.fire({
                             title: "¡Eliminado!",
@@ -44,6 +44,12 @@ function DeleteFilmAdmin() {
                     })
                     .catch((error) => {
                         console.error("Error al eliminar la película:", error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "No se pudo eliminar la película!",
+                            footer: error.message
+                        });
                     });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire({
@@ -53,13 +59,6 @@ function DeleteFilmAdmin() {
                     timer: 2000
                 });
             }
-        }).catch((error) => {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "No se pudo eliminar la película!",
-                footer: error.message
-            });
         });
     };
 
@@ -94,20 +93,18 @@ function DeleteFilmAdmin() {
                 </thead>
                 <tbody>
                     {filteredFilm.map((film) => (
-                        <tr key={film.id}>
-                            <td>{film.id}</td>
+                        <tr key={film.idFilm}>
+                            <td>{film.idFilm}</td>
                             <td>{film.codeFilm}</td>
                             <td>{film.nameFilm}</td>
                             <td>
-                                <button className="btn btn-danger" onClick={() => deleteData(film.id, film.nameFilm)}>Eliminar</button>
+                                <button className="btn btn-danger" onClick={() => deleteData(film.idFilm, film.nameFilm)}>Eliminar</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <div className="footerDeleteFilm">
-
-            </div>
+            <div className="footerDeleteFilm"></div>
         </div>
     );
 }
