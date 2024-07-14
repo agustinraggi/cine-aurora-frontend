@@ -17,7 +17,7 @@ const LoginWrapper = ({ setUser }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                setUser(data.user); 
+                setUser(data.user); // Establece el usuario autenticado
                 navigate('/');
             } else {
                 const errorText = await response.text();

@@ -11,8 +11,8 @@ function User() {
     const [filteredPeople, setFilteredPeople] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [search, setSearch] = useState("");
-    const [editIndex, setEditIndex] = useState(null);
-    const [id, setId] = useState(null);
+    const [setEditIndex] = useState(null);
+    const [setId] = useState(null);
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -66,7 +66,6 @@ const validateForm = () => {
         })
         .then(() => {
             getCustomer();
-            clearForm();
             Swal.fire({
                 title: "<strong>Usuario Registrado</strong>",
                 html: "<i>El usuario <strong>" + name + "</strong> fue REGISTRADO con éxito!</i>",
@@ -102,18 +101,6 @@ const validateForm = () => {
     useEffect(() => {
         filterPeople();
     }, [search, listPeople]);
-
-    const clearForm = () => {
-        setId(null);
-        setMail("");
-        setName("");
-        setSurname("");
-        setDni("");
-        setPassword("");
-        setTips("cliente");
-        setSelectedDate(new Date());
-        setEditIndex(null);
-    }
 
     const filterPeople = () => {
         if (listPeople) {
@@ -169,18 +156,9 @@ const validateForm = () => {
                             <label className="form-label" id="text">Contraseña</label>
                             <input onChange={(event) => setPassword(event.target.value)} value={password} type="password" className="form-control" id="inputPassword" placeholder="*****" />
                         </div>
-                        {
-                            editIndex !== null ?
-                                <div>
-                                    <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
-                                    <button type="button" className="Btn btn-primary" id="btnCancel" onClick={clearForm}>Cancelar</button>
-                                </div>
-                                :
                                 <Link to="/login">
                                     <button type="button" className="Btn btn btn-primary" id="btnAdd" onClick={add}>Enviar</button>
                                 </Link>
-                                
-                        }
                         <p>Ingresar aquí <Link to="/login">aquí</Link></p>
                     </form>
                 </div>

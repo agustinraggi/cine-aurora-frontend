@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./loggedUser.css";
 
-function User(){
-
+function User({ userId }) {
     const navigate = useNavigate();
-
     const handleLogout = () => {
         localStorage.removeItem("authToken");
         navigate("/");
-        window.location.reload();
+        window.location.reload(); 
     };
 
-    return(
+    return (
         <div>
             <div className="btnUser">
-            <Link to = "/editUser">
-            <button className="buttonUser">Editar</button>
-            </Link>
-            <div className="btnUser">
+                <Link to={`/editUser/${userId}`}>
+                    <button className="buttonUser">Editar</button>
+                </Link>
                 <button className="buttonUser" onClick={handleLogout}>Salir</button>
-            </div>
             </div>
             <h5 className="titleLogged">Historial de Compras</h5>
             <tr className="userHistory">
@@ -29,10 +25,9 @@ function User(){
                 <th>Pelicula</th>
             </tr>
             <div className="footerLoggedUser">
-
             </div>
         </div>
-        
     );
 }
+
 export default User;

@@ -34,21 +34,22 @@ function App() {
                     <Route path="upcoming" element={<Upcoming />} />
                     <Route path="login" element={<LoginWrapper setUser={setUser} />} />
                     <Route path="register" element={<Register />} />
+                    
                     <Route 
                         path="userActive" 
                         element={
                             <ProtectedRoute user={user}>
-                                <UserActive />
+                                <UserActive userId={user ? user.id : null} />
                             </ProtectedRoute>
                         } 
                     />
-                    <Route 
-                        path="editUser" 
+                    <Route
+                        path="editUser/:idUser"
                         element={
                             <ProtectedRoute user={user}>
-                                <EditUser user={user} setUser={setUser} />
+                                <EditUser />
                             </ProtectedRoute>
-                        } 
+                        }
                     />
                     <Route 
                         path="adminActive" 
