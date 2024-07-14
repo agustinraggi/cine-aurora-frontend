@@ -12,7 +12,7 @@ function EditAdminData() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [search, setSearch] = useState("");
     const [editIndex, setEditIndex] = useState(null);
-    const [id, setId] = useState(null);
+    const [idUser, setIdUser] = useState(null);
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -88,7 +88,7 @@ const update = () => {
     if (validateForm()) {
         const formattedDate = selectedDate.toISOString().split('T')[0];
         axios.put("http://localhost:3001/update", {
-            id,
+            idUser,
             mail,
             name,
             surname,
@@ -121,7 +121,7 @@ const update = () => {
 
 
 // DELETE
-const deleteData = (id, name) => {
+const deleteData = (idUser, name) => {
     Swal.fire({
         title: "¿Estás seguro?",
         text: `No podrás revertir esta acción. ¿Estás seguro de que deseas eliminar a ${name}?`,
@@ -132,7 +132,7 @@ const deleteData = (id, name) => {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            axios.delete(`http://localhost:3001/delete/${id}`)
+            axios.delete(`http://localhost:3001/delete/${idUser}`)
             .then(() => {
                 Swal.fire({
                     title: "¡Eliminado!",
@@ -188,7 +188,7 @@ const deleteData = (id, name) => {
     }, [search, listPeople]);
 
     const clearForm = () => {
-        setId(null);
+        setIdUser(null);
         setMail("");
         setName("");
         setSurname("");
@@ -211,7 +211,7 @@ const deleteData = (id, name) => {
     // EDIT
     const editData = (val) => {
         setEditIndex(true);
-        setId(val.id);
+        setIdUser(val.idUser);
         setMail(val.mail);
         setName(val.name);
         setSurname(val.surname);
@@ -227,7 +227,7 @@ const deleteData = (id, name) => {
             <div className="container mb-5">
                 <div className="row">
                     <form className="formUserRegister">
-                        <h1>PANEL DE USUARIOS</h1>
+                        <h1>PANEL DE ADMIN</h1>
                         <div className="registerForm">
                             <label className="form-label" id="text">Correo Electrónico</label>
                             <input onChange={(event) => setMail(event.target.value)} value={mail} type="email" className="form-control" id="inputEmail" placeholder="Ingrese su correo electrónico" />
@@ -267,18 +267,11 @@ const deleteData = (id, name) => {
                             <label className="form-label" id="text">Contraseña</label>
                             <input onChange={(event) => setPassword(event.target.value)} value={password} type="password" className="form-control" id="inputPassword" placeholder="*****" />
                         </div>
-                        {
-                            editIndex !== null ?
                                 <div>
                                     <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
                                     <button type="button" className="Btn btn-primary" id="btnCancel" onClick={clearForm}>Cancelar</button>
                                 </div>
-                                :
-                                <Link to="/login">
-                                    <button type="button" className="Btn btn btn-primary" id="btnAdd" onClick={add}>Enviar</button>
-                                </Link>
                                 
-                        }
                     </form>
                 </div>
             </div>
@@ -307,7 +300,7 @@ const deleteData = (id, name) => {
                 </thead>
                 <tbody>
                     {filteredPeople.map((client, index) => (
-                        <tr key={client.id}>
+                        <tr key={client.idUser}>
                             <td>{client.mail}</td>
                             <td>{client.name}</td>
                             <td>{client.surname}</td>
@@ -321,7 +314,7 @@ const deleteData = (id, name) => {
                                     onClick={() => {
                                         editData(client);
                                     }}>Editar</button>
-                                <button className="btn btn-danger" onClick={() => deleteData(client.id, client.name)}>Eliminar</button>
+                                <button className="btn btn-danger" onClick={() => deleteData(client.idUser, client.name)}>Eliminar</button>
                             </td>
                         </tr>
                     ))}
