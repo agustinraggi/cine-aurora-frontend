@@ -1,9 +1,25 @@
-.userHistory{
-    display: flex;
-    justify-content: center;
-    gap: 340px;
-    margin-bottom: 625px;
+.userHistory {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    text-align: left;
 }
+
+.userHistory thead {
+    text-align: center;
+}
+
+.userHistory th, .userHistory td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+
+.userHistory tbody tr {
+    text-align: center;
+}
+
 .titleLogged {
     display: flex;
     justify-content: center;
@@ -11,7 +27,7 @@
     font-size: 2rem;
 }
 
-.btnUser{
+.btnUser {
     display: flex;
     justify-content: end;
     margin-right: 20px;
@@ -26,7 +42,6 @@
     font-weight: 700;
     text-transform: uppercase;
     color: #000;
-    background-color: #fff;
     border: none;
     border-radius: 50px;
     overflow: hidden;
@@ -66,15 +81,52 @@
 .adminFeatures {
     display: flex;
     justify-content: center;
-    flex-direction: column; 
-    align-items: center; 
-    margin-bottom: 20px; 
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .adminLink {
     margin-bottom: 50px;
     text-decoration: none;
 }
-.footerLogged{
-    margin-bottom: 285px;
+.veryTitle{
+    margin-bottom: 40px;
+}
+.verifyVoucher {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    text-align: center;
+}
+
+.verifyVoucher input {
+    text-transform: uppercase;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1em;
+}
+
+.verifyVoucher .buttonUser {
+    margin: 20px;
+}
+
+.verificationMessage {
+    white-space: pre-line;
+    text-align: center;
+    width: 100%;
+    margin: 20px;
+    max-width: 900px;
+    font-size: 20px;
+}
+
+.footerLoggedUser {
+    margin-bottom: 567px;
+}
+.footerLoggedAdmin {
+    margin-bottom: 172px;
+}
+.footerVerifyVoucher{
+    margin-bottom: 561px;
 }

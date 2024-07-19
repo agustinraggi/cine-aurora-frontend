@@ -44,7 +44,7 @@ function Ticket({userId}) {
 
     const ticketData = {
         title: currentMovieDetail.title,
-        price: 5000 * ticketQuantity,
+        price: 100 * ticketQuantity,
         quantity: ticketQuantity,
         seats: selectedSeats
     };
@@ -116,7 +116,7 @@ function Ticket({userId}) {
                                 <tbody>
                                     <tr className="standard">
                                         <td>Standard</td>
-                                        <td>$ 5.000</td>
+                                        <td>$ 100</td>
                                         <td>
                                             <select id="standard-quantity" value={ticketQuantity} onChange={handleQuantityChange}>
                                                 {[...Array(11).keys()].map(num => (

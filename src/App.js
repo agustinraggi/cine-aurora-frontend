@@ -16,6 +16,7 @@ import EditUser from './pages/userActive/editUser';
 import AdminActive from './pages/userActive/loggedAdmin';
 import AddFilmAdmin from './pages/userActive/admin/addFilmAdmin';
 import DeleteFilmAdmin from "./pages/userActive/admin/deleteFilmAdmin";
+import VerifyVoucher from "./pages/userActive/admin/verifyVoucher";
 import EditAdminData from "./pages/userActive/admin/editAdminData";
 import Ticket from './pages/buyTicket/ticket';
 import MercadoPago from "./pages/buyTicket/mercadoPago/mercadoPago";
@@ -72,6 +73,14 @@ function App() {
                         element={
                             <ProtectedRoute user={user}>
                                 <DeleteFilmAdmin />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route
+                        path="verifyVoucher" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <VerifyVoucher />
                             </ProtectedRoute>
                         } 
                     />
