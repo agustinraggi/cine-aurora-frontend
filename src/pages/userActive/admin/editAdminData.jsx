@@ -133,20 +133,26 @@ const deleteData = (idUser, name) => {
     }).then((result) => {
         if (result.isConfirmed) {
             axios.delete(`http://localhost:3001/delete/${idUser}`)
-            .then(() => {
-                Swal.fire({
-                    title: "¡Eliminado!",
-                    text: `El usuario ${name} ha sido eliminado.`,
-                    icon: "success",
-                    timer: 2000
+                .then(() => {
+                    Swal.fire({
+                        title: "¡Eliminado!",
+                        text: `El usuario ${name} ha sido eliminado.`,
+                        icon: "success",
+                        timer: 2000
+                    });
+                    getCustomer();
+                    clearForm();
+                    setEditIndex(null);
+                })
+                .catch((error) => {
+                    const errorMessage = error.response?.data?.error || "No se pudo eliminar el usuario ya que tiene una entrada comprada.";
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: errorMessage,
+                        footer: errorMessage
+                    });
                 });
-                getCustomer();
-                clearForm();
-                setEditIndex(null);
-            })
-            .catch((error) => {
-                console.error("Hubo un error al eliminar el usuario:", error);
-            });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire({
                 title: "Cancelado",
@@ -155,14 +161,6 @@ const deleteData = (idUser, name) => {
                 timer: 2000
             });
         }
-    })
-    .catch((error) => {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "No se pudo Eliminar Usuario!",
-            footer: JSON.parse(JSON.stringify(error)).message === "Network Error" ? "Intente mas tarde" : JSON.parse(JSON.stringify(error)).message
-        });
     });
 }
 
@@ -267,11 +265,18 @@ const deleteData = (idUser, name) => {
                             <label className="form-label" id="text">Contraseña</label>
                             <input onChange={(event) => setPassword(event.target.value)} value={password} type="password" className="form-control" id="inputPassword" placeholder="*****" />
                         </div>
-                                <div>
-                                    <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
-                                    <button type="button" className="Btn btn-primary" id="btnCancel" onClick={clearForm}>Cancelar</button>
-                                </div>
-                                
+                        <div className="registerForm">
+                            <label className="form-label" id="text">Tipo de usuario</label>
+                            <select onChange={(event) => setTips(event.target.value)} value={tips} className="form-control" id="inputTips">
+                                <option value="cliente">Cliente</option>
+                                <option value="employee">Empleado</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
+                            <button type="button" className="Btn btn-primary" id="btnCancel" onClick={clearForm}>Cancelar</button>
+                        </div> 
                     </form>
                 </div>
             </div>
