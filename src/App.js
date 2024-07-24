@@ -13,6 +13,7 @@ import LoginWrapper from './pages/form/LoginWrapper';
 import Register from './pages/form/register';
 import UserActive from './pages/userActive/loggedUser';
 import EditUser from './pages/userActive/editUser';
+import EmployeeActive from "./pages/userActive/loggedEmployee";
 import AdminActive from './pages/userActive/loggedAdmin';
 import AddFilmAdmin from './pages/userActive/admin/addFilmAdmin';
 import DeleteFilmAdmin from "./pages/userActive/admin/deleteFilmAdmin";
@@ -53,6 +54,14 @@ function App() {
                         }
                     />
                     <Route 
+                        path="employee" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <EmployeeActive userId={user ? user.id : null} />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
                         path="adminActive" 
                         element={
                             <ProtectedRoute user={user}>
@@ -88,7 +97,7 @@ function App() {
                         path="editAdminData" 
                         element={
                             <ProtectedRoute user={user}>
-                                <EditAdminData />
+                                <EditAdminData userId={user ? user.id : null} />
                             </ProtectedRoute>
                         } 
                     />
