@@ -18,7 +18,7 @@ function User() {
     const [surname, setSurname] = useState("");
     const [dni, setDni] = useState("");
     const [password, setPassword] = useState("");
-    const [tips, setTips] = useState("cliente");
+    const [tips, setTips] = useState("client");
 
     const [listPeople, setListPeople] = useState([]);
 

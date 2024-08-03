@@ -268,7 +268,7 @@ const deleteData = (idUser, name) => {
                         <div className="registerForm">
                             <label className="form-label" id="text">Tipo de usuario</label>
                             <select onChange={(event) => setTips(event.target.value)} value={tips} className="form-control" id="inputTips">
-                                <option value="cliente">Cliente</option>
+                                <option value="client">Cliente</option>
                                 <option value="employee">Empleado</option>
                                 <option value="admin">Administrador</option>
                             </select>

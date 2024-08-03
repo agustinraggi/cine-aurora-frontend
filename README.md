@@ -2,11 +2,11 @@ Para poder utilizar la web que desarrollamos utilizando la API TMBD.
 https://www.themoviedb.org/?language=es
 
 para inicicar la app poner: 
-1) git clone https://github.com/agustinraggi/cine-aurora-frontend.git
+1) "git clone https://github.com/agustinraggi/cine-aurora-frontend.git"
 2) se recomienda cambiar el nombre del la carpeta "cine-aurora-frontend" a "client"
-3) movernos a la carpeta client: cd client 
-4) instalar las librerias que vamos a usar: npm install
-5) iniciar la aplicacion: npm start 
+3) movernos a la carpeta client: "cd client" 
+4) instalar las librerias que vamos a usar: "npm install"
+5) iniciar la aplicacion: "npm start" 
 
 cuando ralizamos una compra se recomienda usar la aplicacion en ventana incognito para no salir de tu usario de mercado pago:
 1) nombre de cuenta de mercado pago: TESTUSER1006550785

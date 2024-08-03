@@ -1,0 +1,28 @@
+.titleFQ{
+    margin-top: 20px;
+}
+.fq-container {
+    border: 2px solid #ccc;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.accordion-button {
+    background-color: white; 
+    color: black;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+    color: black;
+    background-color: white;
+}
+
+.accordion-body {
+    text-align: left;
+}
