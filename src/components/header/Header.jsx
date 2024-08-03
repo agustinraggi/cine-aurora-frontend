@@ -29,6 +29,11 @@ const Header = ({ user }) => {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link to="/FQ" className="nav-link">
+                                    <span>Preguntas frecuentes</span>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <div className="user-info">
                                     {user ? (
                                         <>

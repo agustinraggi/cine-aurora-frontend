@@ -11,7 +11,7 @@
 .posterImage > img {
     margin: auto;
     display: block;
-    width: 40%;
+    width: 50%;
     transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
 

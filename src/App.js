@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from './components/header/Header';
+import FQ from "./pages/frequentQuestions/FQ";
 import Footer from './components/footer/Footer';
 import Carrusel from './pages/carrusel/carrusel';
 import MovieList from './components/movieList/movieList';
@@ -36,6 +37,7 @@ function App() {
                     <Route path="upcoming" element={<Upcoming />} />
                     <Route path="login" element={<LoginWrapper setUser={setUser} />} />
                     <Route path="register" element={<Register />} />
+                    <Route path="fq" element={<FQ />} />
                     
                     <Route 
                         path="userActive" 

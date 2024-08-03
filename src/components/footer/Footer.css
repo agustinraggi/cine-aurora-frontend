@@ -1,13 +1,12 @@
 .footer {
     background-image: linear-gradient(79deg, #333333, #271425 48%, #291b12);
-    width: 100%;
+    width: auto;
     display: flex;
     justify-content: center;
     align-items: center; 
     padding: 20px 0;
     position: relative;
     gap: 25px;
-
 }
 
 .socials-container {
@@ -44,28 +43,28 @@
 .instagram:hover {
     background: #f09433;
     background: -moz-linear-gradient(
-      45deg,
-      #f09433 0%,
-      #e6683c 25%,
-      #dc2743 50%,
-      #cc2366 75%,
-      #bc1888 100%
+        45deg,
+        #f09433 0%,
+        #e6683c 25%,
+        #dc2743 50%,
+        #cc2366 75%,
+        #bc1888 100%
     );
     background: -webkit-linear-gradient(
-      45deg,
-      #f09433 0%,
-      #e6683c 25%,
-      #dc2743 50%,
-      #cc2366 75%,
-      #bc1888 100%
+        45deg,
+        #f09433 0%,
+        #e6683c 25%,
+        #dc2743 50%,
+        #cc2366 75%,
+        #bc1888 100%
     );
     background: linear-gradient(
-      45deg,
-      #f09433 0%,
-      #e6683c 25%,
-      #dc2743 50%,
-      #cc2366 75%,
-      #bc1888 100%
+        45deg,
+        #f09433 0%,
+        #e6683c 25%,
+        #dc2743 50%,
+        #cc2366 75%,
+        #bc1888 100%
     );
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
 }
@@ -83,4 +82,36 @@
 
 .creator {
     margin-left: 500px;
+}
+
+@media (max-width: 1022px) {
+    .creator {
+        margin-left: 300px;
+    }
+}
+@media (max-width: 822px) {
+    .creator {
+        margin-left: 100px;
+    }
+}
+@media (max-width: 617px) {
+    footer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 0;
+    }
+    .socials-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center; 
+        margin-top: 10px;
+        gap: 10px;
+    }
+    .creator {
+        margin-left: 0;
+        text-align: left;
+        margin-top: 10px;
+    }
 }
