@@ -6,7 +6,7 @@ function Admin() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem("authToken");
+        localStorage.removeItem("token");
         navigate("/");
         window.location.reload();
     };

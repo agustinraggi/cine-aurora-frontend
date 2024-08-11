@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Axios from 'axios'; 
+import { getToken, initAxiosInterceptors } from './Helpers/auth-helpers'; 
+
 import Header from './components/header/Header';
 import FQ from "./pages/frequentQuestions/FQ";
 import Footer from './components/footer/Footer';
@@ -22,10 +25,36 @@ import VerifyVoucher from "./pages/userActive/admin/verifyVoucher";
 import EditAdminData from "./pages/userActive/admin/editAdminData";
 import Ticket from './pages/buyTicket/ticket';
 import MercadoPago from "./pages/buyTicket/mercadoPago/mercadoPago";
-import ProtectedRoute from './components/protectedRoute/portectedRoute';
+import StatusPay from "./pages/buyTicket/statusPay";
+import ProtectedRoute from './components/protectedRoute/protectedRoute';
+
+initAxiosInterceptors();
 
 function App() {
     const [user, setUser] = useState(null);
+    const [loadingUser, setLoadingUser] = useState(true);
+
+    useEffect(() => {
+        async function loadUser() {
+            if (!getToken()) {
+                setLoadingUser(false);
+                return;
+            }
+            try {
+                const { data: user } = await Axios.get('http://localhost:3001/tokenUser');
+                setUser(user);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoadingUser(false);
+            }
+        }
+        loadUser();
+    }, []);
+    if (loadingUser) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="App">
             <Router>
@@ -116,6 +145,14 @@ function App() {
                         element={
                             <ProtectedRoute user={user}>
                                 <MercadoPago user={user} />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route
+                        path="statusPay"
+                        element={
+                            <ProtectedRoute user={user}>
+                                <StatusPay userId={user ? user.id : null}  />
                             </ProtectedRoute>
                         } 
                     />
