@@ -22,7 +22,7 @@ function User({ userId }) {
     }, [userId]);
 
     const handleLogout = () => {
-        localStorage.removeItem("authToken");
+        localStorage.removeItem("token");
         navigate("/");
         window.location.reload(); 
     };

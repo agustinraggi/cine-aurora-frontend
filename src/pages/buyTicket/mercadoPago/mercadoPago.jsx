@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../ticket.css";
+import StatusPay from "../statusPay";
 
 function MercadoPago({ ticketData, userId }) {
   const [showButton, setShowButton] = useState(false);
   const [initialized, setInitialized] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState(null);
 
   useEffect(() => {
     const initializeMercadoPago = async () => {
       try {
-        const orderData = {
-          title: ticketData.title,
-          quantity: 1,
-          price: ticketData.price,
-        };
-
         if (!window.MercadoPago) {
           const script = document.createElement("script");
           script.src = "https://sdk.mercadopago.com/js/v2";
@@ -42,7 +38,7 @@ function MercadoPago({ ticketData, userId }) {
     return `${row}${seatNumber}`;
   };
 
-  const seatLabels = ticketData.seats.map(getSeatLabel);
+  const seatLabels = ticketData.seats ? ticketData.seats.map(getSeatLabel) : [];
 
   const handleCheckout = async () => {
     if (initialized) return;
@@ -68,18 +64,10 @@ function MercadoPago({ ticketData, userId }) {
         },
       });
 
-      const ticketInfo = {
-        nameFilm: ticketData.title,
-        chair: seatLabels,
-        finalPrice: ticketData.price,
-        voucher: preference.id,
-        idUser: userId,
-      };
-
-      await axios.post("http://localhost:3001/createTicket", ticketInfo);
-
       setInitialized(true);
       setShowButton(false);
+
+      setPaymentStatus("pending");
     } catch (error) {
       console.error("Error al procesar el pago:", error);
       alert("Error al procesar el pago.");
