@@ -17,9 +17,7 @@ function EditAdminData() {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [dni, setDni] = useState("");
-    const [password, setPassword] = useState("");
     const [tips, setTips] = useState("cliente");
-
     const [listPeople, setListPeople] = useState([]);
 
 // VALIDACIONES DE FORMULARIO
@@ -40,46 +38,7 @@ const validateForm = () => {
         alert('Por favor seleccione una fecha de nacimiento');
         return false;
     }
-    if (!password) {
-        alert('Por favor complete la contraseña');
-        return false;
-    }
     return true;
-}
-
-
-    // REGISTRAR USUARIO
-    const add = () => {
-    if (validateForm()) {
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-        axios.post("http://localhost:3001/create", {
-            mail,
-            name,
-            surname,
-            dni,
-            date: formattedDate,
-            password,
-            tips
-        })
-        .then(() => {
-            getCustomer();
-            clearForm();
-            Swal.fire({
-                title: "<strong>Usuario Registrado</strong>",
-                html: "<i>El usuario <strong>" + name + "</strong> fue REGISTRADO con éxito!</i>",
-                icon: "success",
-                timer: 2000
-            });
-        })
-        .catch((error) => {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "No se pudo registrar el usuario!",
-                footer: JSON.parse(JSON.stringify(error)).message === "Network Error" ? "Intente más tarde" : JSON.parse(JSON.stringify(error)).message
-            });
-        });
-    }
 }
 
 
@@ -94,7 +53,6 @@ const update = () => {
             surname,
             dni,
             date: formattedDate,
-            password,
             tips
         })
         .then(() => {
@@ -164,12 +122,9 @@ const deleteData = (idUser, name) => {
     });
 }
 
-
-
-
     // MOSTRAR DATOS
     const getCustomer = () => {
-        axios.get("http://localhost:3001/customer").then((response) => {
+        axios.get("http://localhost:3001/allCustomer").then((response) => {
             setListPeople(response.data);
             setFilteredPeople(response.data);
         }).catch((error) => {
@@ -191,7 +146,6 @@ const deleteData = (idUser, name) => {
         setName("");
         setSurname("");
         setDni("");
-        setPassword("");
         setTips("cliente");
         setSelectedDate(new Date());
         setEditIndex(null);
@@ -215,7 +169,6 @@ const deleteData = (idUser, name) => {
         setSurname(val.surname);
         setDni(val.dni);
         setSelectedDate(new Date(val.date));
-        setPassword(val.password);
         setTips(val.tips);
     }
 
@@ -262,10 +215,6 @@ const deleteData = (idUser, name) => {
                             </div>
                         </div>
                         <div className="registerForm">
-                            <label className="form-label" id="text">Contraseña</label>
-                            <input onChange={(event) => setPassword(event.target.value)} value={password} type="password" className="form-control" id="inputPassword" placeholder="*****" />
-                        </div>
-                        <div className="registerForm">
                             <label className="form-label" id="text">Tipo de usuario</label>
                             <select onChange={(event) => setTips(event.target.value)} value={tips} className="form-control" id="inputTips">
                                 <option value="client">Cliente</option>
@@ -299,7 +248,6 @@ const deleteData = (idUser, name) => {
                         <th className="datesPeople">Fecha de Nacimiento</th>
                         <th className="datesPeople">Edad</th>
                         <th className="datesPeople">Tipo</th>
-                        <th className="datesPeople">Contraseña</th>
                         <th className="datesPeople">Acción</th>
                     </tr>
                 </thead>
@@ -313,7 +261,6 @@ const deleteData = (idUser, name) => {
                             <td>{new Date(client.date).toLocaleDateString()}</td>
                             <td>{client.age}</td>
                             <td>{client.tips}</td>
-                            <td>{client.password}</td>
                             <td>
                                 <button className="btn btn-warning"
                                     onClick={() => {

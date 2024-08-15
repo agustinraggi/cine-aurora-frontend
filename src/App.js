@@ -25,7 +25,6 @@ import VerifyVoucher from "./pages/userActive/admin/verifyVoucher";
 import EditAdminData from "./pages/userActive/admin/editAdminData";
 import Ticket from './pages/buyTicket/ticket';
 import MercadoPago from "./pages/buyTicket/mercadoPago/mercadoPago";
-import StatusPay from "./pages/buyTicket/statusPay";
 import ProtectedRoute from './components/protectedRoute/protectedRoute';
 
 initAxiosInterceptors();
@@ -145,14 +144,6 @@ function App() {
                         element={
                             <ProtectedRoute user={user}>
                                 <MercadoPago user={user} />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route
-                        path="statusPay"
-                        element={
-                            <ProtectedRoute user={user}>
-                                <StatusPay userId={user ? user.id : null}  />
                             </ProtectedRoute>
                         } 
                     />
