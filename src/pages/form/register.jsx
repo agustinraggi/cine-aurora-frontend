@@ -86,7 +86,7 @@ const validateForm = () => {
 
     // MOSTRAR DATOS
     const getCustomer = () => {
-        axios.get("http://localhost:3001/customer").then((response) => {
+        axios.get("http://localhost:3001/allCustomer").then((response) => {
             setListPeople(response.data);
             setFilteredPeople(response.data);
         }).catch((error) => {

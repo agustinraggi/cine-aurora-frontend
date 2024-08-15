@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../ticket.css";
-import StatusPay from "../statusPay";
 
 function MercadoPago({ ticketData, userId }) {
   const [showButton, setShowButton] = useState(false);
@@ -63,6 +62,16 @@ function MercadoPago({ ticketData, userId }) {
           preferenceId: preference.id,
         },
       });
+      
+      const ticketInfo = {
+        nameFilm: ticketData.title,
+        chair: seatLabels,
+        finalPrice: ticketData.price,
+        voucher: preference.id,
+        idUser: userId,
+      };
+
+      await axios.post("http://localhost:3001/createTicket", ticketInfo);
 
       setInitialized(true);
       setShowButton(false);
