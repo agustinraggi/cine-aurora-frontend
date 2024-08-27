@@ -27,7 +27,7 @@ function Admin() {
                 <Link to="/deleteFilmAdmin" className="adminLink">
                     <span>Eliminar Películas</span>
                 </Link>
-                <Link to="/addShowtime" className="adminLink">
+                <Link to="/addTheaterHourAdmin" className="adminLink">
                     <span>Agregar Sala y Horario</span>
                 </Link>
                 <Link to="/verifyVoucher" className="adminLink">

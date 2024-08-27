@@ -1,0 +1,37 @@
+.filmTheater{
+    text-align: center;
+    font-size: 30px;
+}
+.dateTheater {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.textTheater{
+    margin-right: 50px;
+}
+.timeTheater{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.typeFuncionTheater{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-right: 50px;
+}
+.languageTheater{
+    text-align: center;
+    font-size: 20px;
+    margin-right: 50px;
+    margin-bottom: 40px !important;
+}
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+#btnTheaters {
+    text-align: center;
+}
