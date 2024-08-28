@@ -20,12 +20,16 @@ function VerifyVoucher() {
             if (ticket) {
                 const ticketDetails = `
                     El código es válido.
+                    Estado: ${ticket.status}
                     Detalles de la entrada:
                     Nombre de la película: ${ticket.nameFilm}
                     Asientos: ${JSON.parse(ticket.chair).join(", ")}
                     Precio final: ${ticket.finalPrice}
                     Fecha de compra: ${new Date(ticket.purchaseDate).toLocaleString()}
-                    Estado: ${ticket.status}
+                    dia de la funcion: ${ticket.date}
+                    hora de la funcion: ${ticket.time}
+                    formato de la funcion: ${ticket.typeOfFunction}
+                    lenguaje: ${ticket.language}
                 `;
                 setVerificationMessage(ticketDetails);
             } else {

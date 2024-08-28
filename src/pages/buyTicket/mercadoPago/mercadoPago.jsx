@@ -62,13 +62,17 @@ function MercadoPago({ ticketData, userId }) {
           preferenceId: preference.id,
         },
       });
-      
+
       const ticketInfo = {
         nameFilm: ticketData.title,
         chair: seatLabels,
         finalPrice: ticketData.price,
         voucher: preference.id,
         idUser: userId,
+        date: ticketData.date,
+        time: ticketData.time,
+        typeOfFunction: ticketData.typeOfFunction,
+        language: ticketData.language,
       };
 
       await axios.post("http://localhost:3001/createTicket", ticketInfo);
@@ -90,6 +94,10 @@ function MercadoPago({ ticketData, userId }) {
       <p className="priceMP">Cantidad de Entradas: {ticketData.quantity}</p>
       <p className="chairMP">Asientos: {seatLabels.join(", ")}</p>
       <p className="finalPriceMP">Total a pagar: ${ticketData.price}</p>
+      <p className="dateMP">Fecha: {ticketData.date}</p>
+      <p className="timeMP">Hora: {ticketData.time}</p>
+      <p className="formatMP">Formato: {ticketData.typeOfFunction}</p>
+      <p className="languageMP">Idioma: {ticketData.language}</p>
       <div className="checkout-btn">
         {showButton && <button id="checkout-btn" onClick={handleCheckout}>Comprar</button>}
       </div>
