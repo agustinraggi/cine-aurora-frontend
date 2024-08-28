@@ -121,6 +121,13 @@
     font-size: 20px;
 }
 
+.userHistory td.codeCell {
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+.userHistory td.codeCell:hover {
+    color: rgb(143, 50, 143);
+}
 .footerLoggedUser {
     margin-bottom: 567px;
 }

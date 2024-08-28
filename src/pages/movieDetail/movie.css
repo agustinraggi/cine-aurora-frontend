@@ -7,7 +7,7 @@
 }
 
 .movie__intro {
-    width: 80%;
+    width: 75%;
 }
 
 .movie__backdrop {
@@ -23,6 +23,23 @@
     display: flex;
     position: relative;
     bottom: 225px;
+}
+
+.viewtrailer {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  background-color: black;
+}
+
+.youtube-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .movie__detailLeft {
@@ -49,7 +66,7 @@
 }
 
 .movie__name {
-    font-weight: 600;
+    font-weight: 600px;
     font-size: 3rem;
 }
 
@@ -111,15 +128,6 @@
     font-weight: bold;
 }
 
-.movie__homeButton {
-    background-color:rgb(255, 0, 0);
-    
-}
-
-.movie__imdbButton {
-    background-color:#f3ce13;
-}
-
 .newTab {
     margin-left: 1.4rem;
 }
@@ -150,119 +158,86 @@
     height: 650px;
     margin-top: 100px;
 }
-.button {
-    --width: 100px;
-    --height: 35px;
-    --tooltip-height: 35px;
-    --tooltip-width: 90px;
-    --gap-between-tooltip-to-button: 18px;
-    --button-color: #222;
-    --tooltip-color: #fff;
-    width: var(--width);
-    height: var(--height);
-    background: var(--button-color);
-    position: absolute;
-    text-align: center;
-    border-radius: 0.45em;
-    font-family: "Arial";
-    transition: background 0.3s;
-    margin-top: 400px;
-  }
-  
-  .button::before {
-    position: absolute;
-    content: attr(data-tooltip);
-    width: var(--tooltip-width);
-    height: var(--tooltip-height);
-    background-color: #555;
-    font-size: 0.9rem;
-    color: #fff;
-    border-radius: .25em;
-    line-height: var(--tooltip-height);
-    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) + 10px);
-    left: calc(50% - var(--tooltip-width) / 2);
-  }
-  
-  .button::after {
-    position: absolute;
-    content: '';
-    width: 0;
-    height: 0;
-    border: 10px solid transparent;
-    border-top-color: #555;
-    left: calc(50% - 10px);
-    bottom: calc(100% + var(--gap-between-tooltip-to-button) - 10px);
-  }
-  
-  .button::after,.button::before {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.5s;
-  }
-  
-  .text {
+
+
+  .no-trailer {
     display: flex;
-    align-items: center;
     justify-content: center;
+    margin-top: 200px;
+    font-size: 40px;
   }
-  
-  .button-wrapper,.text,.icon {
-    overflow: hidden;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    color: #fff;
-  }
-  
-  .text {
-    top: 0
-  }
-  
-  .text,.icon {
-    transition: top 0.5s;
-  }
-  
-  .icon {
-    color: #fff;
-    top: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .icon svg {
-    width: 24px;
-    height: 24px;
-  }
-  
-  
-  .button:hover .text {
-    top: -100%;
-  }
-  
-  .button:hover .icon {
-    top: 0;
-  }
-  
-  .button:hover:before,.button:hover:after {
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  .button:hover:after {
-    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) - 20px);
-  }
-  
-  .button:hover:before {
-    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
-  }
-.movieFooter {
-  margin-bottom: 500px;
+
+/* estilos del boton del carrito */
+.cartMovie{
+  margin-top: 20px;
+  margin-bottom: 50px;
 }
-.no-trailer {
-  display: flex;
+.cart-button {
+  background-color: #333; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.cart-button:hover {
+  background-color: #6a0dad;
+}
+
+.cart-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 200px;
-  font-size: 40px;
+  animation: cart-bounce 0.3s ease-in-out infinite alternate;
 }
+
+@keyframes cart-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+.cart-text {
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.cart-button:hover .cart-text {
+  transform: translateX(5px);
+}
+
+.cart-button::before {
+  content: '';
+  position: absolute;
+  background: rgba(106, 13, 173, 0.3);
+  width: 300%;
+  height: 300%;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transition: all 0.75s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transform: translate(-50%, -50%) rotate(45deg) scale(0);
+}
+
+.cart-button:hover::before {
+  transform: translate(-50%, -50%) rotate(45deg) scale(1);
+}
+
+  
+.movieFooter {
+    margin-bottom: 370px;
+  }

@@ -4,14 +4,22 @@ import axios from 'axios';
 import "./ticket.css";
 import Chair from "./chair/chair";
 import MercadoPago from "./mercadoPago/mercadoPago";
+import Sala from "./salas/salas";
 
-function Ticket({userId}) {
+function Ticket({ userId }) {
     const API_KEY = '6a5fa2aa71d234b5f1b196ce04746bc5';
     const API_URL = 'https://api.themoviedb.org/3';
 
     const [currentMovieDetail, setCurrentMovieDetail] = useState({});
     const [ticketQuantity, setTicketQuantity] = useState(0);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [movieFunctions, setMovieFunctions] = useState([]);
+    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedTime, setSelectedTime] = useState("");
+    const [selectedRoom, setSelectedRoom] = useState("");
+    const [selectedTypeOfFunction, setSelectedTypeOfFunction] = useState("");
+    const [selectedLanguage, setSelectedLanguage] = useState("");
+    const [error, setError] = useState("");
     const { id } = useParams();
 
     const fetchMovie = async () => {
@@ -28,9 +36,19 @@ function Ticket({userId}) {
         }
     };
 
+    const fetchMovieFunctions = async (codeFilm) => {
+        try {
+            const { data } = await axios.get(`http://localhost:3001/movieFunctions/${codeFilm}`);
+            setMovieFunctions(data);
+        } catch (error) {
+            console.error("Error fetching movie functions:", error);
+        }
+    };
+
     useEffect(() => {
         if (id) {
             fetchMovie();
+            fetchMovieFunctions(id);
         }
     }, [id]);
 
@@ -42,11 +60,51 @@ function Ticket({userId}) {
         setSelectedSeats(seats);
     };
 
+    const handleDateSelect = (date) => {
+        setSelectedDate(date);
+        setError("");
+    };
+
+    const handleTimeSelect = (func) => {
+        setSelectedTime(func.time);
+        setSelectedRoom(func.room);
+        setSelectedTypeOfFunction(func.typeOfFunction);
+        setSelectedLanguage(func.language);
+        setError("");
+    };
+
+    const handleFormatSelect = (format) => {
+        setSelectedTypeOfFunction(format);
+        setError("");
+    };
+
+    const handleLanguageSelect = (language) => {
+        setSelectedLanguage(language);
+        setError("");
+    };
+
+    const isValid = () => {
+        if (!selectedDate || !selectedTime || !selectedTypeOfFunction || !selectedLanguage) {
+            setError("Por favor, complete todos los campos de selección.");
+            return false;
+        }
+        if (selectedSeats.length !== ticketQuantity) {
+            setError("Debe seleccionar la misma cantidad de asientos que entradas.");
+            return false;
+        }
+        return true;
+    };
+
     const ticketData = {
         title: currentMovieDetail.title,
         price: 100 * ticketQuantity,
         quantity: ticketQuantity,
-        seats: selectedSeats
+        seats: selectedSeats,
+        date: selectedDate,
+        time: selectedTime,
+        room: selectedRoom,
+        typeOfFunction: selectedTypeOfFunction,
+        language: selectedLanguage,
     };
 
     return (
@@ -68,7 +126,7 @@ function Ticket({userId}) {
                             aria-expanded="true"
                             aria-controls="collapseOne"
                         >
-                            <strong>Seleccion Fecha y Horario</strong>
+                            <strong>Seleccion Fecha, Horario y Sala</strong>
                         </button>
                     </h2>
                     <div
@@ -78,7 +136,13 @@ function Ticket({userId}) {
                         data-bs-parent="#accordionExample"
                     >
                         <div className="accordion-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi quia in minima repellendus porro repudiandae est ducimus, possimus eligendi ratione minus quae quod adipisci pariatur culpa nemo provident explicabo delectus?
+                            <Sala 
+                                movieFunctions={movieFunctions} 
+                                onDateSelect={handleDateSelect} 
+                                onTimeSelect={handleTimeSelect} 
+                                onFormatSelect={handleFormatSelect} 
+                                onLanguageSelect={handleLanguageSelect} 
+                            />  
                         </div>
                     </div>
                 </div>
@@ -178,10 +242,11 @@ function Ticket({userId}) {
                         data-bs-parent="#accordionExample"
                     >
                         <div className="accordion-body">
-                            {selectedSeats.length === ticketQuantity ? (
-                                <MercadoPago ticketData={ticketData} userId={userId} />
+                            {error && <p className="error">{error}</p>}
+                            {selectedSeats.length === ticketQuantity && selectedDate && selectedTime && selectedTypeOfFunction && selectedLanguage ? (
+                                <MercadoPago userId={userId} ticketData={ticketData} />
                             ) : (
-                                <p>Seleccione la cantidad de asientos que coincide con la cantidad de entradas.</p>
+                                <p>Por favor, complete la selección de horario, asientos, y cantidad de entradas.</p>
                             )}
                         </div>
                     </div>

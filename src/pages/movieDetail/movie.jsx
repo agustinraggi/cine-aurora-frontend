@@ -94,39 +94,39 @@ function Movie() {
                     <div className="movie__detailRightBottom">
                         <div className="synopsisText">Synopsis</div>
                         <div>{currentMovieDetail.overview}</div>
-                    </div>
-                    <div data-tooltip="Precio $5.000" className="button" onClick={handleCartClick}>
-                        <div className="button-wrapper">
-                            <div className="text"></div>
-                                <span className="icon">
-                                    <svg viewBox="0 0 16 16" className="bi bi-cart2" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
-                                    </svg>
-                                </span>
+                        <div className="cartMovie" onClick={handleCartClick}>
+                        <button class="cart-button">
+                            <span class="cart-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
+                                    <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
+                                </svg>
+                            </span>
+                            <span class="cart-text">Comprar entrada</span>
+                        </button>
                         </div>
                     </div>
                     {/* ver el trailer */}
                     <div className="viewtrailer">
                         {playing && trailer ? (
                             <YouTube
-                                videoId={trailer.key}
-                                className="reproductor container"
-                                containerClassName={"youtube-container amru"}
-                                opts={{
-                                    width: "100%",
-                                    height: "100%",
-                                    playerVars: {
-                                        autoplay: 1,
-                                        controls: 0,
-                                        cc_load_policy: 0,
-                                        fs: 0,
-                                        iv_load_policy: 0,
-                                        modestbranding: 0,
-                                        rel: 0,
-                                        showinfo: 0,
-                                    },
-                                }}
-                            />
+                            videoId={trailer.key}
+                            className="youtube-container"
+                            containerClassName="viewtrailer"
+                            opts={{
+                                width:"100%",
+                                height:"100%",
+                                playerVars: {
+                                    autoplay: 1,
+                                    controls: 1,
+                                    cc_load_policy: 0,
+                                    fs: 1,
+                                    iv_load_policy: 0,
+                                    modestbranding: 1,
+                                    rel: 0,
+                                    showinfo: 0,
+                                },
+                            }}
+                        />
                         ) : (
                             <div className="no-trailer">Trailer no disponible :(</div>
                         )}

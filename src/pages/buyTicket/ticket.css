@@ -119,7 +119,7 @@
     justify-content: center;
 }
 
-.priceMP, .chairMP, .finalPriceMP {
+.priceMP, .chairMP, .finalPriceMP, .dateMP, .timeMP, .formatMP, .languageMP {
     font-size: 1.2rem;
     display: flex;
     justify-content: center;
