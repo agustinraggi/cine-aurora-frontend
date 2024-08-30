@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import "./addTheaterHourAdmin.css"
+import { DatePicker, TimePicker } from "@material-ui/pickers";
+
 
 function AddTheaterHourAdmin() {
     const [listFilm, setListFilm] = useState([]);
@@ -125,29 +126,31 @@ function AddTheaterHourAdmin() {
                     <p>Película seleccionada: <strong>{selectedFilm.nameFilm}</strong></p> 
                 </div>
             )}
-
-            <div className="dateTheater">
-                <label className="textTheater">Fecha:</label>
-                <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    dateFormat="yyyy-MM-dd"
-                    className="custom-datepicker"
-                />
+            <div className="grupFech">
+                <div className="dateTheater">
+                    <label className="textTheater">Fecha:</label>
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        dateFormat="yyyy-MM-dd"
+                        className="custom-datepicker"
+                    />
+                </div>
+                <div className="timeTheater">
+                    <label className="textTheater">Hora:</label>
+                    <TimePicker
+                        selected={selectedTime}
+                        onChange={(date) => setSelectedTime(date)}
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeIntervals={15}
+                        timeFormat="HH:mm"
+                        dateFormat="HH:mm"
+                        className="custom-timepicker"
+                    />
+                </div>
             </div>
-            <div className="timeTheater">
-                <label className="textTheater">Hora:</label>
-                <DatePicker
-                    selected={selectedTime}
-                    onChange={(date) => setSelectedTime(date)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeFormat="HH:mm"
-                    dateFormat="HH:mm"
-                    className="custom-timepicker"
-                />
-            </div>
+            
 
             <div className="typeFuncionTheater">
                 <label className="textTheater">Tipo de función:</label>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./register.css";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2'
+import { DatePicker} from "@material-ui/pickers";
 
 
 function User() {
@@ -133,9 +133,9 @@ const validateForm = () => {
                             <label className="form-label" id="text">DNI</label>
                             <input onChange={(event) => setDni(event.target.value)} value={dni} type="number" className="form-control" id="inputDni" placeholder="Ingrese su número D.N.I" />
                         </div>
-                        <div className="registerForm">
-                            <div className="grupo">
-                                <label className="form-label" id="inputFecha">Fecha de Nacimiento</label>
+                        <div className="registerFormFech">
+                            <div className="grupRegister">
+                                <label className="formLabelRegister" id="inputFecha">Fecha de Nacimiento</label>
                                 <DatePicker
                                     selected={selectedDate}
                                     onChange={date => setSelectedDate(date)}
