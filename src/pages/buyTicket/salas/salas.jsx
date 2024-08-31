@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-
 function Sala({ movieFunctions, onDateSelect, onTimeSelect, onFormatSelect, onLanguageSelect }) {
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
@@ -16,7 +15,7 @@ function Sala({ movieFunctions, onDateSelect, onTimeSelect, onFormatSelect, onLa
             const times = movieFunctions.filter(func => func.date === selectedDate);
             setAvailableTimes(times);
 
-            // Get unique formats and languages for the selected date
+            
             const uniqueFormats = Array.from(new Set(times.map(func => func.typeOfFunction)));
             const uniqueLanguages = Array.from(new Set(times.map(func => func.language)));
 
@@ -28,6 +27,19 @@ function Sala({ movieFunctions, onDateSelect, onTimeSelect, onFormatSelect, onLa
             setLanguages([]);
         }
     }, [selectedDate, movieFunctions]);
+
+    useEffect(() => {
+        if (selectedDate && selectedTime) {
+            const selectedFunc = movieFunctions.find(func => func.date === selectedDate && func.time === selectedTime);
+            if (selectedFunc) {
+                setFormats([selectedFunc.typeOfFunction]);
+                setLanguages([selectedFunc.language]);
+            }
+        } else {
+            setFormats([]);
+            setLanguages([]);
+        }
+    }, [selectedTime, selectedDate, movieFunctions]);
 
     const handleDateChange = (event) => {
         const date = event.target.value;

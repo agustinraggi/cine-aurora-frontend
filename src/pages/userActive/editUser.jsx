@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import DatePicker from "react-datepicker";
+import { DatePicker } from "@material-ui/pickers";
 import "react-datepicker/dist/react-datepicker.css";
+import "./editUser.css"
 
 function EditUser() {
     const { idUser } = useParams();
@@ -160,14 +161,13 @@ function EditUser() {
                                 placeholder="Ingrese su número D.N.I"
                             />
                         </div>
-                        <div className="registerForm">
-                            <div className="grupo">
-                                <label className="form-label" id="inputFecha">
-                                    Fecha de Nacimiento
-                                </label>
+                        <div className="registerFormFech">
+                            <div className="grupRegister">
+                                <label className="formLabelRegister" id="inputFecha">Fecha de Nacimiento</label>
                                 <DatePicker
+                                    value={selectedDate}
                                     selected={selectedDate}
-                                    onChange={(date) => setSelectedDate(date)}
+                                    onChange={date => setSelectedDate(date)}
                                     dateFormat="dd/MM/yyyy"
                                     minDate={new Date("1900-01-01")}
                                     maxDate={new Date()}
@@ -194,12 +194,12 @@ function EditUser() {
                                 placeholder="Ingrese su contraseña"
                             />
                         </div>
-                        <div>
+                        <div className="btnEditUser">
                             <Link to = "/userActive">
                                 <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
                             </Link>
                             <Link to = "/userActive">
-                                <button type="button" className="Btn btn-primary" id="btnCancel">Cancelar</button>
+                                <button type="button" className="Btn btn-primary btnCancel" id="btnCancel">Cancelar</button>
                             </Link>
                         </div>
                         

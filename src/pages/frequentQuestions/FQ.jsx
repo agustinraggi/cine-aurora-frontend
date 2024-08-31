@@ -49,6 +49,7 @@ function Fq() {
                     </div>
                 </div>
             </div>
+            <div className="fqFooter"></div>
         </div>
     );
 }
