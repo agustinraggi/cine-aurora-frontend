@@ -15,6 +15,7 @@ function AddTheaterHourAdmin() {
     const [is3D, setIs3D] = useState(false);
     const [isSubtitled, setIsSubtitled] = useState(false);
     const [selectedFilm, setSelectedFilm] = useState(null);
+    const [price, setPrice] = useState ([])
 
     // Obtener todas las películas
     const getFilm = () => {
@@ -60,7 +61,8 @@ function AddTheaterHourAdmin() {
             date: formattedDate,
             time: formattedTime,
             type: is3D ? "3D" : "2D",
-            subtitled: isSubtitled ? "Subtitulada" : "Doblada"
+            subtitled: isSubtitled ? "Subtitulada" : "Doblada",
+            price: price
         };
 
         console.log("Detalles de la función:", theaterDetails);
@@ -71,7 +73,8 @@ function AddTheaterHourAdmin() {
             date: theaterDetails.date,
             time: theaterDetails.time,
             typeOfFunction: theaterDetails.type,
-            language: theaterDetails.subtitled
+            language: theaterDetails.subtitled,
+            price: theaterDetails.price
         })
         .then(() =>{
             Swal.fire({
@@ -128,17 +131,19 @@ function AddTheaterHourAdmin() {
             )}
             <div className="grupFech">
                 <div className="dateTheater">
-                    <label className="textTheater">Fecha:</label>
+                    <label className="textTheater fechTheater" >Fecha</label>
                     <DatePicker
-                        selected={selectedDate}
+                        value ={selectedDate}
+                        selectd={selectedDate}
                         onChange={(date) => setSelectedDate(date)}
                         dateFormat="yyyy-MM-dd"
                         className="custom-datepicker"
                     />
                 </div>
                 <div className="timeTheater">
-                    <label className="textTheater">Hora:</label>
+                    <label className="textTheater">Hora</label>
                     <TimePicker
+                        value={selectedTime}
                         selected={selectedTime}
                         onChange={(date) => setSelectedTime(date)}
                         showTimeSelect
@@ -150,29 +155,34 @@ function AddTheaterHourAdmin() {
                     />
                 </div>
             </div>
-            
-
-            <div className="typeFuncionTheater">
-                <label className="textTheater">Tipo de función:</label>
-                <select 
-                    value={is3D} 
-                    onChange={(e) => setIs3D(e.target.value === "true")}
-                    style={{ marginLeft: '10px', padding: '5px' }}
-                >
-                    <option value="false">2D</option>
-                    <option value="true">3D</option>
-                </select>
-            </div>
-            <div className="languageTheater" style={{ marginBottom: '20px' }}>
-                <label className="textTheater">Idioma:</label>
-                <select 
-                    value={isSubtitled} 
-                    onChange={(e) => setIsSubtitled(e.target.value === "true")}
-                    style={{ marginLeft: '10px', padding: '5px' }}
-                >
-                    <option value="false">Doblada</option>
-                    <option value="true">Subtitulada</option>
-                </select>
+            <div className="grupFech2">
+                <div className="typeFuncionTheater">
+                    <label className="textTheater">Tipo de función</label>
+                    <select 
+                        value={is3D} 
+                        onChange={(e) => setIs3D(e.target.value === "true")}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                    >
+                        <option value="false">2D</option>
+                        <option value="true">3D</option>
+                    </select>
+                </div>
+                {/* aca */}
+                <div className="typeFuncionTheater">
+                    <label className="textTheater">Precio de la funcion</label>
+                    <input onChange={(event) => setPrice(event.target.value)} value={price} type="number" className="form-control" id="inputPrice" placeholder="Ingrese el precio de la entrada" />
+                </div>
+                <div className="languageTheater" style={{ marginBottom: '20px' }}>
+                    <label className="textTheater">Idioma</label>
+                    <select 
+                        value={isSubtitled} 
+                        onChange={(e) => setIsSubtitled(e.target.value === "true")}
+                        style={{ marginLeft: '10px', padding: '5px' }}
+                    >
+                        <option value="false">Doblada</option>
+                        <option value="true">Subtitulada</option>
+                    </select>
+                </div>
             </div>
             <div className="buttonContainer">
                 <button 

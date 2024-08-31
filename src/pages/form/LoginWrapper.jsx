@@ -6,14 +6,14 @@ import { setToken } from '../../Helpers/auth-helpers';
 const LoginWrapper = ({ setUser }) => {
     const navigate = useNavigate();
     
-    const onLogin = async ({ email, password }) => {
+    const onLogin = async ({ mailOrDni, password }) => { 
         try {
             const response = await fetch("http://localhost:3001/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ mail: email, password })
+                body: JSON.stringify({ mailOrDni, password })
             });
     
             if (response.ok) {

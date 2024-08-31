@@ -22,3 +22,9 @@ input {
     border: none;
     display: block;
 }
+.footerRegister{
+    margin-bottom: 136px;
+}
+.form-control{
+    width: 250px ;
+}
