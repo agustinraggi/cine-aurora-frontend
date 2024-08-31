@@ -96,7 +96,7 @@ const Carrusel = () => {
                         <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                             <div className="posterImage">
                                 {movie.posterPath ? (
-                                    <img src={`https://image.tmdb.org/t/p/original${movie.posterPath}`} alt={movie.nameFilm} />
+                                    <img src={`https://image.tmdb.org/t/p/original${movie.posterPath}`} alt={movie.nameFilm} className="CarruselImg" />
                                 ) : (
                                     <div>No se encontró el póster para {movie.nameFilm}</div>
                                 )}

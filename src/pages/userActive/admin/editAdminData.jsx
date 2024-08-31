@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Link } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import "./editData.css"
-
+import "./editData.css";
 
 function EditAdminData() {
     const [filteredPeople, setFilteredPeople] = useState([]);
@@ -19,122 +17,125 @@ function EditAdminData() {
     const [dni, setDni] = useState("");
     const [tips, setTips] = useState("cliente");
     const [listPeople, setListPeople] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-// VALIDACIONES DE FORMULARIO
-const validateForm = () => {
-    if (!mail || !mail.includes('@')) {
-        alert('Por favor complete un correo electrónico válido');
-        return false;
+    // VALIDACIONES DE FORMULARIO
+    const validateForm = () => {
+        if (!mail || !mail.includes('@')) {
+            alert('Por favor complete un correo electrónico válido');
+            return false;
+        }
+        if (!name) {
+            alert('Por favor complete el nombre');
+            return false;
+        }
+        if (!surname) {
+            alert('Por favor complete el apellido');
+            return false;
+        }
+        if (!selectedDate) {
+            alert('Por favor seleccione una fecha de nacimiento');
+            return false;
+        }
+        return true;
     }
-    if (!name) {
-        alert('Por favor complete el nombre');
-        return false;
-    }
-    if (!surname) {
-        alert('Por favor complete el apellido');
-        return false;
-    }
-    if (!selectedDate) {
-        alert('Por favor seleccione una fecha de nacimiento');
-        return false;
-    }
-    return true;
-}
 
-
-// UPDATE
-const update = () => {
-    if (validateForm()) {
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-        axios.put("http://localhost:3001/update", {
-            idUser,
-            mail,
-            name,
-            surname,
-            dni,
-            date: formattedDate,
-            tips
-        })
-        .then(() => {
-            Swal.fire({
-                title: "<strong>Usuario Actualizado</strong>",
-                html: "<i>El usuario <strong>" + name + "</strong> fue ACTUALIZADO con éxito!</i>",
-                icon: "success",
-                timer: 2000
-            });
-            getCustomer();
-            clearForm();
-            setEditIndex(null);
-        })
-        .catch((error) => {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "No se pudo registrar el usuario!",
-                footer: JSON.parse(JSON.stringify(error)).message === "Network Error" ? "Intente más tarde" : JSON.parse(JSON.stringify(error)).message
-            });
-        });
-    }
-}
-
-
-// DELETE
-const deleteData = (idUser, name) => {
-    Swal.fire({
-        title: "¿Estás seguro?",
-        text: `No podrás revertir esta acción. ¿Estás seguro de que deseas eliminar a ${name}?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Sí, eliminar!",
-        cancelButtonText: "No, cancelar",
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            axios.delete(`http://localhost:3001/delete/${idUser}`)
-                .then(() => {
-                    Swal.fire({
-                        title: "¡Eliminado!",
-                        text: `El usuario ${name} ha sido eliminado.`,
-                        icon: "success",
-                        timer: 2000
-                    });
-                    getCustomer();
-                    clearForm();
-                    setEditIndex(null);
-                })
-                .catch((error) => {
-                    const errorMessage = error.response?.data?.error || "No se pudo eliminar el usuario ya que tiene una entrada comprada.";
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: errorMessage,
-                        footer: errorMessage
-                    });
+    // UPDATE
+    const update = () => {
+        if (validateForm()) {
+            const formattedDate = selectedDate.toISOString().split('T')[0];
+            axios.put("http://localhost:3001/update", {
+                idUser,
+                mail,
+                name,
+                surname,
+                dni,
+                date: formattedDate,
+                tips
+            })
+            .then(() => {
+                Swal.fire({
+                    title: "<strong>Usuario Actualizado</strong>",
+                    html: "<i>El usuario <strong>" + name + "</strong> fue ACTUALIZADO con éxito!</i>",
+                    icon: "success",
+                    timer: 2000
                 });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal.fire({
-                title: "Cancelado",
-                text: "Tu archivo está a salvo :)",
-                icon: "error",
-                timer: 2000
+                fetchCustomers();
+                clearForm();
+                setEditIndex(null);
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "No se pudo registrar el usuario!",
+                    footer: error.response?.data?.error || "Intente más tarde"
+                });
             });
         }
-    });
-}
+    }
 
-    // MOSTRAR DATOS
-    const getCustomer = () => {
-        axios.get("http://localhost:3001/allCustomer").then((response) => {
-            setListPeople(response.data);
-            setFilteredPeople(response.data);
-        }).catch((error) => {
-            console.error("Error al obtener datos:", error);
+    // DELETE
+    const deleteData = (idUser, name) => {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: `No podrás revertir esta acción. ¿Estás seguro de que deseas eliminar a ${name}?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar!",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`http://localhost:3001/delete/${idUser}`)
+                    .then(() => {
+                        Swal.fire({
+                            title: "¡Eliminado!",
+                            text: `El usuario ${name} ha sido eliminado.`,
+                            icon: "success",
+                            timer: 2000
+                        });
+                        fetchCustomers();
+                        clearForm();
+                        setEditIndex(null);
+                    })
+                    .catch((error) => {
+                        const errorMessage = error.response?.data?.error || "No se pudo eliminar el usuario ya que tiene una entrada comprada.";
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: errorMessage,
+                            footer: errorMessage
+                        });
+                    });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire({
+                    title: "Cancelado",
+                    text: "Tu archivo está a salvo :)",
+                    icon: "error",
+                    timer: 2000
+                });
+            }
         });
     }
 
+    // FETCH CUSTOMERS
+    const fetchCustomers = () => {
+        axios.get(`http://localhost:3001/allCustomer?page=${page}&limit=5`)
+        .then(response => {
+            setListPeople(response.data.users);
+            setFilteredPeople(response.data.users);
+            setTotalPages(response.data.totalPages);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
+
     useEffect(() => {
-        getCustomer();
-    }, []);
+        fetchCustomers();
+    }, [page]);
 
     useEffect(() => {
         filterPeople();
@@ -172,7 +173,6 @@ const deleteData = (idUser, name) => {
         setTips(val.tips);
     }
 
-
     return (
         <div className="container">
             <div className="container mb-5">
@@ -181,19 +181,47 @@ const deleteData = (idUser, name) => {
                         <h1>PANEL DE ADMIN</h1>
                         <div className="registerForm">
                             <label className="form-label" id="text">Correo Electrónico</label>
-                            <input onChange={(event) => setMail(event.target.value)} value={mail} type="email" className="form-control" id="inputEmail" placeholder="Ingrese su correo electrónico" />
+                            <input 
+                                onChange={(event) => setMail(event.target.value)} 
+                                value={mail} 
+                                type="email" 
+                                className="form-control" 
+                                id="inputEmail" 
+                                placeholder="Ingrese su correo electrónico" 
+                            />
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">Nombre</label>
-                            <input onChange={(event) => setName(event.target.value)} value={name} type="text" className="form-control" id="inputName" placeholder="Ingrese su nombre" />
+                            <input 
+                                onChange={(event) => setName(event.target.value)} 
+                                value={name} 
+                                type="text" 
+                                className="form-control" 
+                                id="inputName" 
+                                placeholder="Ingrese su nombre" 
+                            />
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">Apellido</label>
-                            <input onChange={(event) => setSurname(event.target.value)} value={surname} type="text" className="form-control" id="inputSurname" placeholder="Ingrese su apellido" />
+                            <input 
+                                onChange={(event) => setSurname(event.target.value)} 
+                                value={surname} 
+                                type="text" 
+                                className="form-control" 
+                                id="inputSurname" 
+                                placeholder="Ingrese su apellido" 
+                            />
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">DNI</label>
-                            <input onChange={(event) => setDni(event.target.value)} value={dni} type="number" className="form-control" id="inputDni" placeholder="Ingrese su número D.N.I" />
+                            <input 
+                                onChange={(event) => setDni(event.target.value)} 
+                                value={dni} 
+                                type="number" 
+                                className="form-control" 
+                                id="inputDni" 
+                                placeholder="Ingrese su número D.N.I" 
+                            />
                         </div>
                         <div className="registerForm">
                             <div className="grupo">
@@ -216,15 +244,34 @@ const deleteData = (idUser, name) => {
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">Tipo de usuario</label>
-                            <select onChange={(event) => setTips(event.target.value)} value={tips} className="form-control" id="inputTips">
+                            <select 
+                                onChange={(event) => setTips(event.target.value)} 
+                                value={tips} 
+                                className="form-control" 
+                                id="inputTips"
+                            >
                                 <option value="client">Cliente</option>
                                 <option value="employee">Empleado</option>
                                 <option value="admin">Administrador</option>
                             </select>
                         </div>
                         <div>
-                            <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
-                            <button type="button" className="Btn btn-primary" id="btnCancel" onClick={clearForm}>Cancelar</button>
+                            <button 
+                                type="button" 
+                                className="Btn btn-primary" 
+                                id="btnUpdate" 
+                                onClick={update}
+                            >
+                                Actualizar
+                            </button>
+                            <button 
+                                type="button" 
+                                className="Btn btn-primary" 
+                                id="btnCancel" 
+                                onClick={clearForm}
+                            >
+                                Cancelar
+                            </button>
                         </div> 
                     </form>
                 </div>
@@ -246,33 +293,55 @@ const deleteData = (idUser, name) => {
                         <th className="datesPeople">Apellido</th>
                         <th className="datesPeople">DNI</th>
                         <th className="datesPeople">Fecha de Nacimiento</th>
-                        <th className="datesPeople">Edad</th>
                         <th className="datesPeople">Tipo</th>
-                        <th className="datesPeople">Acción</th>
+                        <th className="datesPeople">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredPeople.map((client, index) => (
-                        <tr key={client.idUser}>
-                            <td>{client.mail}</td>
-                            <td>{client.name}</td>
-                            <td>{client.surname}</td>
-                            <td>{client.dni}</td>
-                            <td>{new Date(client.date).toLocaleDateString()}</td>
-                            <td>{client.age}</td>
-                            <td>{client.tips}</td>
-                            <td>
+                    {filteredPeople.length > 0 ? (
+                        filteredPeople.map((person, index) => (
+                            <tr key={index}>
+                                <td>{person.mail}</td>
+                                <td>{person.name}</td>
+                                <td>{person.surname}</td>
+                                <td>{person.dni}</td>
+                                <td>{new Date(person.date).toLocaleDateString()}</td>
+                                <td>{person.tips}</td>
+                                <td>
                                 <button className="btn btn-warning"
                                     onClick={() => {
                                         editData(client);
                                     }}>Editar</button>
                                 <button className="btn btn-danger" onClick={() => deleteData(client.idUser, client.name)}>Eliminar</button>
                             </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="7">No hay datos para mostrar</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    className="btn btn-primary" 
+                    onClick={() => setPage(page - 1)} 
+                    disabled={page === 1}
+                >
+                    Anterior
+                </button>
+                <span>Página {page} de {totalPages}</span>
+                <button 
+                    className="btn btn-primary" 
+                    onClick={() => setPage(page + 1)} 
+                    disabled={page === totalPages}
+                >
+                    Siguiente
+                </button>
+            </div>
         </div>
     );
 }
+
 export default EditAdminData;

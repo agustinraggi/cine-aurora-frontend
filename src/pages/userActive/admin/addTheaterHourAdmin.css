@@ -7,8 +7,7 @@
 .typeFuncionTheater{
     text-align: center;
     font-size: 20px;
-    margin-bottom: 20px;
-    margin-right: 50px;
+    margin-left: 70px;
 }
 .languageTheater{
     text-align: center;
@@ -39,10 +38,30 @@
 	display: flex;
 	gap: 20px;
 }
+.grupFech2{
+    width: 90%;
+	max-width: 1000px;
+	margin: 50px auto;
+	text-align: center;
+	background: #fff;
+	box-shadow: 0px 0px 20px 0px rgba(209, 209, 209, 0.5);
+	padding: 40px;
+	border-radius: 5px;
+	display: flex;
+	gap: 100px
+}
+#inputPrice{
+	width: 260px;
+}
+
 .textTheater{
     width: 100%;
-	font-size: 14px;
+	font-size: 18px;
 	color:#3f51b5;
+	margin: 0px 0px 10px 0px;
+}
+.fechTheater{
+	margin-left: -70px;
 }
 
 .dateTheater, .timeTheater {

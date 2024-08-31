@@ -93,27 +93,6 @@ button:hover {
     text-align: center;
 }
 
-/* .btnEdit {
-    background-color:rgb(255, 193, 7);
-    color: black;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 4px;
-    margin-left: 10px;
-}
-
-.btnDelete{
-    background-color: #dc3545;
-    color: black;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 4px;
-} */
-
 .btnDelete:hover, .btnEdit:hover {
     background-color: white;
     color: black;
@@ -229,5 +208,4 @@ button:hover {
     background-color: #fff;
     box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
 }
-
 
