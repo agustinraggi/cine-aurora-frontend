@@ -19,6 +19,7 @@ function Ticket({ userId }) {
     const [selectedRoom, setSelectedRoom] = useState("");
     const [selectedTypeOfFunction, setSelectedTypeOfFunction] = useState("");
     const [selectedLanguage, setSelectedLanguage] = useState("");
+    const [price, setPrice] = useState(0);
     const [error, setError] = useState("");
     const { id } = useParams();
 
@@ -45,12 +46,35 @@ function Ticket({ userId }) {
         }
     };
 
+    const fetchPrice = async () => {
+        try {
+            const { data } = await axios.get('http://localhost:3001/getPrice', {
+                params: {
+                    codeFilm: id,
+                    date: selectedDate,
+                    time: selectedTime,
+                    typeOfFunction: selectedTypeOfFunction,
+                    language: selectedLanguage,
+                },
+            });
+            setPrice(data.price);
+        } catch (error) {
+            console.error("Error fetching price:", error);
+        }
+    };
+
     useEffect(() => {
         if (id) {
             fetchMovie();
             fetchMovieFunctions(id);
         }
     }, [id]);
+
+    useEffect(() => {
+        if (selectedDate && selectedTime && selectedTypeOfFunction && selectedLanguage) {
+            fetchPrice();
+        }
+    }, [selectedDate, selectedTime, selectedTypeOfFunction, selectedLanguage]);
 
     const handleQuantityChange = (event) => {
         setTicketQuantity(parseInt(event.target.value));
@@ -83,21 +107,9 @@ function Ticket({ userId }) {
         setError("");
     };
 
-    const isValid = () => {
-        if (!selectedDate || !selectedTime || !selectedTypeOfFunction || !selectedLanguage) {
-            setError("Por favor, complete todos los campos de selección.");
-            return false;
-        }
-        if (selectedSeats.length !== ticketQuantity) {
-            setError("Debe seleccionar la misma cantidad de asientos que entradas.");
-            return false;
-        }
-        return true;
-    };
-
     const ticketData = {
         title: currentMovieDetail.title,
-        price: 100 * ticketQuantity,
+        price: price * ticketQuantity, 
         quantity: ticketQuantity,
         seats: selectedSeats,
         date: selectedDate,
@@ -180,7 +192,7 @@ function Ticket({ userId }) {
                                 <tbody>
                                     <tr className="standard">
                                         <td>Standard</td>
-                                        <td>$ 100</td>
+                                        <td>${price}</td> {/* Display the price here */}
                                         <td>
                                             <select id="standard-quantity" value={ticketQuantity} onChange={handleQuantityChange}>
                                                 {[...Array(11).keys()].map(num => (
@@ -232,7 +244,7 @@ function Ticket({ userId }) {
                             aria-expanded="false"
                             aria-controls="collapseFour"
                         >
-                            <strong>Pagar Entrada</strong>
+                            <strong>Resumen</strong>
                         </button>
                     </h2>
                     <div
@@ -242,12 +254,12 @@ function Ticket({ userId }) {
                         data-bs-parent="#accordionExample"
                     >
                         <div className="accordion-body">
-                            {error && <p className="error">{error}</p>}
-                            {selectedSeats.length === ticketQuantity && selectedDate && selectedTime && selectedTypeOfFunction && selectedLanguage ? (
-                                <MercadoPago userId={userId} ticketData={ticketData} />
-                            ) : (
-                                <p>Por favor, complete la selección de horario, asientos, y cantidad de entradas.</p>
-                            )}
+                            <div className="orderSummary">
+                                <MercadoPago
+                                    userId={userId}
+                                    ticketData={ticketData}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

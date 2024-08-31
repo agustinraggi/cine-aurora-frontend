@@ -209,3 +209,13 @@ button:hover {
     box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
 }
 
+@media (max-width: 1200px) {
+    .registerFormFech{
+        width: 300px ;
+    }
+}
+@media (max-width: 500px) {
+    .registerFormFech{
+        width: 250px ;
+    }
+}
