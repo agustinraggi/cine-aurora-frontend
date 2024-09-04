@@ -7,12 +7,13 @@
     height: 1000px;
     position: relative;
     overflow: hidden;
+    height: 100%;
 }
 
 .posterImage > img {
     margin: auto;
     display: block;
-    width: 50%;
+    width: 100%;
     transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
 
@@ -37,7 +38,7 @@
     margin-bottom: 0.4rem;
     text-align: left;
     margin-bottom: 160px;
-    font-family: Poppins;
+    font-family: emoji;
 }
 
 .slick-dots li button:before {
@@ -154,34 +155,16 @@
     }
 }
 @media (max-width: 842px){
-    .posterImage {
-        height: 900px;
-    }
     .posterImage__title{
         font-size: 20px;
-    }
-    .posterImage > img {
-        width: 70%;
     }
 }
 @media (max-width: 670px){
-    .posterImage {
-        height: 700px;
-    }
     .posterImage__title{
         font-size: 20px;
     }
-    .posterImage__overlay{
-        padding: 80px 80px 0px 80px;
-    }
-    .posterImage > img {
-        width: 80%;
-    }
 }
 @media (max-width: 490px){
-    .posterImage {
-        height: 600px;
-    }
     .posterImage__title{
         font-size: 15px;
     }
