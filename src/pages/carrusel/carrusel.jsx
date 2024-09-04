@@ -23,19 +23,21 @@ const Carrusel = () => {
                     if (movieData) {
                         return {
                             ...dbMovie,
+                            backdropPath: movieData.backdrop_path,
                             posterPath: movieData.poster_path,
                             id: movieData.id
                         };
                     } else {
                         return {
                             ...dbMovie,
+                            backdropPath: null,
                             posterPath: null,
                             id: null
                         };
                     }
                 })
             );
-            setMoviePosters(posters.filter(movie => movie.posterPath !== null));
+            setMoviePosters(posters.filter(movie => movie.backdropPath !== null || movie.posterPath !== null));
         };
 
         fetchMoviePosters();
@@ -53,7 +55,7 @@ const Carrusel = () => {
     const fetchMovieData = async (codeFilm) => {
         try {
             const response = await axios.get(`https://api.themoviedb.org/3/movie/${codeFilm}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`);
-            return response.data;
+                    return response.data;
         } catch (error) {
             console.error("Error fetching movie data:", error);
             return null;
@@ -95,11 +97,7 @@ const Carrusel = () => {
                     <div key={index} className="slider-item">
                         <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                             <div className="posterImage">
-                                {movie.posterPath ? (
-                                    <img src={`https://image.tmdb.org/t/p/original${movie.posterPath}`} alt={movie.nameFilm} className="CarruselImg" />
-                                ) : (
-                                    <div>No se encontró el póster para {movie.nameFilm}</div>
-                                )}
+                                <img src={`https://image.tmdb.org/t/p/original${movie.backdropPath || movie.posterPath}`} alt={movie.nameFilm} className="CarruselImg" />
                                 <div className="posterImage__overlay">
                                     <div className="posterImage__title">{movie.nameFilm}</div>
                                 </div>
