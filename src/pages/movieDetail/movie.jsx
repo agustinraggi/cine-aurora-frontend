@@ -5,8 +5,7 @@ import YouTube from "react-youtube";
 import "./movie.css";
 
 function Movie() {
-    const API_KEY = '6a5fa2aa71d234b5f1b196ce04746bc5';
-    const API_URL = 'https://api.themoviedb.org/3';
+    const API_URL = 'http://localhost:3001';
 
     const [trailer, setTrailer] = useState(null);
     const [currentMovieDetail, setCurrentMovieDetail] = useState({ title: "Loading Movies" });
@@ -15,45 +14,44 @@ function Movie() {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    // Función para obtener los detalles de la película desde tu backend
     const fetchMovie = async () => {
-        const { data } = await axios.get(`${API_URL}/movie/${id}`, {
-            params: {
-                api_key: API_KEY,
-                append_to_response: "videos",
-                language: "es-MX"
-            }
-        });
+        try {
+            const { data } = await axios.get(`${API_URL}/movie/${id}`);
+            setCurrentMovieDetail(data);
 
-        if (data.videos && data.videos.results) {
-            let selectedTrailer;
-            selectedTrailer = data.videos.results.find(
-                (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "MX"
-            );
-            if (!selectedTrailer) {
-                selectedTrailer = data.videos.results.find(
-                    (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "ES"
+            // Ahora se hace la llamada para obtener los trailers desde tu backend
+            const trailerResponse = await axios.get(`${API_URL}/movie/videos/${id}`);
+            if (trailerResponse.data.results) {
+                let selectedTrailer;
+                selectedTrailer = trailerResponse.data.results.find(
+                    (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "MX"
                 );
+                if (!selectedTrailer) {
+                    selectedTrailer = trailerResponse.data.results.find(
+                        (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "ES"
+                    );
+                }
+                if (!selectedTrailer) {
+                    selectedTrailer = trailerResponse.data.results.find(
+                        (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.name.toLowerCase().includes("subtitulado")
+                    );
+                }
+                if (!selectedTrailer) {
+                    selectedTrailer = trailerResponse.data.results.find(
+                        (vid) => vid.type === "Trailer"
+                    );
+                }
+                setTrailer(selectedTrailer);
             }
-            if (!selectedTrailer) {
-                selectedTrailer = data.videos.results.find(
-                    (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.name.toLowerCase().includes("subtitulado")
-                );
-            }
-            if (!selectedTrailer) {
-                selectedTrailer = data.videos.results.find(
-                    (vid) => vid.type === "Trailer"
-                );
-            }
-
-            setTrailer(selectedTrailer);
+        } catch (error) {
+            console.error("Error fetching movie details", error);
         }
-
-        setCurrentMovieDetail(data);
-    }
+    };
 
     useEffect(() => {
         fetchMovie();
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (trailer) {
@@ -63,11 +61,11 @@ function Movie() {
 
     const closeTrailer = () => {
         setPlaying(false);
-    }
+    };
 
     const handleCartClick = () => {
         navigate(`/buyTicket/${id}`);
-    }
+    };
 
     return (
         <div className="movie">
@@ -95,46 +93,44 @@ function Movie() {
                         <div className="synopsisText">Synopsis</div>
                         <div>{currentMovieDetail.overview}</div>
                         <div className="cartMovie" onClick={handleCartClick}>
-                        <button class="cart-button">
-                            <span class="cart-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
-                                    <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
-                                </svg>
-                            </span>
-                            <span class="cart-text">Comprar entrada</span>
-                        </button>
+                            <button className="cart-button">
+                                <span className="cart-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
+                                        <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
+                                    </svg>
+                                </span>
+                                <span className="cart-text">Comprar entrada</span>
+                            </button>
                         </div>
                     </div>
-                    {/* ver el trailer */}
                     <div className="viewtrailer">
                         {playing && trailer ? (
                             <YouTube
-                            videoId={trailer.key}
-                            className="youtube-container"
-                            containerClassName="viewtrailer"
-                            opts={{
-                                width:"100%",
-                                height:"100%",
-                                playerVars: {
-                                    autoplay: 1,
-                                    controls: 1,
-                                    cc_load_policy: 0,
-                                    fs: 1,
-                                    iv_load_policy: 0,
-                                    modestbranding: 1,
-                                    rel: 0,
-                                    showinfo: 0,
-                                },
-                            }}
-                        />
+                                videoId={trailer.key}
+                                className="youtube-container"
+                                containerClassName="viewtrailer"
+                                opts={{
+                                    width: "100%",
+                                    height: "100%",
+                                    playerVars: {
+                                        autoplay: 1,
+                                        controls: 1,
+                                        cc_load_policy: 0,
+                                        fs: 1,
+                                        iv_load_policy: 0,
+                                        modestbranding: 1,
+                                        rel: 0,
+                                        showinfo: 0,
+                                    },
+                                }}
+                            />
                         ) : (
                             <div className="no-trailer">Trailer no disponible :(</div>
                         )}
                     </div>
                 </div>
             </div>
-            <div className="movieFooter">
-            </div>
+            <div className="movieFooter"></div>
         </div>
     );
 }

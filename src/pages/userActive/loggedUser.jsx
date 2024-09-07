@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import "./loggedUser.css";
+import { FaSearch } from 'react-icons/fa';
 
 function LoggedUser({ userId }) {
     const location = useLocation();
@@ -11,14 +12,15 @@ function LoggedUser({ userId }) {
     const status = queryParams.get('status');
     const preference_id = queryParams.get('preference_id');
     const [tickets, setTickets] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
-    // Generar un código único para el usuario
+    // Generamos un código único para ese usuario
     const generateCode = (codeString) => {
         if (!codeString) return 'N/A';
         return codeString.replace(/[^a-zA-Z]/g, '').slice(0, 6).toUpperCase();
     };
 
-    // Reformatar la fecha
+    // Reformatemos la fecha
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, '0');
@@ -56,20 +58,56 @@ function LoggedUser({ userId }) {
         });
     };
 
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
     useEffect(() => {
-        const handlePaymentStatus = async () => {
+        const fetchTickets = async () => {
             try {
-                // Obtener los tickets del usuario
+                if (searchTerm) {
+                    const searchResponse = await axios.get(`http://localhost:3001/searchMovies?name=${searchTerm}`);
+                    setTickets(searchResponse.data);
+                } else {
+                    const ticketResponse = await axios.get(`http://localhost:3001/ticketUser/${userId}`);
+                    const ticketsData = ticketResponse.data;
+                    
+                    if (ticketsData.length > 0) {
+                        const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid')
+                            .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
+                        setTickets(sortedTickets);
+                    } else {
+                        console.log("No se encontraron tickets para este usuario.");
+                    }
+                }
+            } catch (error) {
+                console.error("Error al obtener los tickets:", error);
+            }
+        };
+
+        fetchTickets();
+    }, [searchTerm, userId]); 
+
+    const handlePaymentStatus = async () => {
+        if (status === 'approved' && preference_id) {
+            try {
+                await axios.post("http://localhost:3001/updateTicketStatus", {
+                    preference_id,
+                    status: 'paid',
+                });
                 const ticketResponse = await axios.get(`http://localhost:3001/ticketUser/${userId}`);
                 const ticketsData = ticketResponse.data;
 
-                if (status === 'approved' && preference_id) {
-                    // Actualizar el estado del ticket a "paid"
-                    await axios.post("http://localhost:3001/updateTicketStatus", {
-                        preference_id,
-                        status: 'paid',
-                    });
+                if (ticketsData.length > 0) {
+                    const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid')
+                        .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
+                    setTickets(sortedTickets);
+                }
 
+                const mostRecentTicket = ticketsData.find(ticket => ticket.status === 'paid');
+                const voucherCode = mostRecentTicket?.voucher;
+
+                if (voucherCode) {
                     Swal.fire({
                         title: "<strong>Compra Exitosa</strong>",
                         html: `
@@ -81,24 +119,15 @@ function LoggedUser({ userId }) {
                         timerProgressBar: true
                     });
                 }
-
-                if (ticketsData.length > 0) {
-                    // Filtrar y ordenar los tickets por fecha de compra en orden descendente
-                    const sortedTickets = ticketsData
-                        .filter(ticket => ticket.status === 'paid')
-                        .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
-
-                    setTickets(sortedTickets);
-                } else {
-                    console.error("No se encontraron tickets pagados para el usuario.");
-                }
             } catch (error) {
-                console.error("Error al actualizar o obtener los tickets:", error);
+                console.error("Error al actualizar el estado del ticket:", error);
             }
-        };
+        }
+    };
 
+    useEffect(() => {
         handlePaymentStatus();
-    }, [status, preference_id, userId]);
+    }, [status, preference_id]);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -115,6 +144,15 @@ function LoggedUser({ userId }) {
                 <button className="buttonUser" onClick={handleLogout}>Salir</button>
             </div>
             <h5 className="titleLogged">Historial de Compras</h5>
+            <div className="searchContainer">
+                <input
+                    type="text"
+                    placeholder="Buscar por película"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
+                <FaSearch className="searchIcon" />
+            </div>
             <table className="userHistory">
                 <thead>
                     <tr>

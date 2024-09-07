@@ -7,8 +7,7 @@ import MercadoPago from "./mercadoPago/mercadoPago";
 import Sala from "./salas/salas";
 
 function Ticket({ userId }) {
-    const API_KEY = '6a5fa2aa71d234b5f1b196ce04746bc5';
-    const API_URL = 'https://api.themoviedb.org/3';
+    const API_URL = 'http://localhost:3001';
 
     const [currentMovieDetail, setCurrentMovieDetail] = useState({});
     const [ticketQuantity, setTicketQuantity] = useState(0);
@@ -25,12 +24,7 @@ function Ticket({ userId }) {
 
     const fetchMovie = async () => {
         try {
-            const { data } = await axios.get(`${API_URL}/movie/${id}`, {
-                params: {
-                    api_key: API_KEY,
-                    language: "es-ES"
-                }
-            });
+            const { data } = await axios.get(`${API_URL}/movie/${id}`);
             setCurrentMovieDetail(data);
         } catch (error) {
             console.error("Error fetching movie details:", error);
@@ -39,7 +33,7 @@ function Ticket({ userId }) {
 
     const fetchMovieFunctions = async (codeFilm) => {
         try {
-            const { data } = await axios.get(`http://localhost:3001/movieFunctions/${codeFilm}`);
+            const { data } = await axios.get(`${API_URL}/movieFunctions/${codeFilm}`);
             setMovieFunctions(data);
         } catch (error) {
             console.error("Error fetching movie functions:", error);
@@ -64,6 +58,13 @@ function Ticket({ userId }) {
     };
 
     useEffect(() => {
+        if (selectedDate && selectedTime && selectedTypeOfFunction && selectedLanguage) {
+            fetchPrice();
+        }
+    }, [selectedDate, selectedTime, selectedTypeOfFunction, selectedLanguage]);
+
+
+    useEffect(() => {
         if (id) {
             fetchMovie();
             fetchMovieFunctions(id);
@@ -71,10 +72,11 @@ function Ticket({ userId }) {
     }, [id]);
 
     useEffect(() => {
-        if (selectedDate && selectedTime && selectedTypeOfFunction && selectedLanguage) {
-            fetchPrice();
+        if (id) {
+            fetchMovie();
+            fetchMovieFunctions(id);
         }
-    }, [selectedDate, selectedTime, selectedTypeOfFunction, selectedLanguage]);
+    }, [id]);
 
     const handleQuantityChange = (event) => {
         setTicketQuantity(parseInt(event.target.value));
@@ -105,6 +107,18 @@ function Ticket({ userId }) {
     const handleLanguageSelect = (language) => {
         setSelectedLanguage(language);
         setError("");
+    };
+
+    const isValid = () => {
+        if (!selectedDate || !selectedTime || !selectedTypeOfFunction || !selectedLanguage) {
+            setError("Por favor, complete todos los campos de selección.");
+            return false;
+        }
+        if (selectedSeats.length !== ticketQuantity) {
+            setError("Debe seleccionar la misma cantidad de asientos que entradas.");
+            return false;
+        }
+        return true;
     };
 
     const ticketData = {
@@ -192,7 +206,7 @@ function Ticket({ userId }) {
                                 <tbody>
                                     <tr className="standard">
                                         <td>Standard</td>
-                                        <td>${price}</td> {/* Display the price here */}
+                                        <td>${price}</td> 
                                         <td>
                                             <select id="standard-quantity" value={ticketQuantity} onChange={handleQuantityChange}>
                                                 {[...Array(11).keys()].map(num => (
