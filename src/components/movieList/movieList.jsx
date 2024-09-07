@@ -4,71 +4,19 @@ import { Link } from "react-router-dom";
 import "./movieList.css";
 
 const MovieList = () => {
-    const [dbMovies, setDbMovies] = useState([]);
     const [moviePosters, setMoviePosters] = useState([]);
 
     useEffect(() => {
-        fetchDbMovies();
+        fetchMovies();
     }, []);
 
-    useEffect(() => {
-        const fetchMoviePosters = async () => {
-            const posters = await Promise.all(
-                dbMovies.map(async (dbMovie) => {
-                    const movieData = await fetchMovieData(dbMovie.codeFilm);
-                    if (movieData) {
-                        return {
-                            ...dbMovie,
-                            posterPath: getPosterPath(movieData),
-                            id: movieData.id,
-                            nameFilm: movieData.title 
-                        };
-                    } else {
-                        return {
-                            ...dbMovie,
-                            posterPath: null,
-                            id: null,
-                            nameFilm: dbMovie.nameFilm
-                        };
-                    }
-                })
-            );
-            setMoviePosters(posters.filter(movie => movie.posterPath !== null));
-        };
-
-        fetchMoviePosters();
-    }, [dbMovies]);
-
-    const fetchDbMovies = async () => {
+    const fetchMovies = async () => {
         try {
             const response = await axios.get("http://localhost:3001/allFilm");
-            setDbMovies(response.data);
+            setMoviePosters(response.data);
         } catch (error) {
-            console.error("Error fetching database movies:", error);
+            console.error("Error fetching movies:", error);
         }
-    };
-
-    const fetchMovieData = async (codeFilm) => {
-        try {
-            const response = await axios.get(`https://api.themoviedb.org/3/movie/${codeFilm}`, {
-                params: {
-                    api_key: "4e44d9029b1270a757cddc766a1bcb63",
-                    language: "es-MX"
-                }
-            });
-            return response.data;
-        } catch (error) {
-            console.error("Error fetching movie data in es-MX:", error);
-            return null;
-        }
-    };
-
-    const getPosterPath = (movieData) => {
-        if (movieData.poster_path && movieData.original_language === "es-MX") {
-            return movieData.poster_path;
-        }
-
-        return movieData.poster_path && movieData.original_language === "en" ? movieData.poster_path : null;
     };
 
     return (

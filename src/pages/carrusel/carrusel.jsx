@@ -54,8 +54,8 @@ const Carrusel = () => {
 
     const fetchMovieData = async (codeFilm) => {
         try {
-            const response = await axios.get(`https://api.themoviedb.org/3/movie/${codeFilm}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=es-ES`);
-                    return response.data;
+            const response = await axios.get(`http://localhost:3001/movie/${codeFilm}`);
+            return response.data;
         } catch (error) {
             console.error("Error fetching movie data:", error);
             return null;
@@ -69,7 +69,7 @@ const Carrusel = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 3000,
+        autoplaySpeed: 7000,
         fade: true,
         arrows: false,
         appendDots: dots => (
@@ -87,7 +87,8 @@ const Carrusel = () => {
                     margin: '0 8px'
                 }}
             />
-        )
+        ),
+        pauseOnHover: false 
     };
 
     return (
