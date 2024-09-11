@@ -310,9 +310,9 @@ function EditAdminData() {
                                 <td>
                                 <button className="btn btn-warning"
                                     onClick={() => {
-                                        editData(client);
+                                        editData(person);
                                     }}>Editar</button>
-                                <button className="btn btn-danger" onClick={() => deleteData(client.idUser, client.name)}>Eliminar</button>
+                                <button className="btn btn-danger" onClick={() => deleteData(person.idUser, person.name)}>Eliminar</button>
                             </td>
                             </tr>
                         ))
