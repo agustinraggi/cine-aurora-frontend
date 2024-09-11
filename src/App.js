@@ -15,6 +15,8 @@ import Movie from './pages/movieDetail/movie';
 import Upcoming from './pages/upcoming/upcoming';
 import LoginWrapper from './pages/form/LoginWrapper';
 import Register from './pages/form/register';
+import RecoverPassword from './pages/form/recoverPassword';
+import ResetPassword from "./pages/form/resetPassword";
 import UserActive from './pages/userActive/loggedUser';
 import EditUser from './pages/userActive/editUser';
 import EmployeeActive from "./pages/userActive/loggedEmployee";
@@ -67,7 +69,8 @@ function App() {
                     <Route path="login" element={<LoginWrapper setUser={setUser} />} />
                     <Route path="register" element={<Register />} />
                     <Route path="fq" element={<FQ />} />
-                    
+                    <Route path="recoverPassword" element={<RecoverPassword />} />
+                    <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route 
                         path="userActive" 
                         element={

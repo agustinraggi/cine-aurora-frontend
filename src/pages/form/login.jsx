@@ -41,6 +41,7 @@ function Login({ onLogin }) {
                                 required
                             />
                         </div>
+                        <p>¿Olvidaste tu contraseña? <Link to="/recoverPassword">Ingresa aquí</Link>.</p>
                         <button
                             type="submit"
                             className="Btn btn btn-primary"
