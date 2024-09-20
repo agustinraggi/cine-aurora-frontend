@@ -16,27 +16,28 @@ function Admin() {
             <div className="btnUser">
                 <button className="buttonUser" onClick={handleLogout}>Salir</button>
             </div>
-            <h1>ADMIN</h1>
+            <h1 className="titleLogged">ADMIN</h1>
             <div className="adminFeatures">
                 <Link to="/editAdminData" className="adminLink">
-                    <span>Administrar Usuarios</span>
+                    <div className="featureCard">Administrar Usuarios</div>
                 </Link>
                 <Link to="/addFilmAdmin" className="adminLink">
-                    <span>Agregar Películas</span>
+                    <div className="featureCard">Agregar Películas</div>
                 </Link>
                 <Link to="/deleteFilmAdmin" className="adminLink">
-                    <span>Eliminar Películas</span>
+                    <div className="featureCard">Eliminar Películas</div>
                 </Link>
                 <Link to="/addTheaterHourAdmin" className="adminLink">
-                    <span>Agregar Sala y Horario</span>
+                    <div className="featureCard">Agregar Función</div>
+                </Link>
+                <Link to="/deleteTheaterHourAdmin" className="adminLink">
+                    <div className="featureCard">Eliminar Función</div>
                 </Link>
                 <Link to="/verifyVoucher" className="adminLink">
-                    <span>Verificar Código de Entrada</span>
+                    <div className="featureCard">Verificar Código de Entrada</div>
                 </Link>
             </div>
-            <div className="footerLoggedAdmin">
-
-            </div>
+            <div className="footerLoggedAdmin"></div>
         </div>
     );
 }

@@ -86,8 +86,24 @@
 }
 
 .adminLink {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     text-decoration: none;
+}
+
+.featureCard {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    width: 250px;
+}
+
+.featureCard:hover {
+    background-color: #0056b3;
 }
 
 .veryTitle {
@@ -136,7 +152,6 @@
     color: rgb(109, 42, 161);
 }
 
-
 /* busqueda de peliculas */
 .searchContainer {
     position: relative;
@@ -174,7 +189,6 @@
     color: #0056b3;
 }
 
-
 .footerLoggedUser {
     margin-bottom: 575px;
 }
@@ -188,5 +202,5 @@
 }
 
 .footerLoggedEmployee {
-    margin-bottom: 497px;
+    margin-bottom: 542px;
 }
