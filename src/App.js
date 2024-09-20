@@ -23,6 +23,7 @@ import EmployeeActive from "./pages/userActive/loggedEmployee";
 import AdminActive from './pages/userActive/loggedAdmin';
 import AddFilmAdmin from './pages/userActive/admin/addFilmAdmin';
 import DeleteFilmAdmin from "./pages/userActive/admin/deleteFilmAdmin";
+import DelteTheaterHourAdmin from "./pages/userActive/admin/deleteTheaterHourAdmin";
 import VerifyVoucher from "./pages/userActive/admin/verifyVoucher";
 import EditAdminData from "./pages/userActive/admin/editAdminData";
 import AddTheaterHourAdmin from "./pages/userActive/admin/addTheaterHourAdmin"
@@ -124,6 +125,14 @@ function App() {
                         element={
                             <ProtectedRoute user={user}>
                                 <AddTheaterHourAdmin />
+                            </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="deleteTheaterHourAdmin" 
+                        element={
+                            <ProtectedRoute user={user}>
+                                <DelteTheaterHourAdmin />
                             </ProtectedRoute>
                         } 
                     />
