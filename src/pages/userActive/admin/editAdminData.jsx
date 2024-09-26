@@ -155,7 +155,7 @@ function EditAdminData() {
     const filterPeople = () => {
         if (listPeople) {
             const filtered = listPeople.filter(client =>
-                client.name.toLowerCase().includes(search.toLowerCase())
+                client.surname.toLowerCase().includes(search.toLowerCase())
             );
             setFilteredPeople(filtered);
         }
@@ -280,7 +280,7 @@ function EditAdminData() {
                 <input
                     type="text"
                     className="form-control-search"
-                    placeholder="Buscar por nombre"
+                    placeholder="Buscar por apellido"
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                 />
@@ -288,12 +288,12 @@ function EditAdminData() {
             <table className="table table-bordered" id="tableData">
                 <thead>
                     <tr>
-                        <th className="datesPeople">Correo</th>
-                        <th className="datesPeople">Nombre</th>
+                        <th className="datesPeople"  id="datesPeoplePhone">Correo</th>
+                        <th className="datesPeople" id="datesPeoplePhone">Nombre</th>
                         <th className="datesPeople">Apellido</th>
                         <th className="datesPeople">DNI</th>
-                        <th className="datesPeople">Fecha de Nacimiento</th>
-                        <th className="datesPeople">Tipo</th>
+                        <th className="datesPeople"  id="datesPeoplePhone">Fecha de Nacimiento</th>
+                        <th className="datesPeople"  id="datesPeoplePhone">Tipo</th>
                         <th className="datesPeople">Acciones</th>
                     </tr>
                 </thead>
@@ -301,12 +301,12 @@ function EditAdminData() {
                     {filteredPeople.length > 0 ? (
                         filteredPeople.map((person, index) => (
                             <tr key={index}>
-                                <td>{person.mail}</td>
-                                <td>{person.name}</td>
+                                <td  id="datesPeoplePhone">{person.mail}</td>
+                                <td  id="datesPeoplePhone">{person.name}</td>
                                 <td>{person.surname}</td>
                                 <td>{person.dni}</td>
-                                <td>{new Date(person.date).toLocaleDateString()}</td>
-                                <td>{person.tips}</td>
+                                <td  id="datesPeoplePhone">{new Date(person.date).toLocaleDateString()}</td>
+                                <td  id="datesPeoplePhone">{person.tips}</td>
                                 <td>
                                 <button className="btn btn-warning"
                                     onClick={() => {

@@ -181,7 +181,7 @@ function EditUser() {
                                 />
                             </div>
                         </div>
-                        <div className="registerForm">
+                        {/* <div className="registerForm">
                             <label className="form-label" id="text">
                                 Contraseña
                             </label>
@@ -193,7 +193,7 @@ function EditUser() {
                                 id="inputPassword"
                                 placeholder="Ingrese su contraseña"
                             />
-                        </div>
+                        </div> */}
                         <div className="btnEditUser">
                             <Link to = "/userActive">
                                 <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>

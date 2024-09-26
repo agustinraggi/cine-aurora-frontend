@@ -65,3 +65,8 @@
 .btn-primary {
     margin-top: 70px;
 }
+@media (max-width: 1000px) {
+    #datesPeoplePhone{
+        display: none;
+    }
+}

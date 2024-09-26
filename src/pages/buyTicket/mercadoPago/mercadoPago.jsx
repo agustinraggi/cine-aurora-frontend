@@ -30,14 +30,7 @@ function MercadoPago({ ticketData, userId }) {
     initializeMercadoPago();
   }, [ticketData]);
 
-  const getSeatLabel = (index) => {
-    const seatsPerRow = 21;
-    const row = String.fromCharCode(65 + Math.floor(index / seatsPerRow));
-    const seatNumber = (index % seatsPerRow) + 1;
-    return `${row}${seatNumber}`;
-  };
-
-  const seatLabels = ticketData.seats ? ticketData.seats.map(getSeatLabel) : [];
+  const seatLabels = ticketData.seats ? ticketData.seats : [];
 
   const handleCheckout = async () => {
     if (initialized) return;
@@ -49,7 +42,7 @@ function MercadoPago({ ticketData, userId }) {
 
       const response = await axios.post("http://localhost:3001/create_preference", {
         title: ticketData.title,
-        quantity: 1,
+        quantity: ticketData.quantity || 1,
         price: ticketData.price,
         idUser: userId,
       });
@@ -73,13 +66,13 @@ function MercadoPago({ ticketData, userId }) {
         time: ticketData.time,
         typeOfFunction: ticketData.typeOfFunction,
         language: ticketData.language,
+        idMovieTheater: ticketData.idMovieTheater,
       };
 
       await axios.post("http://localhost:3001/createTicket", ticketInfo);
 
       setInitialized(true);
       setShowButton(false);
-
       setPaymentStatus("pending");
     } catch (error) {
       console.error("Error al procesar el pago:", error);
@@ -98,6 +91,8 @@ function MercadoPago({ ticketData, userId }) {
       <p className="timeMP">Hora: {ticketData.time}</p>
       <p className="formatMP">Formato: {ticketData.typeOfFunction}</p>
       <p className="languageMP">Idioma: {ticketData.language}</p>
+      {/* esto despues no va */}
+      <p className="languageMP">id: {ticketData.idMovieTheater}</p>
       <div className="checkout-btn">
         {showButton && <button id="checkout-btn" onClick={handleCheckout}>Comprar</button>}
       </div>
