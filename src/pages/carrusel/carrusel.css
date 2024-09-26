@@ -4,7 +4,6 @@
 }
 
 .posterImage {
-    height: 1000px;
     position: relative;
     overflow: hidden;
     height: 100%;
@@ -168,4 +167,12 @@
     .posterImage__title{
         font-size: 15px;
     }
+    .posterImage > img {
+        margin: auto;
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+    }
+    
 }

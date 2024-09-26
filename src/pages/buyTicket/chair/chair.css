@@ -1,0 +1,54 @@
+#seatsBlock {
+    display: grid;
+    grid-template-columns: repeat(27, 40px);
+    justify-content: center;
+    gap: 10px; 
+    width: 80%;
+    margin: 0 auto; 
+}
+
+.seat {
+    position: relative;
+    width: 40px;
+    height: 40px; 
+    margin: 5px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selected img {
+    border: 2px solid red;
+}
+
+.empty-seat {
+    width: 35px;
+    height: 35px;
+    background-color: lightgray; 
+}
+
+.seat:hover::after {
+    content: attr(seatLabels);
+    position: absolute;
+    top: -25px; 
+    background-color: black;
+    color: rgb(86, 44, 44);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.screenTitle {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.screen {
+    background-color: #fff;
+    height: 30px;
+    width: 60%;
+    margin: 15px 0;
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+}

@@ -21,7 +21,9 @@ function Ticket({ userId }) {
     const [price, setPrice] = useState(0);
     const [error, setError] = useState("");
     const { id } = useParams();
+    const [idMovieTheater, setMovieTheaterId] = useState(null);
 
+    // Función para obtener los detalles de la película
     const fetchMovie = async () => {
         try {
             const { data } = await axios.get(`${API_URL}/movie/${id}`);
@@ -31,6 +33,7 @@ function Ticket({ userId }) {
         }
     };
 
+    // Función para obtener las funciones de la película
     const fetchMovieFunctions = async (codeFilm) => {
         try {
             const { data } = await axios.get(`${API_URL}/movieFunctions/${codeFilm}`);
@@ -40,9 +43,10 @@ function Ticket({ userId }) {
         }
     };
 
+    // Función para obtener el precio de la entrada
     const fetchPrice = async () => {
         try {
-            const { data } = await axios.get('http://localhost:3001/getPrice', {
+            const { data } = await axios.get(`${API_URL}/getPrice`, {
                 params: {
                     codeFilm: id,
                     date: selectedDate,
@@ -52,18 +56,20 @@ function Ticket({ userId }) {
                 },
             });
             setPrice(data.price);
+            setMovieTheaterId(data.id); 
         } catch (error) {
             console.error("Error fetching price:", error);
         }
     };
 
+    // UseEffect para obtener el precio cuando se seleccionan fecha, horario, tipo de función y idioma
     useEffect(() => {
         if (selectedDate && selectedTime && selectedTypeOfFunction && selectedLanguage) {
             fetchPrice();
         }
     }, [selectedDate, selectedTime, selectedTypeOfFunction, selectedLanguage]);
 
-
+    // UseEffect para obtener los detalles de la película y sus funciones
     useEffect(() => {
         if (id) {
             fetchMovie();
@@ -71,26 +77,23 @@ function Ticket({ userId }) {
         }
     }, [id]);
 
-    useEffect(() => {
-        if (id) {
-            fetchMovie();
-            fetchMovieFunctions(id);
-        }
-    }, [id]);
-
+    // Manejo de la cantidad de entradas
     const handleQuantityChange = (event) => {
         setTicketQuantity(parseInt(event.target.value));
     };
 
+    // Manejo de la selección de asientos
     const handleSeatsSelected = (seats) => {
         setSelectedSeats(seats);
     };
 
+    // Manejo de la selección de la fecha
     const handleDateSelect = (date) => {
         setSelectedDate(date);
         setError("");
     };
 
+    // Manejo de la selección de horario
     const handleTimeSelect = (func) => {
         setSelectedTime(func.time);
         setSelectedRoom(func.room);
@@ -99,16 +102,7 @@ function Ticket({ userId }) {
         setError("");
     };
 
-    const handleFormatSelect = (format) => {
-        setSelectedTypeOfFunction(format);
-        setError("");
-    };
-
-    const handleLanguageSelect = (language) => {
-        setSelectedLanguage(language);
-        setError("");
-    };
-
+    // Validaciones antes de proceder a la compra
     const isValid = () => {
         if (!selectedDate || !selectedTime || !selectedTypeOfFunction || !selectedLanguage) {
             setError("Por favor, complete todos los campos de selección.");
@@ -121,6 +115,7 @@ function Ticket({ userId }) {
         return true;
     };
 
+    // Datos del ticket a enviar a MercadoPago
     const ticketData = {
         title: currentMovieDetail.title,
         price: price * ticketQuantity, 
@@ -131,6 +126,7 @@ function Ticket({ userId }) {
         room: selectedRoom,
         typeOfFunction: selectedTypeOfFunction,
         language: selectedLanguage,
+        idMovieTheater: idMovieTheater,
     };
 
     return (
@@ -166,8 +162,6 @@ function Ticket({ userId }) {
                                 movieFunctions={movieFunctions} 
                                 onDateSelect={handleDateSelect} 
                                 onTimeSelect={handleTimeSelect} 
-                                onFormatSelect={handleFormatSelect} 
-                                onLanguageSelect={handleLanguageSelect} 
                             />  
                         </div>
                     </div>
@@ -220,7 +214,7 @@ function Ticket({ userId }) {
                         </div>
                     </div>
                 </div>
-                <div className="accordion-item">
+                <div className="accordion-item" id="scroll-silla">
                     <h2 className="accordion-header" id="headingThree">
                         <button
                             className="accordion-button collapsed"
@@ -239,7 +233,7 @@ function Ticket({ userId }) {
                         aria-labelledby="headingThree"
                         data-bs-parent="#accordionExample"
                     >
-                        <div className="accordion-body">
+                        <div className="accordion-body scrollSeats">
                             {ticketQuantity > 0 ? (
                                 <Chair ticketQuantity={ticketQuantity} onSeatsSelected={handleSeatsSelected} />
                             ) : (
@@ -278,6 +272,7 @@ function Ticket({ userId }) {
                     </div>
                 </div>
             </div>
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 }

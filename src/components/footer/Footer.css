@@ -133,20 +133,21 @@
 }
 @media (max-width: 480px) {
     .socials-container {
-        flex-direction: column; 
-        align-items: center; 
-        gap: 30px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+        align-items: center;
     }
 
     .social {
-        width: 46px; 
+        width: 46px;
         height: 46px;
-        gap: 20px; 
     }
 
     .creator {
-        font-size: 12px; 
-        margin-top: 10px; 
-        text-align: center; 
+        font-size: 16px;
+        text-align: center;
+        grid-column: span 2;
     }
 }
+

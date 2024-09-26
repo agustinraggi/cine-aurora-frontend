@@ -46,6 +46,7 @@ function LoggedUser({ userId }) {
                 <p><strong>Tipo de Función:</strong> ${ticket.typeOfFunction}</p>
                 <p><strong>Idioma:</strong> ${ticket.language}</p>
                 <p><strong>Asientos:</strong> ${JSON.parse(ticket.chair).join(', ')}</p>
+                <p><strong>numero de funcion:</strong> ${(ticket.idMovieTheater)}</p>
             `,
             icon: 'info',
             showCloseButton: true,
@@ -97,17 +98,22 @@ function LoggedUser({ userId }) {
                 });
                 const ticketResponse = await axios.get(`http://localhost:3001/ticketUser/${userId}`);
                 const ticketsData = ticketResponse.data;
-
+    
                 if (ticketsData.length > 0) {
                     const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid')
                         .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
                     setTickets(sortedTickets);
-                }
+    
+                    // Obtener los asientos y el idMovieTheater del ticket más reciente
+                    const mostRecentTicket = sortedTickets[0];
+                    const { chair, idMovieTheater } = mostRecentTicket;
 
-                const mostRecentTicket = ticketsData.find(ticket => ticket.status === 'paid');
-                const voucherCode = mostRecentTicket?.voucher;
-
-                if (voucherCode) {
+                    // Actualizar los asientos
+                    await axios.post("http://localhost:3001/updateSeats", {
+                        chair: JSON.parse(chair), 
+                        idMovieTheater: idMovieTheater,
+                    });
+    
                     Swal.fire({
                         title: "<strong>Compra Exitosa</strong>",
                         html: `
@@ -120,7 +126,7 @@ function LoggedUser({ userId }) {
                     });
                 }
             } catch (error) {
-                console.error("Error al actualizar el estado del ticket:", error);
+                console.error("Error al actualizar el estado del ticket o los asientos:", error);
             }
         }
     };

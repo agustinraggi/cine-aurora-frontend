@@ -64,41 +64,6 @@
     margin-bottom: 30px;
 }
 
-.seat {
-    background-color: #444451;
-    height: 26px;
-    width: 32px;
-    margin: 6px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    font-size: 10px;
-}
-
-.seat.selected {
-    background-color: green;
-}
-
-.seat.sold {
-    background-color: gray;
-}
-
-.seat:nth-of-type(2) {
-    margin-right: 18px;
-}
-
-.seat:nth-last-of-type(2) {
-    margin-left: 18px;
-}
-
-.seat:not(.sold):hover {
-    cursor: pointer;
-    transform: scale(1.2);
-}
-
-.rowChair {
-    display: flex;
-}
-
 .screen {
     background-color: #fff;
     height: 200px;
@@ -137,4 +102,32 @@
     justify-content: center;
     text-align: center;
     cursor: pointer;  
+}
+/* queda ajustar el tamaño de la pantalla */
+.scrollSeats{
+    overflow-x: auto !important;
+}
+
+@media (max-width: 590px) {
+    .ticketIntro {
+        height: 120px;
+    }
+    .ticketBackdrop{
+        width: 300px;
+    }
+    .screen {
+        background-color: #fff;
+        height: 200px;
+        width: 60%;
+        margin: 15px 0;
+        transform: rotateX(-25deg);
+        box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+        width: 500px;
+        margin-left: 300px;
+    }
+    .screenTitle {
+        margin-left: 300px;
+    }
+    
+    
 }
