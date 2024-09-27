@@ -4,7 +4,8 @@
 }
 
 
-.typeFuncionTheater{
+.typeFuncionTheater,
+.priceFuncionTheater{
     text-align: center;
     font-size: 20px;
     margin-left: 70px;
@@ -45,10 +46,10 @@
 	text-align: center;
 	background: #fff;
 	box-shadow: 0px 0px 20px 0px rgba(209, 209, 209, 0.5);
-	padding: 40px;
+	padding: 10px;
 	border-radius: 5px;
 	display: flex;
-	gap: 100px
+	gap: 20px
 }
 #inputPrice{
 	width: 260px;
@@ -74,4 +75,55 @@
 	padding: 20px;
 	font-size: 18px;
 	text-transform: uppercase;
+}
+
+@media (max-width:1201px) {
+	.grupFech2 {
+		flex-direction: column;
+		gap: 20px; 
+	}
+	.typeFuncionTheater,
+	.priceFuncionTheater,
+	.languageTheater {
+		margin-left: 0;
+		margin-right: 0;
+		text-align: center !important;
+	}
+	#inputPrice{
+		margin-left: 190px;
+	}
+}
+@media (max-width: 767px) {
+    .grupFech, .grupFech2 {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .textTheater {
+        font-size: 14px;
+    }
+
+    .typeFuncionTheater, .languageTheater {
+        margin: 10px auto;
+    }
+
+    .MuiInputBase-input.MuiInput-input {
+        padding: 10px;
+        font-size: 16px;
+    }
+	#inputPrice{
+		margin-left: 130px;
+	}
+}
+@media (max-width: 460px) {
+	#inputPrice{
+		margin-left: 15px;
+	}
+	.datesFilm,
+	.nameFilmTheaterAdd{
+		font-size: 12PX;
+	}
+	.btn-success{
+		width: auto;
+	}
 }

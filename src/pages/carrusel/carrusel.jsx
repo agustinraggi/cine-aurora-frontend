@@ -10,6 +10,7 @@ import MovieList from "../../components/movieList/movieList";
 const Carrusel = () => {
     const [dbMovies, setDbMovies] = useState([]);
     const [moviePosters, setMoviePosters] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchDbMovies();
@@ -42,6 +43,14 @@ const Carrusel = () => {
 
         fetchMoviePosters();
     }, [dbMovies]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 1500);
+
+        return () => clearTimeout(timer); 
+    }, []);
 
     const fetchDbMovies = async () => {
         try {
@@ -90,6 +99,19 @@ const Carrusel = () => {
         ),
         pauseOnHover: false 
     };
+
+    // Si está cargando, muestra la pantalla de carga
+        if (loading) {
+        return (
+            <div className="loadingScreen">
+                <div className="loadingFilm">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="poster">

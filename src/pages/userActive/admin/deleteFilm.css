@@ -5,3 +5,11 @@
 .footerDeleteFilm {
     margin-bottom: 580px;
 }
+@media (max-width: 500px) {
+    .deleteTheaterDatesFilm{
+        font-size: 12px;
+    }
+    #idDeleteTheaterDates{
+        display: none;
+    }
+}

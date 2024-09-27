@@ -99,7 +99,7 @@ function Ticket({ userId }) {
         setSelectedRoom(func.room);
         setSelectedTypeOfFunction(func.typeOfFunction);
         setSelectedLanguage(func.language);
-        setError("");
+        setError("");    
     };
 
     // Validaciones antes de proceder a la compra
@@ -235,7 +235,7 @@ function Ticket({ userId }) {
                     >
                         <div className="accordion-body scrollSeats">
                             {ticketQuantity > 0 ? (
-                                <Chair ticketQuantity={ticketQuantity} onSeatsSelected={handleSeatsSelected} />
+                                <Chair ticketQuantity={ticketQuantity} onSeatsSelected={handleSeatsSelected} idMovieTheater={idMovieTheater} />
                             ) : (
                                 <p>Seleccione la cantidad de entradas primero.</p>
                             )}

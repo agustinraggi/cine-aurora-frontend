@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns"; 
+import { es } from 'date-fns/locale'; 
 import "react-datepicker/dist/react-datepicker.css";
 import "./register.css";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { DatePicker } from "@material-ui/pickers";
 
 function User() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -103,21 +105,22 @@ function User() {
                         <div className="registerFormFech">
                             <div className="grupRegister">
                                 <label className="formLabelRegister" id="inputFecha">Fecha de Nacimiento</label>
-                                <DatePicker
-                                    value={selectedDate}
-                                    selected={selectedDate}
-                                    onChange={date => setSelectedDate(date)}
-                                    dateFormat="dd/MM/yyyy"
-                                    minDate={new Date("1900-01-01")}
-                                    maxDate={new Date()}
-                                    className="custom-datepicker"
-                                    showYearDropdown
-                                    yearDropdownItemNumber={10}
-                                    scrollableYearDropdown
-                                    showMonthDropdown
-                                    useShortMonthInDropdown
-                                    dropdownMode="select"
-                                />
+                                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
+                                    <DatePicker
+                                        value={selectedDate}
+                                        onChange={date => setSelectedDate(date)}
+                                        format="dd/MM/yyyy"
+                                        minDate={new Date("1900-01-01")}
+                                        maxDate={new Date()}
+                                        className="custom-datepicker"
+                                        showYearDropdown
+                                        yearDropdownItemNumber={10}
+                                        scrollableYearDropdown
+                                        showMonthDropdown
+                                        useShortMonthInDropdown
+                                        dropdownMode="select"
+                                    />
+                                </MuiPickersUtilsProvider>
                             </div>
                         </div>
                         <div className="registerForm">

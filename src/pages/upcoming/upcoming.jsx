@@ -6,6 +6,7 @@ import './upcoming.css';
 const UpcomingMovies = () => {
   const [movies, setMovies] = useState([]);
   const API_KEY = '6a5fa2aa71d234b5f1b196ce04746bc5';
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUpcomingMovies = async () => {
@@ -19,6 +20,27 @@ const UpcomingMovies = () => {
 
     fetchUpcomingMovies();
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer); 
+}, []);
+
+// Si está cargando, muestra la pantalla de carga
+      if (loading) {
+        return (
+            <div className="loadingScreen">
+                <div className="loadingFilm">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        );
+    }
 
   return (
     <div className="movie__list">
