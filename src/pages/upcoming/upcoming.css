@@ -61,3 +61,14 @@
     font-size: 1rem;
     margin-bottom: 0.4rem;
 }
+
+@media (max-width: 490px){
+    .loadingFilm {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        gap: 0.625em;
+        transform: translate(-55%, -50%);
+    }
+}

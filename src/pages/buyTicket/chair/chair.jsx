@@ -3,9 +3,12 @@ import disponible from "./assets/disponible.png";
 import seleccionado from "./assets/seleccionado.png";
 import ocupado from "./assets/ocupado.png"
 import "../ticket.css";
+import axios from "axios";
 
-function Chair({ ticketQuantity, onSeatsSelected, occupiedSeats = [] }) {
+function Chair({ ticketQuantity, onSeatsSelected, idMovieTheater }) {
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [occupiedSeats, setOccupiedSeats] = useState([]);
+    const API_URL = 'http://localhost:3001';
 
     const rows = [
         ['A1', 'A2', '',   '',   '', '', '', '', 'A5', 'A6', 'A7', 'A8', 'A9', '',    '',    '',    '',    '',    '',    '',    '',    'A18', 'A19', 'A20', 'A21', 'A22', '', '', '', '', '',    '',    'A25', 'A26', 'A27'],
@@ -33,6 +36,19 @@ function Chair({ ticketQuantity, onSeatsSelected, occupiedSeats = [] }) {
     };
 
     useEffect(() => {
+        const fetchOccupiedSeats = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/occupiedSeats/${idMovieTheater}`);
+                setOccupiedSeats(response.data);
+            } catch (error) {
+                console.error("Error al obtener sillas ocupadas:", error);
+            }
+        };
+        
+        fetchOccupiedSeats();
+    }, [idMovieTheater]);
+
+    useEffect(() => {
         onSeatsSelected(selectedSeats);
     }, [selectedSeats, onSeatsSelected]);
 
@@ -49,13 +65,17 @@ function Chair({ ticketQuantity, onSeatsSelected, occupiedSeats = [] }) {
                                 {row.map((seat, seatIndex) => (
                                     <td key={seatIndex} style={{ padding: '5px' }}>
                                         <div
-                                            className={`seat ${selectedSeats.includes(seat) ? "selected" : ""}`}
-                                            onClick={() => seat && updateSelectedSeats(seat)}
-                                            data-seat={`Fila ${String.fromCharCode(65 + rowIndex)}`} // Fila A, B, C...
+                                            className={`seat ${occupiedSeats.includes(seat) ? "occupied" : ""} ${selectedSeats.includes(seat) ? "selected" : ""}`}
+                                            onClick={() => seat && !occupiedSeats.includes(seat) && updateSelectedSeats(seat)}
+                                            data-seat={`Fila ${String.fromCharCode(65 + rowIndex)}`}
                                         >
                                             {seat ? (
                                                 <img className="silla"
-                                                    src={selectedSeats.includes(seat) ? seleccionado : disponible}
+                                                    src={
+                                                        occupiedSeats.includes(seat) ? ocupado : 
+                                                        selectedSeats.includes(seat) ? seleccionado : 
+                                                        disponible
+                                                    }
                                                     width={35}
                                                     alt={seat}
                                                 />

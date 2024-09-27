@@ -3,26 +3,27 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import "./addTheaterHourAdmin.css"
-import { DatePicker, TimePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DatePicker, TimePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns"; 
+import { es } from 'date-fns/locale'; 
 
-
-function AddTheaterHourAdmin() {
-    const [listFilm, setListFilm] = useState([]);
-    const [filteredFilm, setFilteredFilm] = useState([]);
-    const [search, setSearch] = useState("");
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedTime, setSelectedTime] = useState(new Date());
-    const [is3D, setIs3D] = useState(false);
-    const [isSubtitled, setIsSubtitled] = useState(false);
-    const [selectedFilm, setSelectedFilm] = useState(null);
-    const [price, setPrice] = useState ([])
+function AgregarFuncionCine() {
+    const [listaPeliculas, setListaPeliculas] = useState([]);
+    const [peliculasFiltradas, setPeliculasFiltradas] = useState([]);
+    const [busqueda, setBusqueda] = useState("");
+    const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date());
+    const [horaSeleccionada, setHoraSeleccionada] = useState(new Date());
+    const [es3D, setEs3D] = useState(false);
+    const [esSubtitulada, setEsSubtitulada] = useState(false);
+    const [peliculaSeleccionada, setPeliculaSeleccionada] = useState(null);
+    const [precio, setPrecio] = useState([])
 
     // Obtener todas las películas
-    const getFilm = () => {
+    const obtenerPeliculas = () => {
         axios.get("http://localhost:3001/allFilm")
             .then((response) => {
-                setListFilm(response.data);
-                setFilteredFilm(response.data);
+                setListaPeliculas(response.data);
+                setPeliculasFiltradas(response.data);
             })
             .catch((error) => {
                 console.error("Error al obtener datos:", error);
@@ -30,56 +31,56 @@ function AddTheaterHourAdmin() {
     };
 
     useEffect(() => {
-        getFilm();
+        obtenerPeliculas();
     }, []);
 
     useEffect(() => {
-        filterFilm();
-    }, [search, listFilm]);
+        filtrarPeliculas();
+    }, [busqueda, listaPeliculas]);
 
-    const filterFilm = () => {
-        if (listFilm) {
-            const filtered = listFilm.filter(film =>
-                film.nameFilm.toLowerCase().includes(search.toLowerCase())
+    const filtrarPeliculas = () => {
+        if (listaPeliculas) {
+            const filtradas = listaPeliculas.filter(pelicula =>
+                pelicula.nameFilm.toLowerCase().includes(busqueda.toLowerCase())
             );
-            setFilteredFilm(filtered);
+            setPeliculasFiltradas(filtradas);
         }
     };
 
-    const handleSubmit = () => {
-        if (!selectedFilm) {
+    const manejarEnvio = () => {
+        if (!peliculaSeleccionada) {
             alert("Por favor, selecciona una película.");
             return;
         }
 
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-        const formattedTime = selectedTime.toTimeString().split(' ')[0].substring(0, 5);
-        const theaterDetails = {
-            theater: 1,
-            nameFilm: selectedFilm.nameFilm,
-            codeFilm: selectedFilm.codeFilm,
-            date: formattedDate,
-            time: formattedTime,
-            type: is3D ? "3D" : "2D",
-            subtitled: isSubtitled ? "Subtitulada" : "Doblada",
-            price: price
+        const fechaFormateada = fechaSeleccionada.toISOString().split('T')[0];
+        const horaFormateada = horaSeleccionada.toTimeString().split(' ')[0].substring(0, 5);
+        const detallesFuncion = {
+            sala: 1,
+            nombrePelicula: peliculaSeleccionada.nameFilm,
+            codigoPelicula: peliculaSeleccionada.codeFilm,
+            fecha: fechaFormateada,
+            hora: horaFormateada,
+            tipo: es3D ? "3D" : "2D",
+            subtitulada: esSubtitulada ? "Subtitulada" : "Doblada",
+            precio: precio
         };
 
-        console.log("Detalles de la función:", theaterDetails);
+        console.log("Detalles de la función:", detallesFuncion);
 
         axios.post("http://localhost:3001/createMovieTheater", { 
-            nameFilm: theaterDetails.nameFilm,
-            codeFilm: theaterDetails.codeFilm,
-            date: theaterDetails.date,
-            time: theaterDetails.time,
-            typeOfFunction: theaterDetails.type,
-            language: theaterDetails.subtitled,
-            price: theaterDetails.price
+            nameFilm: detallesFuncion.nombrePelicula,
+            codeFilm: detallesFuncion.codigoPelicula,
+            date: detallesFuncion.fecha,
+            time: detallesFuncion.hora,
+            typeOfFunction: detallesFuncion.tipo,
+            language: detallesFuncion.subtitulada,
+            price: detallesFuncion.precio
         })
-        .then(() =>{
+        .then(() => {
             Swal.fire({
-                title: "<strong>Funcion Registrada</strong>",
-                html: `<i>La película <strong>${selectedFilm.nameFilm}</strong> fue registrada con éxito y ya esta disponible para su venta !</i>`,
+                title: "<strong>Función Registrada</strong>",
+                html: `<i>La película <strong>${peliculaSeleccionada.nameFilm}</strong> fue registrada con éxito y ya está disponible para su venta!</i>`,
                 icon: "success",
                 timer: 6000
             });
@@ -88,7 +89,7 @@ function AddTheaterHourAdmin() {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "No se pudo registrar la funcion!",
+                text: "¡No se pudo registrar la función!",
                 footer: error.message === "Network Error" ? "Intente más tarde" : error.message
             });
         });
@@ -107,15 +108,15 @@ function AddTheaterHourAdmin() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredFilm.map((film) => (
-                        <tr key={film.idFilm}>
-                            <td>{film.idFilm}</td>
-                            <td>{film.codeFilm}</td>
-                            <td>{film.nameFilm}</td>
+                    {peliculasFiltradas.map((pelicula) => (
+                        <tr key={pelicula.idFilm}>
+                            <td>{pelicula.idFilm}</td>
+                            <td>{pelicula.codeFilm}</td>
+                            <td className="nameFilmTheaterAdd">{pelicula.nameFilm}</td>
                             <td>
                                 <button
                                 className="btn btn-success"
-                                onClick={() => setSelectedFilm(film)}
+                                onClick={() => setPeliculaSeleccionada(pelicula)}
                                 >
                                 Seleccionar
                                 </button>
@@ -124,59 +125,56 @@ function AddTheaterHourAdmin() {
                     ))}
                 </tbody>
             </table>
-            {selectedFilm && (
+            {peliculaSeleccionada && (
                 <div className="filmTheater">
-                    <p>Película seleccionada: <strong>{selectedFilm.nameFilm}</strong></p> 
+                    <p>Película seleccionada: <strong>{peliculaSeleccionada.nameFilm}</strong></p> 
                 </div>
             )}
-            <div className="grupFech">
-                <div className="dateTheater">
-                    <label className="textTheater fechTheater" >Fecha</label>
-                    <DatePicker
-                        value ={selectedDate}
-                        selectd={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
-                        dateFormat="yyyy-MM-dd"
-                        className="custom-datepicker"
-                    />
+            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
+                <div className="grupFech">
+                    <div className="dateTheater">
+                        <label className="textTheater fechTheater" >Fecha</label>
+                        <DatePicker
+                            value ={fechaSeleccionada}
+                            onChange={(date) => setFechaSeleccionada(date)}
+                            format="dd/MM/yyyy"
+                            className="custom-datepicker"
+                        />
+                    </div>
+                    <div className="timeTheater">
+                        <label className="textTheater">Hora</label>
+                        <TimePicker
+                            value={horaSeleccionada}
+                            onChange={(date) => setHoraSeleccionada(date)}
+                            ampm={false}
+                            minutesStep={15}
+                            format="HH:mm"
+                            className="custom-timepicker"
+                        />
+                    </div>
                 </div>
-                <div className="timeTheater">
-                    <label className="textTheater">Hora</label>
-                    <TimePicker
-                        value={selectedTime}
-                        selected={selectedTime}
-                        onChange={(date) => setSelectedTime(date)}
-                        showTimeSelect
-                        showTimeSelectOnly
-                        timeIntervals={15}
-                        timeFormat="HH:mm"
-                        dateFormat="HH:mm"
-                        className="custom-timepicker"
-                    />
-                </div>
-            </div>
+            </MuiPickersUtilsProvider>
             <div className="grupFech2">
                 <div className="typeFuncionTheater">
                     <label className="textTheater">Tipo de función</label>
                     <select 
-                        value={is3D} 
-                        onChange={(e) => setIs3D(e.target.value === "true")}
+                        value={es3D} 
+                        onChange={(e) => setEs3D(e.target.value === "true")}
                         style={{ marginLeft: '10px', padding: '5px' }}
                     >
                         <option value="false">2D</option>
                         <option value="true">3D</option>
                     </select>
                 </div>
-                {/* aca */}
-                <div className="typeFuncionTheater">
-                    <label className="textTheater">Precio de la funcion</label>
-                    <input onChange={(event) => setPrice(event.target.value)} value={price} type="number" className="form-control" id="inputPrice" placeholder="Ingrese el precio de la entrada" />
+                <div className="priceFuncionTheater">
+                    <label className="textTheater">Precio de la función</label>
+                    <input onChange={(event) => setPrecio(event.target.value)} value={precio} type="number" className="form-control" id="inputPrice" placeholder="Ingrese el precio de la entrada" />
                 </div>
                 <div className="languageTheater" style={{ marginBottom: '20px' }}>
                     <label className="textTheater">Idioma</label>
                     <select 
-                        value={isSubtitled} 
-                        onChange={(e) => setIsSubtitled(e.target.value === "true")}
+                        value={esSubtitulada} 
+                        onChange={(e) => setEsSubtitulada(e.target.value === "true")}
                         style={{ marginLeft: '10px', padding: '5px' }}
                     >
                         <option value="false">Doblada</option>
@@ -186,10 +184,10 @@ function AddTheaterHourAdmin() {
             </div>
             <div className="buttonContainer">
                 <button 
-                    onClick={handleSubmit} 
+                    onClick={manejarEnvio} 
                     className="btn btn-success"
                     id="btnTheaters"
-                    disabled={!selectedFilm}
+                    disabled={!peliculaSeleccionada}
                 >
                     Agregar Función
                 </button>
@@ -198,4 +196,4 @@ function AddTheaterHourAdmin() {
     );
 }
 
-export default AddTheaterHourAdmin;
+export default AgregarFuncionCine;

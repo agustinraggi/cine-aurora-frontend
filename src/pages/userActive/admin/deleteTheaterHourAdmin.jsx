@@ -85,7 +85,7 @@ function DeleteFilmAdmin() {
             <table className="table table-bordered" id="tableData">
                 <thead>
                     <tr>
-                        <th className="datesFilm">ID Función</th>
+                        <th className="datesFilm" id="idDeleteTheaterDates">ID Función</th>
                         <th className="datesFilm">Nombre de la Película</th>
                         <th className="datesFilm">Fecha</th>
                         <th className="datesFilm">Hora</th>
@@ -95,10 +95,10 @@ function DeleteFilmAdmin() {
                 <tbody>
                     {filteredFilm.map((film) => (
                         <tr key={film.idMovieTheater}>
-                            <td>{film.idMovieTheater}</td>
-                            <td>{film.nameFilm}</td>
-                            <td>{film.date}</td>
-                            <td>{film.time}</td>
+                            <td className="deleteTheaterDatesFilm" id="idDeleteTheaterDates">{film.idMovieTheater}</td>
+                            <td className="deleteTheaterDatesFilm">{film.nameFilm}</td>
+                            <td className="deleteTheaterDatesFilm">{film.date}</td>
+                            <td className="deleteTheaterDatesFilm">{film.time}</td>
                             <td>
                                 <button className="btn btn-danger" onClick={() => deleteData(film.idMovieTheater, film.nameFilm)}>Eliminar</button>
                             </td>
