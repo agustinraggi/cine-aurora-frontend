@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-function User() {
+function Register() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
@@ -16,31 +16,33 @@ function User() {
     const [dni, setDni] = useState("");
     const [password, setPassword] = useState("");
     const [tips, setTips] = useState("client");
+    const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
 
     // VALIDACIONES DE FORMULARIO
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const validateText = (text) => /^[a-zA-Z\s]+$/.test(text);
+    const validateDNI = (dni) => /^[0-9]{7,8}$/.test(dni);
+    const validatePassword = (password) => password.length >= 8;
+
     const validateForm = () => {
-        if (!mail || !mail.includes('@')) {
+        if (!mail || !validateEmail(mail)) {
             alert('Por favor complete un correo electrónico válido');
             return false;
         }
-        if (!name) {
-            alert('Por favor complete el nombre');
+        if (!name || !validateText(name)) {
+            alert('Por favor complete un nombre válido');
             return false;
         }
-        if (!surname) {
-            alert('Por favor complete el apellido');
+        if (!surname || !validateText(surname)) {
+            alert('Por favor complete un apellido válido');
             return false;
         }
-        if (!dni || (dni.length !== 7 && dni.length !== 8)) {
-            alert('Por favor escribe un DNI válido (de 7 u 8 caracteres)');
+        if (!dni || !validateDNI(dni)) {
+            alert('Por favor escribe un DNI válido (de 7 u 8 dígitos numéricos)');
             return false;
         }
-        if (!selectedDate) {
-            alert('Por favor seleccione una fecha de nacimiento');
-            return false;
-        }
-        if (!password) {
-            alert('Por favor complete la contraseña');
+        if (!password || !validatePassword(password)) {
+            alert('La contraseña debe tener al menos 8 caracteres');
             return false;
         }
         return true;
@@ -125,7 +127,24 @@ function User() {
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">Contraseña</label>
-                            <input onChange={(event) => setPassword(event.target.value)} value={password} type="password" className="form-control" id="inputPassword" placeholder="*****" />
+                            <div className="password-input-container">
+                                <input 
+                                    onChange={(event) => setPassword(event.target.value)} 
+                                    value={password} 
+                                    type={showPassword ? "text" : "password"} 
+                                    className="form-control" 
+                                    id="inputPassword" 
+                                    placeholder="*****" 
+                                />
+                                <span 
+                                    onClick={() => setShowPassword(!showPassword)} 
+                                    className="password-toggle"
+                                    role="button"
+                                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                >
+                                    {showPassword ? "👁️" : "🔒"}
+                                </span>
+                            </div>
                         </div>
                         <Link to="/login">
                             <button type="button" className="Btn btn btn-primary" id="btnAdd" onClick={add}>Enviar</button>
@@ -138,4 +157,4 @@ function User() {
     );
 }
 
-export default User;
+export default Register;

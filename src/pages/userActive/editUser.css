@@ -4,6 +4,9 @@
         align-items: center; 
         text-align: center;
     }
+    #btnChangePassword{
+        margin-left: 15px;
+    }
     .btnCancel{
         margin: 20px 0px 0px 0px !important;
     }

@@ -19,6 +19,7 @@ import RecoverPassword from './pages/form/recoverPassword';
 import ResetPassword from "./pages/form/resetPassword";
 import UserActive from './pages/userActive/loggedUser';
 import EditUser from './pages/userActive/editUser';
+import ChangePassword from './pages/userActive/changePassword';
 import EmployeeActive from "./pages/userActive/loggedEmployee";
 import AdminActive from './pages/userActive/loggedAdmin';
 import AddFilmAdmin from './pages/userActive/admin/addFilmAdmin';
@@ -85,6 +86,14 @@ function App() {
                         element={
                             <ProtectedRoute user={user}>
                                 <EditUser />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="ChangePassword/:idUser"
+                        element={
+                            <ProtectedRoute user={user}>
+                                <ChangePassword />
                             </ProtectedRoute>
                         }
                     />
