@@ -74,7 +74,7 @@ function LoggedUser({ userId }) {
                     const ticketsData = ticketResponse.data;
                     
                     if (ticketsData.length > 0) {
-                        const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid')
+                        const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid' || ticket.status === 'used')
                             .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
                         setTickets(sortedTickets);
                     } else {
@@ -85,9 +85,9 @@ function LoggedUser({ userId }) {
                 console.error("Error al obtener los tickets:", error);
             }
         };
-
+    
         fetchTickets();
-    }, [searchTerm, userId]); 
+    }, [searchTerm, userId]);
 
     const handlePaymentStatus = async () => {
         if (status === 'approved' && preference_id) {

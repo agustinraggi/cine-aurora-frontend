@@ -6,6 +6,7 @@ import "./login.css";
 function Login({ onLogin }) {
     const [mailOrDni, setMailOrDni] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -22,7 +23,7 @@ function Login({ onLogin }) {
                             <label className="form-label">Correo Electrónico o D.N.I</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className="formControl"
                                 value={mailOrDni}
                                 onChange={e => setMailOrDni(e.target.value)} 
                                 placeholder="Ingre correo electrónico o DNI"
@@ -33,13 +34,21 @@ function Login({ onLogin }) {
                         <div className="form-group">
                             <label className="form-label">Contraseña</label>
                             <input
-                                type="password"
-                                className="form-control"
+                                type={showPassword ? "text" : "password"} 
+                                className="formControl"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 placeholder="Ingrese su contraseña"
                                 required
                             />
+                            <span 
+                                    onClick={() => setShowPassword(!showPassword)} 
+                                    className="passwordToggleLogin"
+                                    role="button"
+                                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                >
+                                    {showPassword ? "👁️" : "🔒"}
+                                </span>
                         </div>
                         <p>¿Olvidaste tu contraseña? <Link to="/recoverPassword">Ingresa aquí</Link>.</p>
                         <button

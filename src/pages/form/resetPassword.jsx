@@ -8,8 +8,8 @@ function ResetPassword() {
     const { token } = useParams();
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,40 +53,42 @@ function ResetPassword() {
                             <label className="formLabelResetPassword">Nueva Contraseña</label>
                             <div className="inputContainer">
                                 <input
-                                    type={showPassword ? "text" : "password"}
+                                    type={showPassword1 ? "text" : "password"}
                                     placeholder="Ingrese su nueva contraseña"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                     className="formControlResetPassword"
                                 />
-                                <button
-                                    type="button"
-                                    className="togglePassword"
-                                    onClick={() => setShowPassword(!showPassword)}
+                                <span 
+                                    onClick={() => setShowPassword1(!showPassword1)} 
+                                    className="passwordToggleReset"
+                                    role="button"
+                                    aria-label={showPassword1 ? "Ocultar contraseña" : "Mostrar contraseña"}
                                 >
-                                    {showPassword ? "👁️" : "🔒"}
-                                </button>
+                                    {showPassword1 ? "👁️" : "🔒"}
+                                </span>
                             </div>
                         </div>
                         <div className="resetPasswordForm">
                             <label className="formLabelResetPassword">Confirmar Nueva Contraseña</label>
                             <div className="inputContainer">
                                 <input
-                                    type={showConfirmPassword ? "text" : "password"}
+                                    type={showPassword2 ? "text" : "password"}
                                     placeholder="Confirme su nueva contraseña"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
                                     className="formControlResetPassword"
                                 />
-                                <button
-                                    type="button"
-                                    className="togglePassword"
-                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                <span 
+                                    onClick={() => setShowPassword2(!showPassword2)} 
+                                    className="passwordToggleReset"
+                                    role="button"
+                                    aria-label={showPassword2 ? "Ocultar contraseña" : "Mostrar contraseña"}
                                 >
-                                    {showConfirmPassword ? "👁️" : "🔒"}
-                                </button>
+                                    {showPassword2 ? "👁️" : "🔒"}
+                                </span>
                             </div>
                         </div>
                         <div className="btnChangePassword">
