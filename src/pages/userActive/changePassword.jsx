@@ -9,8 +9,8 @@ function ChangePassword() {
     const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
-    const [showNewPassword, setShowNewPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showNewPassword1, setShowNewPassword1] = useState(false);
+    const [showConfirmPassword2, setShowConfirmPassword2] = useState(false);
 
     // Validar solo la nueva contraseña y su confirmación
     const validatePasswordForm = () => {
@@ -63,17 +63,18 @@ function ChangePassword() {
                             <input
                                 onChange={(event) => setNewPassword(event.target.value)}
                                 value={newPassword}
-                                type={showNewPassword ? "text" : "password"}
+                                type={showNewPassword1 ? "text" : "password"}
                                 className="formControlChangePassword"
                                 placeholder="Ingrese su nueva contraseña"
                             />
-                            <button
-                                type="button"
-                                className="togglePassword"
-                                onClick={() => setShowNewPassword(!showNewPassword)}
-                            >
-                                {showNewPassword ? "👁️" : "🔒"}
-                            </button>
+                            <span 
+                                    onClick={() => setShowNewPassword1(!showNewPassword1)} 
+                                    className="passwordToggleChange"
+                                    role="button"
+                                    aria-label={showNewPassword1 ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                >
+                                    {showNewPassword1 ? "👁️" : "🔒"}
+                                </span>
                         </div>
                     </div>
                     <div className="changePasswordForm">
@@ -82,17 +83,18 @@ function ChangePassword() {
                             <input
                                 onChange={(event) => setConfirmNewPassword(event.target.value)}
                                 value={confirmNewPassword}
-                                type={showConfirmPassword ? "text" : "password"}
+                                type={showConfirmPassword2 ? "text" : "password"}
                                 className="formControlChangePassword"
                                 placeholder="Confirme su nueva contraseña"
                             />
-                            <button
-                                type="button"
-                                className="togglePassword"
-                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            >
-                                {showConfirmPassword ? "👁️" : "🔒"}
-                            </button>
+                            <span 
+                                    onClick={() => setShowConfirmPassword2(!showConfirmPassword2)} 
+                                    className="passwordToggleChange"
+                                    role="button"
+                                    aria-label={showConfirmPassword2 ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                >
+                                    {showConfirmPassword2 ? "👁️" : "🔒"}
+                                </span>
                         </div>
                     </div>
                         <div className="btnChangePassword btnEditUser">

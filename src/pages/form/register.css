@@ -209,30 +209,64 @@ button:hover {
     box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
 }
 
-.password-input-container {
+.passwordInputContaineRegister {
     display: flex;
     align-items: center;
 }
 
-.password-toggle {
+.passwordToggleRegister {
     position: absolute;
-    right: 15px; 
+    right: 540px; 
     top: 40%; 
-    transform: translateY(-50%); 
+    transform: translateY(1320%); 
     background: none;
     border: none;
     cursor: pointer;
     color: #fff; 
     outline: none;
 }
+@media (max-width: 1399px ){
+    .passwordToggleRegister {
+        right: 450px; 
+        transform: translateY(1320%); 
+    }
+}
 
 @media (max-width: 1200px) {
     .registerFormFech{
         width: 300px ;
     }
+    .passwordToggleRegister {
+        right: 360px; 
+        transform: translateY(1320%); 
+    }
+}
+@media (max-width: 992px) {
+    .passwordToggleRegister {
+        right: 250px; 
+        transform: translateY(1320%); 
+    }
+}
+@media (max-width: 761px) {
+    .passwordToggleRegister {
+        right: 150px; 
+        transform: translateY(1320%); 
+    }
+}
+@media (max-width: 460px) {
+    .passwordToggleRegister {
+        right: 90px; 
+        transform: translateY(1300%); 
+    }
 }
 @media (max-width: 500px) {
     .registerFormFech{
         width: 250px ;
+    }
+}
+@media (max-width: 356px) {
+    .passwordToggleRegister {
+        right: 65px; 
+        transform: translateY(1360%); 
     }
 }

@@ -16,7 +16,7 @@ function Register() {
     const [dni, setDni] = useState("");
     const [password, setPassword] = useState("");
     const [tips, setTips] = useState("client");
-    const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
+    const [showPassword, setShowPassword] = useState(false);
 
     // VALIDACIONES DE FORMULARIO
     const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -90,19 +90,19 @@ function Register() {
                         <h1>REGISTRAR USUARIO</h1>
                         <div className="registerForm">
                             <label className="form-label" id="text">Correo Electrónico</label>
-                            <input onChange={(event) => setMail(event.target.value)} value={mail} type="email" className="form-control" id="inputEmail" placeholder="Ingrese su correo electrónico" />
+                            <input onChange={(event) => setMail(event.target.value)} value={mail} type="email" className="formControl" id="inputEmail" placeholder="Ingrese su correo electrónico" />
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">Nombre</label>
-                            <input onChange={(event) => setName(event.target.value)} value={name} type="text" className="form-control" id="inputName" placeholder="Ingrese su nombre" />
+                            <input onChange={(event) => setName(event.target.value)} value={name} type="text" className="formControl" id="inputName" placeholder="Ingrese su nombre" />
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">Apellido</label>
-                            <input onChange={(event) => setSurname(event.target.value)} value={surname} type="text" className="form-control" id="inputSurname" placeholder="Ingrese su apellido" />
+                            <input onChange={(event) => setSurname(event.target.value)} value={surname} type="text" className="formControl" id="inputSurname" placeholder="Ingrese su apellido" />
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">DNI</label>
-                            <input onChange={(event) => setDni(event.target.value)} value={dni} type="number" className="form-control" id="inputDni" placeholder="Ingrese su número D.N.I" />
+                            <input onChange={(event) => setDni(event.target.value)} value={dni} type="number" className="formControl" id="inputDni" placeholder="Ingrese su número D.N.I" />
                         </div>
                         <div className="registerFormFech">
                             <div className="grupRegister">
@@ -127,18 +127,18 @@ function Register() {
                         </div>
                         <div className="registerForm">
                             <label className="form-label" id="text">Contraseña</label>
-                            <div className="password-input-container">
+                            <div className="passwordInputContaineRegister">
                                 <input 
                                     onChange={(event) => setPassword(event.target.value)} 
                                     value={password} 
                                     type={showPassword ? "text" : "password"} 
-                                    className="form-control" 
+                                    className="formControl" 
                                     id="inputPassword" 
                                     placeholder="*****" 
                                 />
                                 <span 
                                     onClick={() => setShowPassword(!showPassword)} 
-                                    className="password-toggle"
+                                    className="passwordToggleRegister"
                                     role="button"
                                     aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                                 >

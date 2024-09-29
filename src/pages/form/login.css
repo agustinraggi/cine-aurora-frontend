@@ -25,6 +25,49 @@ input {
 .footerRegister{
     margin-bottom: 144px;
 }
-.form-control{
+.formControl{
     width: 250px ;
+}
+.passwordToggleLogin {
+    position: absolute;
+    right: 540px; 
+    top: 40%; 
+    transform: translateY(185%); 
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff; 
+    outline: none;
+}
+
+@media (max-width: 1399px){
+    .passwordToggleLogin {
+        right: 450px; 
+    }
+}
+@media (max-width: 1199px){
+    .passwordToggleLogin {
+        right: 360px; 
+    }
+}
+@media (max-width: 979px){
+    .passwordToggleLogin {
+        right: 250px; 
+    }
+}
+@media (max-width: 761px){
+    .passwordToggleLogin {
+        right: 150px; 
+    }
+}
+@media (max-width: 475px){
+    .passwordToggleLogin {
+        right: 120px;
+        transform: translateY(175%); 
+    }
+}
+@media (max-width: 425px){
+    .passwordToggleLogin {
+        right: 80px; 
+    }
 }
