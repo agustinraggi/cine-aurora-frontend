@@ -209,6 +209,23 @@ button:hover {
     box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
 }
 
+.password-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px; 
+    top: 40%; 
+    transform: translateY(-50%); 
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff; 
+    outline: none;
+}
+
 @media (max-width: 1200px) {
     .registerFormFech{
         width: 300px ;

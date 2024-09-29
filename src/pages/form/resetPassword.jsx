@@ -9,6 +9,7 @@ function ResetPassword() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,40 +44,61 @@ function ResetPassword() {
     };
 
     return (
-        <div className="reset-password-container">
-            <h2 className="reset-password-title">Restablecer Contraseña</h2>
-            <form onSubmit={handleSubmit} className="reset-password-form">
-                <div className="input-container">
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Nueva contraseña"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        className="password-input"
-                    />
+        <div className="containerResetPassword">
+            <div className="containerResetPassword mb-5">
+                <div className="row">
+                    <form onSubmit={handleSubmit} className="formResetPassword">
+                        <h1 className="titleResetPassword">Restablecer Contraseña</h1>
+                        <div className="resetPasswordForm">
+                            <label className="formLabelResetPassword">Nueva Contraseña</label>
+                            <div className="inputContainer">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Ingrese su nueva contraseña"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    className="formControlResetPassword"
+                                />
+                                <button
+                                    type="button"
+                                    className="togglePassword"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? "👁️" : "🔒"}
+                                </button>
+                            </div>
+                        </div>
+                        <div className="resetPasswordForm">
+                            <label className="formLabelResetPassword">Confirmar Nueva Contraseña</label>
+                            <div className="inputContainer">
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    placeholder="Confirme su nueva contraseña"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                    className="formControlResetPassword"
+                                />
+                                <button
+                                    type="button"
+                                    className="togglePassword"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                >
+                                    {showConfirmPassword ? "👁️" : "🔒"}
+                                </button>
+                            </div>
+                        </div>
+                        <div className="btnChangePassword">
+                            <button type="submit" className="Btn btn-primary" id="btnChangePasswordUpdate">
+                                Restablecer contraseña
+                            </button>
+                            <button type="button" className="Btn btn-secondary" id="btnChangePasswordCancel" onClick={() => navigate(-1)}>
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div className="input-container">
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Confirmar nueva contraseña"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                        className="password-input"
-                    />
-                </div>
-                <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="toggle-password-btn"
-                >
-                    {showPassword ? "Ocultar" : "Mostrar"}
-                </button>
-                <button type="submit" className="submit-btn">Restablecer contraseña</button>
-            </form>
-            <div className="footerResetPassword">
-
             </div>
         </div>
     );

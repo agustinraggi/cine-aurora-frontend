@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { DatePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns"; 
+import { es } from 'date-fns/locale'; 
 import "react-datepicker/dist/react-datepicker.css";
 import "./editUser.css"
 
@@ -164,45 +166,36 @@ function EditUser() {
                         <div className="registerFormFech">
                             <div className="grupRegister">
                                 <label className="formLabelRegister" id="inputFecha">Fecha de Nacimiento</label>
-                                <DatePicker
-                                    value={selectedDate}
-                                    selected={selectedDate}
-                                    onChange={date => setSelectedDate(date)}
-                                    dateFormat="dd/MM/yyyy"
-                                    minDate={new Date("1900-01-01")}
-                                    maxDate={new Date()}
-                                    className="custom-datepicker"
-                                    showYearDropdown
-                                    yearDropdownItemNumber={10}
-                                    scrollableYearDropdown
-                                    showMonthDropdown
-                                    useShortMonthInDropdown
-                                    dropdownMode="select"
-                                />
+                                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
+                                    <DatePicker
+                                        value={selectedDate}
+                                        selected={selectedDate}
+                                        onChange={date => setSelectedDate(date)}
+                                        dateFormat="dd/MM/yyyy"
+                                        minDate={new Date("1900-01-01")}
+                                        maxDate={new Date()}
+                                        className="custom-datepicker"
+                                        showYearDropdown
+                                        yearDropdownItemNumber={10}
+                                        scrollableYearDropdown
+                                        showMonthDropdown
+                                        useShortMonthInDropdown
+                                        dropdownMode="select"
+                                    />
+                                </MuiPickersUtilsProvider>
                             </div>
                         </div>
-                        {/* <div className="registerForm">
-                            <label className="form-label" id="text">
-                                Contraseña
-                            </label>
-                            <input
-                                onChange={(event) => setPassword(event.target.value)}
-                                value={password}
-                                type="password"
-                                className="form-control"
-                                id="inputPassword"
-                                placeholder="Ingrese su contraseña"
-                            />
-                        </div> */}
+                        <Link to = {`/changePassword/${idUser}`}>
+                                <button type="button" className="Btn btn-warning" id="btnChangePassword">Actualizar Contraseña</button>
+                        </Link>
                         <div className="btnEditUser">
-                            <Link to = "/userActive">
+                            <Link to = {`/userActive`}>
                                 <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
                             </Link>
                             <Link to = "/userActive">
                                 <button type="button" className="Btn btn-primary btnCancel" id="btnCancel">Cancelar</button>
                             </Link>
-                        </div>
-                        
+                        </div>                        
                     </form>
                 </div>
             </div>
