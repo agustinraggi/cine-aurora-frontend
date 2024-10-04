@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./editUser.css"
 
 function EditUser() {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const { idUser } = useParams();
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
@@ -17,11 +18,11 @@ function EditUser() {
     const [dni, setDni] = useState("");
     const [password, setPassword] = useState("");
     const [selectedDate, setSelectedDate] = useState(new Date());
-
+    
     useEffect(() => {
         if (idUser) {
             axios
-                .get(`http://localhost:3001/customer/${idUser}`)
+                .get(`${URL_BACK}/allCustomer/${idUser}`)
                 .then((response) => {
                     const user = response.data;
                     setMail(user.mail || "");
@@ -60,10 +61,6 @@ function EditUser() {
             alert("Por favor seleccione una fecha de nacimiento");
             return false;
         }
-        if (!password) {
-            alert("Por favor complete la contraseña");
-            return false;
-        }
         return true;
     };
 
@@ -71,7 +68,7 @@ function EditUser() {
         if (validateForm()) {
             const formattedDate = selectedDate.toISOString().split("T")[0];
             axios
-                .put("http://localhost:3001/update", {
+                .put(`${URL_BACK}/update`, {
                     idUser,
                     mail,
                     name,
@@ -180,7 +177,6 @@ function EditUser() {
                                         scrollableYearDropdown
                                         showMonthDropdown
                                         useShortMonthInDropdown
-                                        dropdownMode="select"
                                     />
                                 </MuiPickersUtilsProvider>
                             </div>

@@ -7,7 +7,7 @@ import MercadoPago from "./mercadoPago/mercadoPago";
 import Sala from "./salas/salas";
 
 function Ticket({ userId }) {
-    const API_URL = 'http://localhost:3001';
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     const [currentMovieDetail, setCurrentMovieDetail] = useState({});
     const [ticketQuantity, setTicketQuantity] = useState(0);
@@ -26,7 +26,7 @@ function Ticket({ userId }) {
     // Función para obtener los detalles de la película
     const fetchMovie = async () => {
         try {
-            const { data } = await axios.get(`${API_URL}/movie/${id}`);
+            const { data } = await axios.get(`${URL_BACK}/movie/${id}`);
             setCurrentMovieDetail(data);
         } catch (error) {
             console.error("Error fetching movie details:", error);
@@ -36,7 +36,7 @@ function Ticket({ userId }) {
     // Función para obtener las funciones de la película
     const fetchMovieFunctions = async (codeFilm) => {
         try {
-            const { data } = await axios.get(`${API_URL}/movieFunctions/${codeFilm}`);
+            const { data } = await axios.get(`${URL_BACK}/movieFunctions/${codeFilm}`);
             setMovieFunctions(data);
         } catch (error) {
             console.error("Error fetching movie functions:", error);
@@ -46,7 +46,7 @@ function Ticket({ userId }) {
     // Función para obtener el precio de la entrada
     const fetchPrice = async () => {
         try {
-            const { data } = await axios.get(`${API_URL}/getPrice`, {
+            const { data } = await axios.get(`${URL_BACK}/getPrice`, {
                 params: {
                     codeFilm: id,
                     date: selectedDate,

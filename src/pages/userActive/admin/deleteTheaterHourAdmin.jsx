@@ -4,13 +4,14 @@ import Swal from 'sweetalert2';
 import "./deleteFilm.css";
 
 function DeleteFilmAdmin() {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const [listFilm, setListFilm] = useState([]);
     const [filteredFilm, setFilteredFilm] = useState([]);
     const [search, setSearch] = useState("");
 
     // Obtener todas las funciones
     const getFilm = () => {
-        axios.get("http://localhost:3001/allMovieTheater")
+        axios.get(`${URL_BACK}/allMovieTheater`)
             .then((response) => {
                 setListFilm(response.data);
                 setFilteredFilm(response.data);
@@ -32,7 +33,7 @@ function DeleteFilmAdmin() {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:3001/deleteMovieTheater/${idMovieTheater}`)
+                axios.delete(`${URL_BACK}/deleteMovieTheater/${idMovieTheater}`)
                     .then(() => {
                         Swal.fire({
                             title: "¡Eliminado!",

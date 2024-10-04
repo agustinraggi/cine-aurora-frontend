@@ -9,6 +9,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 function Register() {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
@@ -52,7 +53,7 @@ function Register() {
     const add = () => {
         if (validateForm()) {
             const formattedDate = selectedDate.toISOString().split('T')[0];
-            axios.post("http://localhost:3001/create", {
+            axios.post(`${URL_BACK}/create`, {
                 mail,
                 name,
                 surname,

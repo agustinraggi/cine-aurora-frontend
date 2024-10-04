@@ -6,6 +6,7 @@ import "./loggedUser.css";
 import { FaSearch } from 'react-icons/fa';
 
 function LoggedUser({ userId }) {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
@@ -67,10 +68,10 @@ function LoggedUser({ userId }) {
         const fetchTickets = async () => {
             try {
                 if (searchTerm) {
-                    const searchResponse = await axios.get(`http://localhost:3001/searchMovies?name=${searchTerm}`);
+                    const searchResponse = await axios.get(`${URL_BACK}/searchMovies?name=${searchTerm}`);
                     setTickets(searchResponse.data);
                 } else {
-                    const ticketResponse = await axios.get(`http://localhost:3001/ticketUser/${userId}`);
+                    const ticketResponse = await axios.get(`${URL_BACK}/ticketUser/${userId}`);
                     const ticketsData = ticketResponse.data;
                     
                     if (ticketsData.length > 0) {
@@ -92,11 +93,11 @@ function LoggedUser({ userId }) {
     const handlePaymentStatus = async () => {
         if (status === 'approved' && preference_id) {
             try {
-                await axios.post("http://localhost:3001/updateTicketStatus", {
+                await axios.post(`${URL_BACK}/updateTicketStatus`, {
                     preference_id,
                     status: 'paid',
                 });
-                const ticketResponse = await axios.get(`http://localhost:3001/ticketUser/${userId}`);
+                const ticketResponse = await axios.get(`${URL_BACK}/ticketUser/${userId}`);
                 const ticketsData = ticketResponse.data;
     
                 if (ticketsData.length > 0) {
@@ -109,7 +110,7 @@ function LoggedUser({ userId }) {
                     const { chair, idMovieTheater } = mostRecentTicket;
 
                     // Actualizar los asientos
-                    await axios.post("http://localhost:3001/updateSeats", {
+                    await axios.post(`${URL_BACK}/updateSeats`, {
                         chair: JSON.parse(chair), 
                         idMovieTheater: idMovieTheater,
                     });

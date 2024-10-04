@@ -16,9 +16,6 @@ cuando ralizamos una compra se recomienda usar la aplicacion en ventana incognit
 
 
 usar jest 
-https://railway.app/
-https://vercel.com/login?next=%2Fdashboard
-https://www.fl0.com/
 https://www.netlify.com/
 
 Cine Aurora

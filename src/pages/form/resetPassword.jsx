@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import "./resetPassword.css";
 
 function ResetPassword() {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const { token } = useParams();
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -24,7 +25,7 @@ function ResetPassword() {
         }
 
         try {
-            const response = await axios.post("http://localhost:3001/reset-password", { token, newPassword: password });
+            const response = await axios.post(`${URL_BACK}/reset-password`, { token, newPassword: password });
             if (response.status === 200) {
                 Swal.fire({
                     title: "<strong>Contraseña Restablecida</strong>",

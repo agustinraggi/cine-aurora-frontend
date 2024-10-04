@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import "../loggedUser.css";
 
 function VerifyVoucher() {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const [voucher, setVoucher] = useState("");
     const [verificationMessage, setVerificationMessage] = useState("");
     const [ticketId, setTicketId] = useState(null); 
@@ -15,7 +16,7 @@ function VerifyVoucher() {
 
     const handleVerifyVoucher = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/allTicket`);
+            const response = await axios.get(`${URL_BACK}/allTicket`);
             const ticket = response.data.find(ticket => 
                 ticket.voucher.replace(/[^a-zA-Z]/g, '').slice(0, 6).toUpperCase() === voucher.toUpperCase()
             );
@@ -69,7 +70,7 @@ function VerifyVoucher() {
         if (!ticketId) return;
 
         try {
-            await axios.post(`http://localhost:3001/useTicket`, { idTicket: ticketId });
+            await axios.post(`${URL_BACK}/useTicket`, { idTicket: ticketId });
             Swal.fire({
                 position: "center",
                 icon: "success",

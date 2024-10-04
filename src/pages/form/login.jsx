@@ -28,7 +28,7 @@ function Login({ onLogin }) {
                                 onChange={e => setMailOrDni(e.target.value)} 
                                 placeholder="Ingre correo electrónico o DNI"
                                 required
-                                autoComplete="off"
+                                autoComplete="on"
                             />
                         </div>
                         <div className="form-group">
@@ -40,15 +40,16 @@ function Login({ onLogin }) {
                                 onChange={e => setPassword(e.target.value)}
                                 placeholder="Ingrese su contraseña"
                                 required
+                                autoComplete="current-password"
                             />
                             <span 
-                                    onClick={() => setShowPassword(!showPassword)} 
-                                    className="passwordToggleLogin"
-                                    role="button"
-                                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                                >
-                                    {showPassword ? "👁️" : "🔒"}
-                                </span>
+                                onClick={() => setShowPassword(!showPassword)} 
+                                className="passwordToggleLogin"
+                                role="button"
+                                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                            >
+                                {showPassword ? "👁️" : "🔒"}
+                            </span>
                         </div>
                         <p>¿Olvidaste tu contraseña? <Link to="/recoverPassword">Ingresa aquí</Link>.</p>
                         <button

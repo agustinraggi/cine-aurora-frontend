@@ -37,6 +37,7 @@ initAxiosInterceptors();
 function App() {
     const [user, setUser] = useState(null);
     const [loadingUser, setLoadingUser] = useState(true);
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     useEffect(() => {
         async function loadUser() {
@@ -45,7 +46,7 @@ function App() {
                 return;
             }
             try {
-                const { data: user } = await Axios.get('http://localhost:3001/tokenUser');
+                const { data: user } = await Axios.get(`${URL_BACK}/tokenUser`);
                 setUser(user);
             } catch (error) {
                 console.log(error);

@@ -8,7 +8,7 @@ import axios from "axios";
 function Chair({ ticketQuantity, onSeatsSelected, idMovieTheater }) {
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [occupiedSeats, setOccupiedSeats] = useState([]);
-    const API_URL = 'http://localhost:3001';
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     const rows = [
         ['A1', 'A2', '',   '',   '', '', '', '', 'A5', 'A6', 'A7', 'A8', 'A9', '',    '',    '',    '',    '',    '',    '',    '',    'A18', 'A19', 'A20', 'A21', 'A22', '', '', '', '', '',    '',    'A25', 'A26', 'A27'],
@@ -38,7 +38,7 @@ function Chair({ ticketQuantity, onSeatsSelected, idMovieTheater }) {
     useEffect(() => {
         const fetchOccupiedSeats = async () => {
             try {
-                const response = await axios.get(`${API_URL}/occupiedSeats/${idMovieTheater}`);
+                const response = await axios.get(`${URL_BACK}/occupiedSeats/${idMovieTheater}`);
                 setOccupiedSeats(response.data);
             } catch (error) {
                 console.error("Error al obtener sillas ocupadas:", error);
