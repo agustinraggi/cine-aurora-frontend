@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import "./editData.css";
 
 function EditAdminData() {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const [filteredPeople, setFilteredPeople] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [search, setSearch] = useState("");
@@ -45,7 +46,7 @@ function EditAdminData() {
     const update = () => {
         if (validateForm()) {
             const formattedDate = selectedDate.toISOString().split('T')[0];
-            axios.put("http://localhost:3001/update", {
+            axios.put(`${URL_BACK}/update`, {
                 idUser,
                 mail,
                 name,
@@ -88,7 +89,7 @@ function EditAdminData() {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:3001/delete/${idUser}`)
+                axios.delete(`${URL_BACK}/delete/${idUser}`)
                     .then(() => {
                         Swal.fire({
                             title: "¡Eliminado!",
@@ -122,7 +123,7 @@ function EditAdminData() {
 
     // FETCH CUSTOMERS
     const fetchCustomers = () => {
-        axios.get(`http://localhost:3001/allCustomer?page=${page}&limit=5`)
+        axios.get(`${URL_BACK}/allCustomer?page=${page}&limit=5`)
         .then(response => {
             setListPeople(response.data.users);
             setFilteredPeople(response.data.users);

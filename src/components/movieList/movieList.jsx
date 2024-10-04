@@ -5,6 +5,7 @@ import "./movieList.css";
 
 const MovieList = () => {
     const [moviePosters, setMoviePosters] = useState([]);
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     useEffect(() => {
         fetchMovies();
@@ -12,7 +13,7 @@ const MovieList = () => {
 
     const fetchMovies = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/allFilm");
+            const response = await axios.get(`${URL_BACK}/allFilm`);
             setMoviePosters(response.data);
         } catch (error) {
             console.error("Error fetching movies:", error);

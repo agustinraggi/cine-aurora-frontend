@@ -8,6 +8,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { es } from 'date-fns/locale'; 
 
 function AgregarFuncionCine() {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const [listaPeliculas, setListaPeliculas] = useState([]);
     const [peliculasFiltradas, setPeliculasFiltradas] = useState([]);
     const [busqueda, setBusqueda] = useState("");
@@ -20,7 +21,7 @@ function AgregarFuncionCine() {
 
     // Obtener todas las películas
     const obtenerPeliculas = () => {
-        axios.get("http://localhost:3001/allFilm")
+        axios.get(`${URL_BACK}/allFilm`)
             .then((response) => {
                 setListaPeliculas(response.data);
                 setPeliculasFiltradas(response.data);
@@ -68,7 +69,7 @@ function AgregarFuncionCine() {
 
         console.log("Detalles de la función:", detallesFuncion);
 
-        axios.post("http://localhost:3001/createMovieTheater", { 
+        axios.post(`${URL_BACK}/createMovieTheater`, { 
             nameFilm: detallesFuncion.nombrePelicula,
             codeFilm: detallesFuncion.codigoPelicula,
             date: detallesFuncion.fecha,

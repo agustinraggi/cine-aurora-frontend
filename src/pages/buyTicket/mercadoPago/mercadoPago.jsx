@@ -6,6 +6,7 @@ function MercadoPago({ ticketData, userId }) {
   const [showButton, setShowButton] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null);
+  const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
   useEffect(() => {
     const initializeMercadoPago = async () => {
@@ -36,11 +37,11 @@ function MercadoPago({ ticketData, userId }) {
     if (initialized) return;
 
     try {
-      const mp = new window.MercadoPago("APP_USR-a6a60bed-1354-4351-8e53-c9b95c56e5d2", {
+      const mp = new window.MercadoPago(process.env.REACT_APP_MERCADO_PAGO_KEY, {
         locale: "es-AR",
       });
 
-      const response = await axios.post("http://localhost:3001/create_preference", {
+      const response = await axios.post(`${URL_BACK}/create_preference`, {
         title: ticketData.title,
         quantity: ticketData.quantity || 1,
         price: ticketData.price,
@@ -69,7 +70,7 @@ function MercadoPago({ ticketData, userId }) {
         idMovieTheater: ticketData.idMovieTheater,
       };
 
-      await axios.post("http://localhost:3001/createTicket", ticketInfo);
+      await axios.post(`${URL_BACK}/createTicket`, ticketInfo);
 
       setInitialized(true);
       setShowButton(false);

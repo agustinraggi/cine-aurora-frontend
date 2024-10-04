@@ -5,7 +5,7 @@ import YouTube from "react-youtube";
 import "./movie.css";
 
 function Movie() {
-    const API_URL = 'http://localhost:3001';
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     const [trailer, setTrailer] = useState(null);
     const [currentMovieDetail, setCurrentMovieDetail] = useState({ title: "Loading Movies" });
@@ -17,11 +17,11 @@ function Movie() {
     // Función para obtener los detalles de la película desde tu backend
     const fetchMovie = async () => {
         try {
-            const { data } = await axios.get(`${API_URL}/movie/${id}`);
+            const { data } = await axios.get(`${URL_BACK}/movie/${id}`);
             setCurrentMovieDetail(data);
 
             // Ahora se hace la llamada para obtener los trailers desde tu backend
-            const trailerResponse = await axios.get(`${API_URL}/movie/videos/${id}`);
+            const trailerResponse = await axios.get(`${URL_BACK}/movie/videos/${id}`);
             if (trailerResponse.data.results) {
                 let selectedTrailer;
                 selectedTrailer = trailerResponse.data.results.find(

@@ -3,12 +3,13 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import "./addFilmAdmin.css";
 
-const MovieForm = () => {
+const MovieForm = () => {   
     const [title, setTitle] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const API_URL = "https://api.themoviedb.org/3";
-    const API_KEY = "6a5fa2aa71d234b5f1b196ce04746bc5";
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
+    const API_URL = process.env.REACT_APP_URL || "https://api.themoviedb.org/3"; 
+    const API_KEY = process.env.REACT_APP_API_KEY || "6a5fa2aa71d234b5f1b196ce04746bc5";
 
     useEffect(() => {
         const searchMovies = async () => {
@@ -63,7 +64,7 @@ const MovieForm = () => {
     };
 
     const addFilm = (movie) => {
-        axios.post("http://localhost:3001/createFilm", {
+        axios.post(`${URL_BACK}/createFilm`, {
             codeFilm: movie.id,
             nameFilm: movie.title
         })

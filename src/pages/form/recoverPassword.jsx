@@ -6,11 +6,12 @@ import "./recoverPassword.css";
 function RecoverPassword() {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3001/recover-password", { email });
+            const response = await axios.post(`${URL_BACK}/recover-password`, { email });
             setMessage(response.data.message);
 
             Swal.fire({

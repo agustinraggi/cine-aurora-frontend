@@ -12,10 +12,11 @@ const Carrusel = () => {
     const [moviePosters, setMoviePosters] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
+
     useEffect(() => {
         fetchDbMovies();
     }, []);
-
     useEffect(() => {
         const fetchMoviePosters = async () => {
             const posters = await Promise.all(
@@ -54,7 +55,7 @@ const Carrusel = () => {
 
     const fetchDbMovies = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/allFilm");
+            const response = await axios.get(`${URL_BACK}/allFilm`);
             setDbMovies(response.data);
         } catch (error) {
             console.error("Error fetching database movies:", error);
@@ -63,7 +64,7 @@ const Carrusel = () => {
 
     const fetchMovieData = async (codeFilm) => {
         try {
-            const response = await axios.get(`http://localhost:3001/movie/${codeFilm}`);
+            const response = await axios.get(`${URL_BACK}/movie/${codeFilm}`);
             return response.data;
         } catch (error) {
             console.error("Error fetching movie data:", error);

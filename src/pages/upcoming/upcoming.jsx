@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import './upcoming.css'; 
 
 const UpcomingMovies = () => {
+  const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
   const [movies, setMovies] = useState([]);
   const API_KEY = '6a5fa2aa71d234b5f1b196ce04746bc5';
   const [loading, setLoading] = useState(true);

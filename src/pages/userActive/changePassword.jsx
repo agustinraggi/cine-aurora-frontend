@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import "./changePassword.css";
 
 function ChangePassword() {
+    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const { idUser } = useParams();
     const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState("");
@@ -28,7 +29,7 @@ function ChangePassword() {
     const updatePassword = () => {
         if (validatePasswordForm()) {
             axios
-                .put(`http://localhost:3001/changePassword/${idUser}`, {
+                .put(`${URL_BACK}/changePassword/${idUser}`, {
                     newPassword,
                 })
                 .then(() => {
