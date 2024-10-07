@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import './upcoming.css'; 
+<<<<<<< HEAD
+=======
+import MovieListSoon from "../../components/movieList/movieListSoon";
+>>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
 
 const UpcomingMovies = () => {
   const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
@@ -46,6 +50,7 @@ const UpcomingMovies = () => {
   return (
     <div className="movie__list">
       <h2 className="list__title">Películas Próximas</h2>
+<<<<<<< HEAD
       <div className="list__cards">
         {movies.map(movie => (
           <Link key={movie.id} to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
@@ -58,6 +63,9 @@ const UpcomingMovies = () => {
           </Link>
         ))}
       </div>
+=======
+        <MovieListSoon />
+>>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
     </div>
   );
 };
