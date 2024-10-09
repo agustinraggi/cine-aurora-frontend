@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
 import './upcoming.css'; 
-<<<<<<< HEAD
-=======
 import MovieListSoon from "../../components/movieList/movieListSoon";
->>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
 
 const UpcomingMovies = () => {
   const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
   const [movies, setMovies] = useState([]);
-  const API_KEY = '6a5fa2aa71d234b5f1b196ce04746bc5';
+  const API_KEY = process.env.REACT_APP_API_KEY
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,22 +46,7 @@ const UpcomingMovies = () => {
   return (
     <div className="movie__list">
       <h2 className="list__title">Películas Próximas</h2>
-<<<<<<< HEAD
-      <div className="list__cards">
-        {movies.map(movie => (
-          <Link key={movie.id} to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-            <div className="cards">
-              <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className="cards__img" />
-              <div className="cards__overlay">
-                <h3 className="card__title">{movie.title}</h3>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-=======
         <MovieListSoon />
->>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
     </div>
   );
 };

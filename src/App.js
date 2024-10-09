@@ -23,13 +23,9 @@ import ChangePassword from './pages/userActive/changePassword';
 import EmployeeActive from "./pages/userActive/loggedEmployee";
 import AdminActive from './pages/userActive/loggedAdmin';
 import AddFilmAdmin from './pages/userActive/admin/addFilmAdmin';
-<<<<<<< HEAD
 import DeleteFilmAdmin from "./pages/userActive/admin/deleteFilmAdmin";
-=======
 import AddSoonFilmAdmin from './pages/userActive/admin/addSoonFilmAdmin'
-import DeleteFilmAdmin from "./pages/userActive/admin/deleteFilmAdmin";
 import DeleteSoonFilmAdmin from "./pages/userActive/admin/deleteSoonFilmAdmin"
->>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
 import DelteTheaterHourAdmin from "./pages/userActive/admin/deleteTheaterHourAdmin";
 import VerifyVoucher from "./pages/userActive/admin/verifyVoucher";
 import EditAdminData from "./pages/userActive/admin/editAdminData";
@@ -129,8 +125,6 @@ function App() {
                         } 
                     />
                     <Route 
-<<<<<<< HEAD
-=======
                         path="addSoonFilmAdmin" 
                         element={
                             <ProtectedRoute user={user}>
@@ -139,7 +133,6 @@ function App() {
                         } 
                     />
                     <Route 
->>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
                         path="deleteFilmAdmin" 
                         element={
                             <ProtectedRoute user={user}>
@@ -148,8 +141,6 @@ function App() {
                         } 
                     />
                     <Route 
-<<<<<<< HEAD
-=======
                         path="deleteSoonFilmAdmin" 
                         element={
                             <ProtectedRoute user={user}>
@@ -158,7 +149,6 @@ function App() {
                         } 
                     />
                     <Route 
->>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
                         path="addTheaterHourAdmin" 
                         element={
                             <ProtectedRoute user={user}>

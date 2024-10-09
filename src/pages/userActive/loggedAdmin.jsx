@@ -27,6 +27,12 @@ function Admin() {
                 <Link to="/deleteFilmAdmin" className="adminLink">
                     <div className="featureCard">Eliminar Películas</div>
                 </Link>
+                <Link to="/addSoonFilmAdmin" className="adminLink">
+                    <div className="featureCard">Agregar Pelicula proximamente</div>
+                </Link>
+                <Link to="/deleteSoonFilmAdmin" className="adminLink">
+                    <div className="featureCard">Eliminar Pelicula proximamente</div>
+                </Link>
                 <Link to="/addTheaterHourAdmin" className="adminLink">
                     <div className="featureCard">Agregar Función</div>
                 </Link>

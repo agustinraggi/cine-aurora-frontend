@@ -3,26 +3,23 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import "./addFilmAdmin.css";
 
-const MovieForm = () => {   
+const AddSoonFilmAdmin = () => {
     const [title, setTitle] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
-    const API_URL = process.env.REACT_APP_URL || "https://api.themoviedb.org/3"; 
-    const API_KEY = process.env.REACT_APP_API_KEY || "6a5fa2aa71d234b5f1b196ce04746bc5";
 
     useEffect(() => {
         const searchMovies = async () => {
-            if (title.trim() !== "") {
+            if (title.trim().length >= 3) {
                 try {
-                    const { data } = await axios.get(`${API_URL}/search/movie`, {
+                    const { data } = await axios.get(`${URL_BACK}/search/movie`, {
                         params: {
-                            api_key: API_KEY,
                             query: title,
                             language: "es-MX"
                         },
                     });
-                    setSearchResults(data.results);
+                    setSearchResults(data);
                 } catch (error) {
                     console.error("Error fetching movies:", error);
                 }
@@ -30,49 +27,35 @@ const MovieForm = () => {
                 setSearchResults([]);
             }
         };
-
         searchMovies();
-    }, [title, API_KEY]);
-
+    }, [title]);
     const handleMovieSelect = (selectedMovie) => {
-        setTitle(selectedMovie.title);
+        setTitle(selectedMovie.nameFilm);
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await axios.get(`${API_URL}/search/movie`, {
-                params: {
-                    api_key: API_KEY,
-                    query: title,
-                    language: "es-MX"
-                },
-            });
-            const newMovie = data.results[0];
-
-            addFilm(newMovie);
-
+            const selectedMovie = searchResults[0];
+            addFilm(selectedMovie);
             setShowConfirmation(true);
             setTimeout(() => {
                 setShowConfirmation(false);
             }, 3000);
-
             setTitle("");
         } catch (error) {
             console.error("Error al agregar la película:", error);
         }
     };
-
     const addFilm = (movie) => {
         axios.post(`${URL_BACK}/createFilm`, {
             codeFilm: movie.id,
-            nameFilm: movie.title
+            nameFilm: movie.nameFilm
         })
         .then(() => {
             clearForm();
             Swal.fire({
                 title: "<strong>Película Registrada</strong>",
-                html: `<i>La película <strong>${movie.title}</strong> fue registrada con éxito!</i>`,
+                html: `<i>La película <strong>${movie.nameFilm}</strong> fue registrada con éxito!</i>`,
                 icon: "success",
                 timer: 2000
             });
@@ -86,14 +69,12 @@ const MovieForm = () => {
             });
         });
     };
-
     const clearForm = () => {
         setTitle("");
     };
-
     return (
         <div className="add-film-container">
-            <h2>Agregar Nueva Película</h2>
+            <h2>Agregar Película</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Título:</label>
@@ -103,28 +84,27 @@ const MovieForm = () => {
                         onChange={(e) => setTitle(e.target.value)}
                         required
                     />
+                    <button type="submit">Agregar</button>
                     {searchResults.length > 0 && (
                         <ul className="movie-list">
                             {searchResults.map((movie) => (
                                 <li key={movie.id} onClick={() => handleMovieSelect(movie)}>
                                     <img
-                                        src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                                        alt={movie.title}
+                                        src={`https://image.tmdb.org/t/p/original${movie.posterPath}`}
+                                        alt={movie.nameFilm}
                                         className="movie-poster"
                                     />
-                                    <span className="movie-title">{movie.title}</span>
+                                    <span className="movie-title">{movie.nameFilm}</span>
                                 </li>
                             ))}
                         </ul>
                     )}
                 </div>
-                <button type="submit">Agregar</button>
                 <div className="footerAddFilm">
-
                 </div>
             </form>
         </div>
     );
 };
 
-export default MovieForm;
+export default AddSoonFilmAdmin;
