@@ -47,11 +47,7 @@ function LoggedUser({ userId }) {
                 <p><strong>Tipo de Función:</strong> ${ticket.typeOfFunction}</p>
                 <p><strong>Idioma:</strong> ${ticket.language}</p>
                 <p><strong>Asientos:</strong> ${JSON.parse(ticket.chair).join(', ')}</p>
-<<<<<<< HEAD
                 <p><strong>numero de funcion de la pelicula:</strong> ${(ticket.idMovieTheater)}</p>
-=======
-                <p><strong>numero de funcion:</strong> ${(ticket.idMovieTheater)}</p>
->>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
             `,
             icon: 'info',
             showCloseButton: true,
@@ -108,10 +104,6 @@ function LoggedUser({ userId }) {
                     const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid')
                         .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
                     setTickets(sortedTickets);
-<<<<<<< HEAD
-=======
-    
->>>>>>> 3a214f82 (agregamos que el admin pueda elegir las peliculas proximas a salir)
                     // Obtener los asientos y el idMovieTheater del ticket más reciente
                     const mostRecentTicket = sortedTickets[0];
                     const { chair, idMovieTheater } = mostRecentTicket;
