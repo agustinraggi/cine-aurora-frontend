@@ -25,7 +25,7 @@ const MovieList = () => {
             <div className="list__cards">
                 {moviePosters.map((movie, index) => (
                     <div key={index}>
-                        <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                        <Link to={`/movieSoon/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                             <div className="cards">
                                 {movie.posterPath ? (
                                     <img src={`https://image.tmdb.org/t/p/original${movie.posterPath}`} alt={movie.nameFilm} className="cards__img" />

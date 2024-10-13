@@ -11,7 +11,9 @@ import FQ from "./pages/frequentQuestions/FQ";
 import Footer from './components/footer/Footer';
 import Carrusel from './pages/carrusel/carrusel';
 import MovieList from './components/movieList/movieList';
+import MovieListSoon from './components/movieList/movieListSoon';
 import Movie from './pages/movieDetail/movie';
+import MovieSoon from './pages/movieDetail/movieSoon'
 import Upcoming from './pages/upcoming/upcoming';
 import LoginWrapper from './pages/form/LoginWrapper';
 import Register from './pages/form/register';
@@ -69,7 +71,9 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Carrusel />} />
                     <Route path="movie/:id" element={<Movie />} />
+                    <Route path="movieSoon/:id" element={<MovieSoon />} />
                     <Route path="movies/:type" element={<MovieList />} />
+                    <Route path="moviesSoon/:type" element={<MovieListSoon />} />
                     <Route path="upcoming" element={<Upcoming />} />
                     <Route path="login" element={<LoginWrapper setUser={setUser} />} />
                     <Route path="register" element={<Register />} />
