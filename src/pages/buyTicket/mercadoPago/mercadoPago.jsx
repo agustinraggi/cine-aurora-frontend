@@ -93,7 +93,7 @@ function MercadoPago({ ticketData, userId }) {
       <p className="formatMP">Formato: {ticketData.typeOfFunction}</p>
       <p className="languageMP">Idioma: {ticketData.language}</p>
       {/* esto despues no va */}
-      <p className="languageMP">id: {ticketData.idMovieTheater}</p>
+      {/* <p className="languageMP">id: {ticketData.idMovieTheater}</p> */}
       <div className="checkout-btn">
         {showButton && <button id="checkout-btn" onClick={handleCheckout}>Comprar</button>}
       </div>

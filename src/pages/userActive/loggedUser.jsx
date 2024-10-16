@@ -47,7 +47,6 @@ function LoggedUser({ userId }) {
                 <p><strong>Tipo de Función:</strong> ${ticket.typeOfFunction}</p>
                 <p><strong>Idioma:</strong> ${ticket.language}</p>
                 <p><strong>Asientos:</strong> ${JSON.parse(ticket.chair).join(', ')}</p>
-                <p><strong>numero de funcion de la pelicula:</strong> ${(ticket.idMovieTheater)}</p>
             `,
             icon: 'info',
             showCloseButton: true,
