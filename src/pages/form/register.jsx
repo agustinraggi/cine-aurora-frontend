@@ -154,6 +154,7 @@ function Register() {
                     </form>
                 </div>
             </div>
+            <div className="footerRegister"></div>
         </div>
     );
 }

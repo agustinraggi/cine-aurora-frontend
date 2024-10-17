@@ -53,62 +53,65 @@ function ChangePassword() {
     };
 
     return (
-        <div className="containerChangePassword">
-        <div className="containerChangePassword mb-5">
-            <div className="row">
-                <form className="formChangePassword">
-                    <h1 className="titleChangePassword">Cambiar Contraseña</h1>
-                    <div className="changePasswordForm">
-                        <label className="formLabelChangePassword">Nueva Contraseña</label>
-                        <div className="inputContainer">
-                            <input
-                                onChange={(event) => setNewPassword(event.target.value)}
-                                value={newPassword}
-                                type={showNewPassword1 ? "text" : "password"}
-                                className="formControlChangePassword"
-                                placeholder="Ingrese su nueva contraseña"
-                            />
-                            <span 
-                                    onClick={() => setShowNewPassword1(!showNewPassword1)} 
-                                    className="passwordToggleChange"
-                                    role="button"
-                                    aria-label={showNewPassword1 ? "Ocultar contraseña" : "Mostrar contraseña"}
-                                >
-                                    {showNewPassword1 ? "👁️" : "🔒"}
-                                </span>
-                        </div>
+        <div>
+            <div className="containerChangePassword">
+                <div className="containerChangePassword mb-5">
+                    <div className="row">
+                        <form className="formChangePassword">
+                            <h1 className="titleChangePassword">Cambiar Contraseña</h1>
+                            <div className="changePasswordForm">
+                                <label className="formLabelChangePassword">Nueva Contraseña</label>
+                                <div className="inputContainer">
+                                    <input
+                                    onChange={(event) => setNewPassword(event.target.value)}
+                                    value={newPassword}
+                                    type={showNewPassword1 ? "text" : "password"}
+                                    className="formControlChangePassword"
+                                    placeholder="Ingrese su nueva contraseña"
+                                    />
+                                    <span 
+                                        onClick={() => setShowNewPassword1(!showNewPassword1)} 
+                                        className="passwordToggleChange"
+                                        role="button"
+                                        aria-label={showNewPassword1 ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                    >
+                                        {showNewPassword1 ? "👁️" : "🔒"}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="changePasswordForm">
+                                <label className="formLabelChangePassword">Confirmar Nueva Contraseña</label>
+                                <div className="inputContainer">
+                                    <input
+                                        onChange={(event) => setConfirmNewPassword(event.target.value)}
+                                        value={confirmNewPassword}
+                                        type={showConfirmPassword2 ? "text" : "password"}
+                                        className="formControlChangePassword"
+                                        placeholder="Confirme su nueva contraseña"
+                                    />
+                                    <span 
+                                        onClick={() => setShowConfirmPassword2(!showConfirmPassword2)} 
+                                        className="passwordToggleChange"
+                                        role="button"
+                                        aria-label={showConfirmPassword2 ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                    >
+                                        {showConfirmPassword2 ? "👁️" : "🔒"}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="btnChangePassword btnEditUser">
+                                <button type="button" className="Btn btn-primary" id = "btnChangePasswordUpdate" onClick={updatePassword}>
+                                    Cambiar Contraseña
+                                </button>
+                                <button type="button" className="Btn btn-secondary" id="btnChangePasswordCancel" onClick={() => navigate(-1)}>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div className="changePasswordForm">
-                        <label className="formLabelChangePassword">Confirmar Nueva Contraseña</label>
-                        <div className="inputContainer">
-                            <input
-                                onChange={(event) => setConfirmNewPassword(event.target.value)}
-                                value={confirmNewPassword}
-                                type={showConfirmPassword2 ? "text" : "password"}
-                                className="formControlChangePassword"
-                                placeholder="Confirme su nueva contraseña"
-                            />
-                            <span 
-                                    onClick={() => setShowConfirmPassword2(!showConfirmPassword2)} 
-                                    className="passwordToggleChange"
-                                    role="button"
-                                    aria-label={showConfirmPassword2 ? "Ocultar contraseña" : "Mostrar contraseña"}
-                                >
-                                    {showConfirmPassword2 ? "👁️" : "🔒"}
-                                </span>
-                        </div>
-                    </div>
-                        <div className="btnChangePassword btnEditUser">
-                            <button type="button" className="Btn btn-primary" id = "btnChangePasswordUpdate" onClick={updatePassword}>
-                                Cambiar Contraseña
-                            </button>
-                            <button type="button" className="Btn btn-secondary" id="btnChangePasswordCancel" onClick={() => navigate(-1)}>
-                                Cancelar
-                            </button>
-                        </div>
-                    </form>
                 </div>
             </div>
+            <div className="footerChangePasseword"></div>
         </div>
     );
 }

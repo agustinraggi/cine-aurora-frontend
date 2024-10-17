@@ -108,6 +108,10 @@
     overflow-x: auto !important;
 }
 
+.footerTicket{
+    margin-bottom: -420px;
+}
+
 @media (max-width: 590px) {
     .ticketIntro {
         height: 120px;

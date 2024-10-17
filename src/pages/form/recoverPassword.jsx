@@ -33,23 +33,26 @@ function RecoverPassword() {
     };
 
     return (
-        <div className="containerRecoverPassword"> 
-            <form onSubmit={handleSubmit} className="formRecoverPassWord"> 
-                <h2 className="titleRecoverPassWord">Recuperar Contraseña</h2> 
-                <div className="inputContainer">
-                    <label className="formLabelRecoverPassWord">Correo Electrónico</label>
-                    <input
-                        type="email"
-                        placeholder="Ingresa tu correo"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="formControlRecoverPassWord"
-                    />
-                </div>
-                <button type="submit" className="submit-btn">Enviar enlace de recuperación</button>
-                {message && <p className="message">{message}</p>}
-            </form>
+        <div>
+            <div className="containerRecoverPassword"> 
+                <form onSubmit={handleSubmit} className="formRecoverPassWord"> 
+                    <h2 className="titleRecoverPassWord">Recuperar Contraseña</h2> 
+                    <div className="inputContainer">
+                        <label className="formLabelRecoverPassWord">Correo Electrónico</label>
+                        <input
+                            type="email"
+                            placeholder="Ingresa tu correo"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="formControlRecoverPassWord"
+                        />
+                    </div>
+                    <button type="submit" className="submit-btn">Enviar enlace de recuperación</button>
+                    {message && <p className="message">{message}</p>}
+                </form>
+            </div>
+            <div className="footerRecoverPassword"></div>
         </div>
     );
 }

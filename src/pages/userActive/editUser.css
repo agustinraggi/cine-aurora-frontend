@@ -1,3 +1,9 @@
+.footerEditUser{
+    margin-bottom: -490px;
+}
+
+
+
 @media (max-width:  384px){
     .btnEditUser{
         flex-direction: column; 

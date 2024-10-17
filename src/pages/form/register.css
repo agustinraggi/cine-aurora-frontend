@@ -225,6 +225,7 @@ button:hover {
     color: #fff; 
     outline: none;
 }
+
 @media (max-width: 1399px ){
     .passwordToggleRegister {
         right: 450px; 

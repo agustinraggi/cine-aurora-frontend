@@ -103,99 +103,103 @@ function EditUser() {
     };
 
     return (
-        <div className="container">
-            <div className="container mb-5">
-                <div className="row">
-                    <form className="formUserRegister">
-                        <h1>Editar Usuario</h1>
-                        <div className="registerForm">
-                            <label className="form-label" id="text">
-                                Correo Electrónico
-                            </label>
-                            <input
-                                onChange={(event) => setMail(event.target.value)}
-                                value={mail}
-                                type="email"
-                                className="form-control"
-                                id="inputEmail"
-                                placeholder="Ingrese su correo electrónico"
-                            />
-                        </div>
-                        <div className="registerForm">
-                            <label className="form-label" id="text">
-                                Nombre
-                            </label>
-                            <input
-                                onChange={(event) => setName(event.target.value)}
-                                value={name}
-                                type="text"
-                                className="form-control"
-                                id="inputName"
-                                placeholder="Ingrese su nombre"
-                            />
-                        </div>
-                        <div className="registerForm">
-                            <label className="form-label" id="text">
-                                Apellido
-                            </label>
-                            <input
-                                onChange={(event) => setSurname(event.target.value)}
-                                value={surname}
-                                type="text"
-                                className="form-control"
-                                id="inputSurname"
-                                placeholder="Ingrese su apellido"
-                            />
-                        </div>
-                        <div className="registerForm">
-                            <label className="form-label" id="text">
-                                DNI
-                            </label>
-                            <input
-                                onChange={(event) => setDni(event.target.value)}
-                                value={dni}
-                                type="number"
-                                className="form-control"
-                                id="inputDni"
-                                placeholder="Ingrese su número D.N.I"
-                            />
-                        </div>
-                        <div className="registerFormFech">
-                            <div className="grupRegister">
-                                <label className="formLabelRegister" id="inputFecha">Fecha de Nacimiento</label>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
-                                    <DatePicker
-                                        value={selectedDate}
-                                        selected={selectedDate}
-                                        onChange={date => setSelectedDate(date)}
-                                        dateFormat="dd/MM/yyyy"
-                                        minDate={new Date("1900-01-01")}
-                                        maxDate={new Date()}
-                                        className="custom-datepicker"
-                                        showYearDropdown
-                                        yearDropdownItemNumber={10}
-                                        scrollableYearDropdown
-                                        showMonthDropdown
-                                        useShortMonthInDropdown
-                                    />
-                                </MuiPickersUtilsProvider>
+        <div>
+            <div className="container">
+                <div className="container mb-5">
+                    <div className="row">
+                        <form className="formUserRegister">
+                            <h1>Editar Usuario</h1>
+                            <div className="registerForm">
+                                <label className="form-label" id="text">
+                                    Correo Electrónico
+                                </label>
+                                <input
+                                    onChange={(event) => setMail(event.target.value)}
+                                    value={mail}
+                                    type="email"
+                                    className="form-control"
+                                    id="inputEmail"
+                                    placeholder="Ingrese su correo electrónico"
+                                />
                             </div>
-                        </div>
-                        <Link to = {`/changePassword/${idUser}`}>
-                                <button type="button" className="Btn btn-warning" id="btnChangePassword">Actualizar Contraseña</button>
-                        </Link>
-                        <div className="btnEditUser">
-                            <Link to = {`/userActive`}>
-                                <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
+                            <div className="registerForm">
+                                <label className="form-label" id="text">
+                                    Nombre
+                                </label>
+                                <input
+                                    onChange={(event) => setName(event.target.value)}
+                                    value={name}
+                                    type="text"
+                                    className="form-control"
+                                    id="inputName"
+                                    placeholder="Ingrese su nombre"
+                                />
+                            </div>
+                            <div className="registerForm">
+                                <label className="form-label" id="text">
+                                    Apellido
+                                </label>
+                                <input
+                                    onChange={(event) => setSurname(event.target.value)}
+                                    value={surname}
+                                    type="text"
+                                    className="form-control"
+                                    id="inputSurname"
+                                    placeholder="Ingrese su apellido"
+                                />
+                            </div>
+                            <div className="registerForm">
+                                <label className="form-label" id="text">
+                                    DNI
+                                </label>
+                                <input
+                                    onChange={(event) => setDni(event.target.value)}
+                                    value={dni}
+                                    type="number"
+                                    className="form-control"
+                                    id="inputDni"
+                                    placeholder="Ingrese su número D.N.I"
+                                />
+                            </div>
+                            <div className="registerFormFech">
+                                <div className="grupRegister">
+                                    <label className="formLabelRegister" id="inputFecha">Fecha de Nacimiento</label>
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
+                                        <DatePicker
+                                            value={selectedDate}
+                                            selected={selectedDate}
+                                            onChange={date => setSelectedDate(date)}
+                                            dateFormat="dd/MM/yyyy"
+                                            minDate={new Date("1900-01-01")}
+                                            maxDate={new Date()}
+                                            className="custom-datepicker"
+                                            showYearDropdown
+                                            yearDropdownItemNumber={10}
+                                            scrollableYearDropdown
+                                            showMonthDropdown
+                                            useShortMonthInDropdown
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                </div>
+                            </div>
+                            <Link to = {`/changePassword/${idUser}`}>
+                                    <button type="button" className="Btn btn-warning" id="btnChangePassword">Actualizar Contraseña</button>
                             </Link>
-                            <Link to = "/userActive">
-                                <button type="button" className="Btn btn-primary btnCancel" id="btnCancel">Cancelar</button>
-                            </Link>
-                        </div>                        
-                    </form>
+                            <div className="btnEditUser">
+                                <Link to = {`/userActive`}>
+                                    <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
+                                </Link>
+                                <Link to = "/userActive">
+                                    <button type="button" className="Btn btn-primary btnCancel" id="btnCancel">Cancelar</button>
+                                </Link>
+                            </div>                        
+                        </form>
+                    </div>
                 </div>
             </div>
+            <div className="footerEditUser"></div>
         </div>
+        
     );
 }
 
