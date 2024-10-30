@@ -4,12 +4,14 @@ import Swal from "sweetalert2";
 import Login from "./login";
 import { setToken } from '../../Helpers/auth-helpers';
 
+const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
+
 const LoginWrapper = ({ setUser }) => {
     const navigate = useNavigate();
     
     const onLogin = async ({ mailOrDni, password }) => { 
         try {
-            const response = await fetch("http://localhost:3001/login", {
+            const response = await fetch(`${URL_BACK}/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { getAllFilms } from "../../utils/apiService";
 import "./movieList.css";
 
 const MovieList = () => {
     const [moviePosters, setMoviePosters] = useState([]);
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     useEffect(() => {
         fetchMovies();
@@ -14,8 +13,8 @@ const MovieList = () => {
 
     const fetchMovies = async () => {
         try {
-            const response = await axios.get(`${URL_BACK}/allFilm`);
-            setMoviePosters(response.data);
+            const movies = await getAllFilms();
+            setMoviePosters(movies);
         } catch (error) {
             console.error("Error fetching movies:", error);
             Swal.fire({

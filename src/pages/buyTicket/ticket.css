@@ -17,7 +17,15 @@
     background-color: #242333;
 }
 
-.accordion-header .accordion-body .accordion-button {
+.accordion-header{
+    background-color: #242333;
+    color: white;
+}
+.accordion-body{
+    background-color: #242333;
+    color: white;
+}
+.accordion-button{
     background-color: #242333;
     color: white;
 }

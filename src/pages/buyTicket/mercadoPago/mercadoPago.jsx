@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 import "../ticket.css";
 
 function MercadoPago({ ticketData, userId }) {
@@ -24,7 +25,12 @@ function MercadoPago({ ticketData, userId }) {
         }
       } catch (error) {
         console.error("Error en la solicitud a Mercado Pago:", error);
-        alert("Error al procesar la solicitud de Mercado Pago.");
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al procesar la solicitud de Mercado Pago.',
+          confirmButtonText: 'Aceptar',
+        });
       }
     };
 
@@ -77,7 +83,12 @@ function MercadoPago({ ticketData, userId }) {
       setPaymentStatus("pending");
     } catch (error) {
       console.error("Error al procesar el pago:", error);
-      alert("Error al procesar el pago.");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al procesar el pago. Por favor, inténtalo de nuevo.',
+        confirmButtonText: 'Aceptar',
+      });
     }
   };
 
@@ -92,8 +103,6 @@ function MercadoPago({ ticketData, userId }) {
       <p className="timeMP">Hora: {ticketData.time}</p>
       <p className="formatMP">Formato: {ticketData.typeOfFunction}</p>
       <p className="languageMP">Idioma: {ticketData.language}</p>
-      {/* esto despues no va */}
-      {/* <p className="languageMP">id: {ticketData.idMovieTheater}</p> */}
       <div className="checkout-btn">
         {showButton && <button id="checkout-btn" onClick={handleCheckout}>Comprar</button>}
       </div>

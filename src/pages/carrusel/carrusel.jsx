@@ -3,7 +3,6 @@ import Slider from "react-slick";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./carrusel.css";
-import Swal from 'sweetalert2';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MovieList from "../../components/movieList/movieList";
@@ -59,12 +58,6 @@ const Carrusel = () => {
             const response = await axios.get(`${URL_BACK}/allFilm`);
             setDbMovies(response.data);
         } catch (error) {
-            console.error("Error fetching database movies:", error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Error fetching database movies! Please try again later.',
-            });
         }
     };
 
@@ -73,12 +66,6 @@ const Carrusel = () => {
             const response = await axios.get(`${URL_BACK}/movie/${codeFilm}`);
             return response.data;
         } catch (error) {
-            console.error("Error fetching movie data:", error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Error fetching movie data! Please try again later.',
-            });
             return null;
         }
     };

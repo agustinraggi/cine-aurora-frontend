@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
 import "./ticket.css";
+import axios from 'axios';
 import Chair from "./chair/chair";
 import MercadoPago from "./mercadoPago/mercadoPago";
 import Sala from "./salas/salas";
+import Swal from "sweetalert2";
+import {fetchMovieDetail, MovieFunctions, getPrice} from '../../utils/apiService'
 
 function Ticket({ userId }) {
     const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
@@ -26,7 +28,7 @@ function Ticket({ userId }) {
     // Función para obtener los detalles de la película
     const fetchMovie = async () => {
         try {
-            const { data } = await axios.get(`${URL_BACK}/movie/${id}`);
+            const data = await fetchMovieDetail(id);
             setCurrentMovieDetail(data);
         } catch (error) {
             console.error("Error fetching movie details:", error);

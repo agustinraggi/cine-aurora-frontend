@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import disponible from "./assets/disponible.png";
-import seleccionado from "./assets/seleccionado.png";
-import ocupado from "./assets/ocupado.png";
+import disponible from "../../../assets/chair/disponible.png";
+import seleccionado from "../../../assets/chair/seleccionado.png";
+import ocupado from "../../../assets/chair/ocupado.png";
 import Swal from "sweetalert2";
 import "../ticket.css";
-import axios from "axios";
+import { getOccupiedSeats} from '../../../utils/apiService';
 
 function Chair({ ticketQuantity, onSeatsSelected, idMovieTheater }) {
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [occupiedSeats, setOccupiedSeats] = useState([]);
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     const rows = [
         ['A1', 'A2', '',   '',   '', '', '', '', 'A5', 'A6', 'A7', 'A8', 'A9', '',    '',    '',    '',    '',    '',    '',    '',    'A18', 'A19', 'A20', 'A21', 'A22', '', '', '', '', '',    '',    'A25', 'A26', 'A27'],
@@ -25,22 +24,12 @@ function Chair({ ticketQuantity, onSeatsSelected, idMovieTheater }) {
         ['K1', 'K2', 'K3', 'K4', '', '', '', '', 'K5', 'K6', 'K7', 'K8', 'K9', 'K10', 'K11', 'K12', 'K13', 'K14', 'K15', 'K16', 'K17', 'K18', 'K19', 'K20', 'K21', 'K22', '', '', '', '', 'K23', 'K24', 'K25', 'K26', 'K27']
     ];
 
-    const fetchOccupiedSeats = async () => {
-        try {
-            const response = await axios.get(`${URL_BACK}/occupiedSeats/${idMovieTheater}`);
-            setOccupiedSeats(response.data);
-        } catch (error) {
-            console.error("Error al obtener sillas ocupadas:", error);
-        }
-    };
-
     const updateSelectedSeats = (seat) => {
-        let updatedSeats;
         if (selectedSeats.includes(seat)) {
-            updatedSeats = selectedSeats.filter((s) => s !== seat);
+            setSelectedSeats((prev) => prev.filter((s) => s !== seat));
         } else {
             if (selectedSeats.length < ticketQuantity) {
-                updatedSeats = [...selectedSeats, seat];
+                setSelectedSeats((prev) => [...prev, seat]);
             } else {
                 Swal.fire({
                     toast: true,
@@ -54,13 +43,23 @@ function Chair({ ticketQuantity, onSeatsSelected, idMovieTheater }) {
                 return;
             }
         }
-        setSelectedSeats(updatedSeats);
-        onSeatsSelected(updatedSeats); 
     };
 
     useEffect(() => {
+        const fetchOccupiedSeats = async () => {
+            try {
+                const data = await getOccupiedSeats(idMovieTheater); 
+                setOccupiedSeats(data);
+            } catch (error) {
+            }
+        };
+        
         fetchOccupiedSeats();
     }, [idMovieTheater]);
+
+    useEffect(() => {
+        onSeatsSelected(selectedSeats);
+    }, [selectedSeats, onSeatsSelected]);
 
     return (
         <div className="container-fluid seatStructure">
