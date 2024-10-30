@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Login from "./login";
 import { setToken } from '../../Helpers/auth-helpers';
 
@@ -21,14 +22,30 @@ const LoginWrapper = ({ setUser }) => {
                 setToken(data.token);
                 setUser(data.user);
                 navigate('/');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Inicio de sesión exitoso',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             } else {
                 const errorText = await response.text();
                 console.error("Error en la solicitud:", errorText);
-                alert(errorText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: errorText,
+                    confirmButtonText: 'OK'
+                });
             }
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
-            alert("Error al iniciar sesión");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar al servidor. Por favor, intenta de nuevo más tarde.',
+                confirmButtonText: 'OK'
+            });
         }
     };
 

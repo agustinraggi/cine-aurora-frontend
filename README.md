@@ -1,95 +1,142 @@
-Para poder utilizar la web que desarrollamos utilizando la API TMBD.
-https://www.themoviedb.org/?language=es
+# Cine Aurora
 
-para inicicar la app poner: 
-1) "git clone https://github.com/agustinraggi/cine-aurora-frontend.git"
-3) movernos a la carpeta client: "cd cine-aurora-frontend" 
-4) instalar las librerias que vamos a usar: "npm install"
-5) iniciar la aplicacion: "npm start" 
+## Resumen del Proyecto
 
-cuando ralizamos una compra se recomienda usar la aplicacion en ventana incognito para no salir de tu usario de mercado pago:
-1) nombre de cuenta de mercado pago: TESTUSER1006550785
-2) contraseña a usuario de mercado pago: JR8xEFv8pg
+Cine Aurora es un sistema web diseñado para modernizar la experiencia de los clientes de un cine antiguo en Rosario. Utilizando la API de The MovieDB, el sistema permite a los usuarios acceder a la cartelera de películas, gestionar su perfil, comprar entradas y recibir ofertas especiales.
 
+---
 
+## Tabla de Contenidos
 
-usar jest 
-https://www.netlify.com/
+1. [Objetivo](#objetivo)
+2. [Requerimientos del Sistema](#requerimientos-del-sistema)
+   - [Registro de Usuarios](#registro-de-usuarios)
+   - [Inicio de Sesión](#inicio-de-sesión)
+   - [Cartelera de Películas](#cartelera-de-películas)
+   - [Selección de Entradas](#selección-de-entradas)
+   - [Proceso de Compra](#proceso-de-compra)
+   - [Confirmación de Compra y Código Único](#confirmación-de-compra-y-código-único)
+   - [Historial de Compras](#historial-de-compras)
+   - [Ofertas y Promociones](#ofertas-y-promociones)
+3. [Funcionalidades Técnicas Adicionales](#funcionalidades-técnicas-adicionales)
+   - [Control de Roles](#control-de-roles)
+   - [Sistema de Notificaciones](#sistema-de-notificaciones)
+   - [Seguridad](#seguridad)
+4. [Instrucciones de Instalación](#instrucciones-de-instalación)
+5. [Integrantes del Grupo](#integrantes-del-grupo)
 
-Cine Aurora
-Resumen:
+---
 
-El proyecto que planeamos hacer es una cartelera de un cine donde utilizaremos la api de The MovieDB API que nos ayudará a traer todos los datos necesarios sobre las peliculas que esten disponibles y en caso que el cliente desee podrá ver trailers tanto de peliculas viejas como las que esten proximas a salir.
+## Objetivo
 
-Minuta de Proyecto: Sistema de Modernización para "Cine Aurora"
+Desarrollar un sistema web para "Cine Aurora" que compita con grandes cadenas de cine, ofreciendo una experiencia moderna y funcional a sus clientes.
 
-Objetivo: Desarrollar un sistema web para "Cine Aurora", un cine antiguo de la ciudad de Rosario, con el fin de competir con las grandes cadenas de cine y modernizar sus servicios. El sistema permitirá a los clientes acceder a la cartelera de películas, gestionar su perfil como usuario del cine, comprar entradas, y recibir ofertas especiales.
+---
 
-Requerimientos del Sistema:
+## Requerimientos del Sistema
 
-        Registro de Usuarios:
+### Registro de Usuarios
 
-Los clientes deben registrarse antes de poder adquirir entradas.
-Los datos solicitados para el registro incluyen:
-.DNI
-.Nombre
-.Apellido
-.Email
-.Fecha de nacimiento
-.El email será utilizado para enviar ofertas especiales del cine (ej. 2x1 en entradas).
-Inicio de Sesión:
-Los usuarios podrán identificarse mediante su DNI o correo electrónico.
+- Los clientes deben registrarse para adquirir entradas.
+- Datos requeridos:
+  - DNI
+  - Nombre
+  - Apellido
+  - Email
+  - Fecha de nacimiento
+- El email se usará para enviar ofertas especiales.
 
-        Cartelera de Películas:
+### Inicio de Sesión
 
-Los usuarios podrán buscar películas disponibles en la cartelera.
-Se ofrecerá una sección de próximos estrenos.
-Las películas incluirán información sobre formato (2D, 3D, etc.) y el idioma disponible.
+- Los usuarios podrán identificarse mediante su DNI o correo electrónico.
 
-        Selección de Entradas:
+### Cartelera de Películas
 
-Los usuarios podrán seleccionar la cantidad de asientos deseados y el área de preferencia en el cine.
-Antes de confirmar la compra, se mostrará un resumen con los detalles de la selección.
+- Los usuarios podrán buscar películas disponibles en la cartelera.
+- Se incluirá una sección de próximos estrenos.
+- Información sobre formato (2D, 3D, etc.) y el idioma disponible.
 
-        Proceso de Compra:
+### Selección de Entradas
 
-Una vez satisfecho con la selección, el usuario presionará el botón de "Comprar".
-Aparecerá el botón de Mercado Pago para completar la transacción.
-Las sillas no quedarán reservadas hasta que el pago se haya completado exitosamente.
+- Los usuarios podrán seleccionar la cantidad de asientos y el área preferida en el cine.
+- Un resumen con los detalles de la selección se mostrará antes de confirmar la compra.
 
-        Confirmación de Compra y Código Único:
+### Proceso de Compra
 
-Al finalizar la compra, el usuario será redirigido a su perfil, donde podrá ver su historial de compras.
-Se generará un código único asociado a la compra.
-Este código será presentado a los empleados del cine, quienes validarán la entrada. El código será marcado como utilizado para evitar usos repetidos.
+- Al presionar el botón "Comprar", se mostrará el botón de Mercado Pago para completar la transacción.
+- Las sillas no se reservarán hasta que el pago se complete exitosamente.
 
-        Historial de Compras:
+### Confirmación de Compra y Código Único
 
-En el perfil del usuario, se podrá acceder al historial de entradas adquiridas.
-El código de compra será visible junto con los detalles de cada transacción.
+- Al finalizar la compra, el usuario será redirigido a su perfil con el historial de compras.
+- Se generará un código único para validar la entrada en el cine.
 
-        Ofertas y Promociones:
+### Historial de Compras
 
-A través del correo electrónico, los usuarios recibirán ofertas exclusivas, como descuentos o promociones (ej. 2x1 en entradas).
+- Acceso al historial de entradas adquiridas desde el perfil del usuario, incluyendo el código de compra.
 
+### Ofertas y Promociones
 
-                Funcionalidades Técnicas Adicionales:
+- Envío de ofertas exclusivas por correo electrónico, como descuentos o promociones.
 
-        Control de roles:
+---
 
-Distinción entre usuarios normales y administradores del sistema.
-Los administradores podrán gestionar la cartelera, editar películas disponibles, y ver reportes de ventas.
+## Funcionalidades Técnicas Adicionales
 
-        Sistema de notificaciones:
+### Control de Roles
 
-Notificaciones automáticas por correo para confirmar compras o enviar promociones.
+- Distinción entre usuarios normales y administradores.
+- Los administradores gestionarán la cartelera y editarán películas.
 
-        Seguridad:
+### Sistema de Notificaciones
 
-Manejo de datos personales con protección adecuada (JWT).
-Validación del código de entrada en el cine para evitar fraudes.
+- Notificaciones automáticas por correo para confirmar compras y enviar promociones.
 
+### Seguridad
 
+- Protección de datos personales mediante JWT.
+- Validación del código de entrada en el cine para evitar fraudes.
 
-integrantes del grupo:
-1) Agustin Raggi, legajo 50786, comision 302
+---
+
+## Instrucciones de Instalación
+
+Para iniciar la aplicación, sigue estos pasos:
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/agustinraggi/cine-aurora-frontend.git
+   ```
+
+2. Navega a la carpeta `client`:
+   ```bash
+   cd cine-aurora-frontend
+   ```
+
+3. Instala las librerías necesarias:
+   ```bash
+   npm install
+   ```
+
+4. Inicia la aplicación:
+   ```bash
+   npm start
+   ```
+
+### Nota para Compras
+
+Se recomienda usar la aplicación en una ventana de incógnito para evitar salir de tu usuario de Mercado Pago:
+
+- **Nombre de cuenta de Mercado Pago**: TESTUSER1006550785
+- **Contraseña de usuario de Mercado Pago**: JR8xEFv8pg
+
+### Link de muestra de la aplicación
+
+Puedes ver una demostración de la aplicación en el siguiente enlace:
+[Demo de Cine Aurora](https://drive.google.com/drive/folders/1KNipmQ1gqdZNKFnduNhWCk5B5zVscSgy?usp=drive_link)
+
+---
+
+## Integrantes del Grupo
+
+1. Agustin Raggi, legajo 50786, comisión 302

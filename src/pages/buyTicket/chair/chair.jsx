@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import disponible from "./assets/disponible.png";
 import seleccionado from "./assets/seleccionado.png";
-import ocupado from "./assets/ocupado.png"
+import ocupado from "./assets/ocupado.png";
+import Swal from "sweetalert2";
 import "../ticket.css";
 import axios from "axios";
 
@@ -23,41 +24,50 @@ function Chair({ ticketQuantity, onSeatsSelected, idMovieTheater }) {
         ['J1', 'J2', 'J3', 'J4', '', '', '', '', 'J5', 'J6', 'J7', 'J8', 'J9', 'J10', 'J11', 'J12', 'J13', 'J14', 'J15', 'J16', 'J17', 'J18', 'J19', 'J20', 'J21', 'J22', '', '', '', '', 'J23', 'J24', 'J25', 'J26', 'J27'],
         ['K1', 'K2', 'K3', 'K4', '', '', '', '', 'K5', 'K6', 'K7', 'K8', 'K9', 'K10', 'K11', 'K12', 'K13', 'K14', 'K15', 'K16', 'K17', 'K18', 'K19', 'K20', 'K21', 'K22', '', '', '', '', 'K23', 'K24', 'K25', 'K26', 'K27']
     ];
-    const updateSelectedSeats = (seat) => {
-        if (selectedSeats.includes(seat)) {
-            setSelectedSeats((prev) => prev.filter((s) => s !== seat));
-        } else {
-            if (selectedSeats.length < ticketQuantity) {
-                setSelectedSeats((prev) => [...prev, seat]);
-            } else {
-                alert(`Solo puedes seleccionar hasta ${ticketQuantity} asientos.`);
-            }
+
+    const fetchOccupiedSeats = async () => {
+        try {
+            const response = await axios.get(`${URL_BACK}/occupiedSeats/${idMovieTheater}`);
+            setOccupiedSeats(response.data);
+        } catch (error) {
+            console.error("Error al obtener sillas ocupadas:", error);
         }
     };
 
-    useEffect(() => {
-        const fetchOccupiedSeats = async () => {
-            try {
-                const response = await axios.get(`${URL_BACK}/occupiedSeats/${idMovieTheater}`);
-                setOccupiedSeats(response.data);
-            } catch (error) {
-                console.error("Error al obtener sillas ocupadas:", error);
+    const updateSelectedSeats = (seat) => {
+        let updatedSeats;
+        if (selectedSeats.includes(seat)) {
+            updatedSeats = selectedSeats.filter((s) => s !== seat);
+        } else {
+            if (selectedSeats.length < ticketQuantity) {
+                updatedSeats = [...selectedSeats, seat];
+            } else {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'info',
+                    title: `Solo puedes seleccionar hasta ${ticketQuantity} asientos.`,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+                return;
             }
-        };
-        
-        fetchOccupiedSeats();
-    }, [idMovieTheater]);
+        }
+        setSelectedSeats(updatedSeats);
+        onSeatsSelected(updatedSeats); 
+    };
 
     useEffect(() => {
-        onSeatsSelected(selectedSeats);
-    }, [selectedSeats, onSeatsSelected]);
+        fetchOccupiedSeats();
+    }, [idMovieTheater]);
 
     return (
         <div className="container-fluid seatStructure">
             <center>
                 <h4 className="screenTitle">Pantalla de Cine</h4>
                 <div className="screen"></div>
-                <p>asientos seleccionados: {selectedSeats.join(' - ')}</p>
+                <p>Asientos seleccionados: {selectedSeats.join(' - ')}</p>
                 <table className="seatsTable">
                     <tbody>
                         {rows.map((row, rowIndex) => (

@@ -30,6 +30,12 @@ function Ticket({ userId }) {
             setCurrentMovieDetail(data);
         } catch (error) {
             console.error("Error fetching movie details:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudieron obtener los detalles de la película. Por favor, intenta nuevamente.',
+                confirmButtonText: 'Aceptar',
+            });
         }
     };
 
@@ -40,8 +46,15 @@ function Ticket({ userId }) {
             setMovieFunctions(data);
         } catch (error) {
             console.error("Error fetching movie functions:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudieron obtener las funciones de la película. Por favor, intenta nuevamente.',
+                confirmButtonText: 'Aceptar',
+            });
         }
     };
+    
 
     // Función para obtener el precio de la entrada
     const fetchPrice = async () => {
@@ -59,6 +72,12 @@ function Ticket({ userId }) {
             setMovieTheaterId(data.id); 
         } catch (error) {
             console.error("Error fetching price:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo obtener el precio. Por favor, intenta nuevamente.',
+                confirmButtonText: 'Aceptar',
+            });
         }
     };
 

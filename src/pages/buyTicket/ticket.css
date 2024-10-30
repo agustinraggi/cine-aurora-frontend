@@ -17,17 +17,7 @@
     background-color: #242333;
 }
 
-.accordion-header {
-    background-color: #242333;
-    color: white;
-}
-
-.accordion-body  {
-    background-color: #242333;
-    color: white;
-}
-
-.accordion-button {
+.accordion-header .accordion-body .accordion-button {
     background-color: #242333;
     color: white;
 }
@@ -132,6 +122,4 @@
     .screenTitle {
         margin-left: 300px;
     }
-    
-    
 }

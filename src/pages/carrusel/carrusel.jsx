@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./carrusel.css";
+import Swal from 'sweetalert2';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MovieList from "../../components/movieList/movieList";
@@ -59,6 +60,11 @@ const Carrusel = () => {
             setDbMovies(response.data);
         } catch (error) {
             console.error("Error fetching database movies:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error fetching database movies! Please try again later.',
+            });
         }
     };
 
@@ -68,6 +74,11 @@ const Carrusel = () => {
             return response.data;
         } catch (error) {
             console.error("Error fetching movie data:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error fetching movie data! Please try again later.',
+            });
             return null;
         }
     };
@@ -121,7 +132,7 @@ const Carrusel = () => {
                     <div key={index} className="slider-item">
                         <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                             <div className="posterImage">
-                                <img src={`https://image.tmdb.org/t/p/original${movie.backdropPath || movie.posterPath}`} alt={movie.nameFilm} className="CarruselImg" />
+                                <img src={`https://image.tmdb.org/t/p/original${movie.backdropPath || movie.posterPath}`} alt={movie.nameFilm} className="posterImage__img" />
                                 <div className="posterImage__overlay">
                                     <div className="posterImage__title">{movie.nameFilm}</div>
                                 </div>

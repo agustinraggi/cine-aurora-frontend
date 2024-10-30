@@ -1,4 +1,3 @@
-/* Estilos generales */
 .headerNav {
     display: flex;
     justify-content: center;
@@ -10,7 +9,6 @@
     z-index: 1000;
 }
 
-/* Oculta el icono de hamburguesa en pantallas grandes */
 .hamMenuIcon {
     display: none;
 }
@@ -22,14 +20,14 @@
     flex-wrap: wrap;
 }
 
-.menuLinks a {
+.linkHeader{
     padding: 10px 20px;
     color: #ffffff;
     text-decoration: none;
     font-size: 1.3rem;
 }
 
-.menuLinks a:hover {
+.menuLinks .textHeader:hover {
     color: #6748ce;
 }
 
@@ -61,7 +59,7 @@
         left: 10px; 
     }
 
-    .hamMenuIcon span {
+    .hamMenuIcon .spanBurger {
         background-color: #6F86FF;
         height: 3px; 
         width: 100%;
@@ -69,15 +67,15 @@
         padding: 2px 0; 
     }
 
-    .hamMenuIcon.active span:nth-child(1) {
+    .hamMenuIcon.active .spanBurger:nth-child(1) {
         transform: rotate(45deg) translate(10px, 6px);
     }
 
-    .hamMenuIcon.active span:nth-child(2) {
+    .hamMenuIcon.active .spanBurger:nth-child(2) {
         opacity: 0;
     }
 
-    .hamMenuIcon.active span:nth-child(3) {
+    .hamMenuIcon.active .spanBurger:nth-child(3) {
         transform: rotate(-45deg) translate(8px, -5px);
     }
 
@@ -101,18 +99,6 @@
         display: flex;
         justify-content: center; 
         transform: translateX(-100%); 
-    }
-
-    .menuLinks a {
-        margin: 20px 0;
-        font-size: 1.5rem;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.8); 
-        transition: color 0.3s ease;
-    }
-
-    .menuLinks a:hover {
-        color: rgba(101, 22, 193, 0.9);
     }
     .headerNav{
         padding: 30px 30px;

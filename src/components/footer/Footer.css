@@ -1,153 +1,64 @@
 .footer {
     background-image: linear-gradient(79deg, #333333, #271425 48%, #291b12);
-    width: auto;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center; 
     padding: 20px 0;
+    color: #fff;
     position: relative;
-    gap: 25px;
+    margin-top: 597px;
 }
 
-.socials-container {
+.socialsContainer {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 25px;
-    padding: 20px;
-    background-image: linear-gradient(79deg, #333333, #271425 48%, #291b12);
+    width: 80%; 
 }
 
-.social {
-    width: 50px;
-    height: 50px;
+.socialsLeft {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgb(194, 194, 194);
+    gap: 50px;
 }
 
-.twitter:hover {
-    background: linear-gradient(45deg, #66757f, #00acee, #36daff, #dbedff);
-}
-
-.facebook:hover {
-    background: linear-gradient(45deg, #134ac0, #316ff6, #78a3ff);
-}
-
-.google-plus:hover {
-    background: linear-gradient(45deg, #872419, #db4a39, #ff7061);
-}
-
-.instagram:hover {
-    background: #f09433;
-    background: -moz-linear-gradient(
-        45deg,
-        #f09433 0%,
-        #e6683c 25%,
-        #dc2743 50%,
-        #cc2366 75%,
-        #bc1888 100%
-    );
-    background: -webkit-linear-gradient(
-        45deg,
-        #f09433 0%,
-        #e6683c 25%,
-        #dc2743 50%,
-        #cc2366 75%,
-        #bc1888 100%
-    );
-    background: linear-gradient(
-        45deg,
-        #f09433 0%,
-        #e6683c 25%,
-        #dc2743 50%,
-        #cc2366 75%,
-        #bc1888 100%
-    );
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
-}
-
-.social svg {
-    fill: white;
-    height: 20px;
-}
-
-.footer.movie-footer {
-    margin-top: 500px;
-    position: static;
-    bottom: 0;
+.imgSocialMedia {
+    width: 40px;
+    height: 40px;
 }
 
 .creator {
-    margin-left: 500px;
+    font-size: 18px;
+    color: #ddd;
+    text-align: right;
 }
 
-@media (max-width: 1022px) {
-    .creator {
-        margin-left: 300px;
-    }
-}
-@media (max-width: 842px) {
-    .creator {
-        margin-left: 100px;
-    }
-}
-@media (max-width: 641px) {
-    footer {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 0;
+@media (max-width: 768px) {
+    .footer {
+        padding: 15px 0;
     }
 
-    .socials-container {
-        display: flex;
-        flex-direction: row; 
-        align-items: center; 
-        justify-content: center;
-        margin-top: 10px;
-        gap: 30px; 
-    }
-
-    .social {
-        width: 44px; 
-        height: 44px; 
+    .socialMedia img {
+        width: 32px;
+        height: 32px;
     }
 
     .creator {
-        margin-left: 0;
-        text-align: left;
-        margin-top: 10px;
-    }
-}
-@media (max-width: 641px) {
-    .social {
-        width: 34px; 
-        height: 34px; 
-    }
-    .creator{
         font-size: 14px;
     }
 }
+
 @media (max-width: 480px) {
-    .socials-container {
+    .socialsContainer {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1);
         justify-items: center;
         align-items: center;
+        gap: 40px;
     }
-
-    .social {
-        width: 46px;
-        height: 46px;
+    .socialMedia{
+        margin-left: 30px;
     }
-
     .creator {
-        font-size: 16px;
-        text-align: center;
-        grid-column: span 2;
+        font-size: 12px;
     }
 }
-
