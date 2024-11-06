@@ -23,8 +23,7 @@ function MercadoPago({ ticketData, userId }) {
         } else {
           setShowButton(true);
         }
-      } catch (error) {
-        console.error("Error en la solicitud a Mercado Pago:", error);
+      } catch{
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -81,8 +80,7 @@ function MercadoPago({ ticketData, userId }) {
       setInitialized(true);
       setShowButton(false);
       setPaymentStatus("pending");
-    } catch (error) {
-      console.error("Error al procesar el pago:", error);
+    } catch{
       Swal.fire({
         icon: 'error',
         title: 'Error',

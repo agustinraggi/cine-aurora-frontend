@@ -15,8 +15,7 @@ const MovieList = () => {
         try {
             const movies = await getAllFilmSoon();
             setMoviePosters(movies);
-        } catch (error) {
-            console.error("Error fetching movies:", error);
+        } catch{
             Swal.fire({
                 title: "Error al cargar las películas",
                 text: "No se pudo cargar la lista de películas. ¿Quieres intentar nuevamente?",

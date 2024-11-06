@@ -30,8 +30,7 @@ function Ticket({ userId }) {
         try {
             const data = await fetchMovieDetail(id);
             setCurrentMovieDetail(data);
-        } catch (error) {
-            console.error("Error fetching movie details:", error);
+        } catch{;
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -46,8 +45,7 @@ function Ticket({ userId }) {
         try {
             const { data } = await axios.get(`${URL_BACK}/movieFunctions/${codeFilm}`);
             setMovieFunctions(data);
-        } catch (error) {
-            console.error("Error fetching movie functions:", error);
+        } catch{
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -72,8 +70,7 @@ function Ticket({ userId }) {
             });
             setPrice(data.price);
             setMovieTheaterId(data.id); 
-        } catch (error) {
-            console.error("Error fetching price:", error);
+        } catch{
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -139,7 +136,7 @@ function Ticket({ userId }) {
     // Datos del ticket a enviar a MercadoPago
     const ticketData = {
         title: currentMovieDetail.title,
-        price: price * ticketQuantity, 
+        price: price * ticketQuantity,
         quantity: ticketQuantity,
         seats: selectedSeats,
         date: selectedDate,

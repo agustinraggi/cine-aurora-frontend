@@ -34,31 +34,40 @@ function EditUser() {
                     if (!isNaN(userDate)) {
                         setSelectedDate(userDate);
                     } else {
-                        console.error("Invalid date value:", user.date);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Fecha no válida",
+                            text: "La fecha de nacimiento del usuario no es válida.",
+                        });
                         setSelectedDate(new Date());
                     }
                 })
                 .catch((error) => {
-                    console.error("Error fetching user data:", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error al obtener los datos del usuario",
+                        text: "Hubo un problema al cargar los datos del usuario. Por favor, intente nuevamente más tarde.",
+                        footer: error.message,
+                    });
                 });
         }
     }, [idUser]);
 
     const validateForm = () => {
         if (!mail || !mail.includes("@")) {
-            alert("Por favor complete un correo electrónico válido");
+            Swal.fire("Por favor complete un correo electrónico válido", "", "warning");
             return false;
         }
         if (!name) {
-            alert("Por favor complete el nombre");
+            Swal.fire("Por favor complete el nombre", "", "warning");
             return false;
         }
         if (!surname) {
-            alert("Por favor complete el apellido");
+            Swal.fire("Por favor complete el apellido", "", "warning");
             return false;
         }
         if (!selectedDate) {
-            alert("Por favor seleccione una fecha de nacimiento");
+            Swal.fire("Por favor seleccione una fecha de nacimiento", "", "warning");
             return false;
         }
         return true;
@@ -80,10 +89,7 @@ function EditUser() {
                 .then(() => {
                     Swal.fire({
                         title: "<strong>Usuario Actualizado</strong>",
-                        html:
-                            "<i>El usuario <strong>" +
-                            name +
-                            "</strong> fue ACTUALIZADO con éxito!</i>",
+                        html: `<i>El usuario <strong>${name}</strong> fue ACTUALIZADO con éxito!</i>`,
                         icon: "success",
                         timer: 2000,
                     });
@@ -93,10 +99,9 @@ function EditUser() {
                         icon: "error",
                         title: "Oops...",
                         text: "No se pudo actualizar el usuario!",
-                        footer:
-                            JSON.parse(JSON.stringify(error)).message === "Network Error"
-                                ? "Intente más tarde"
-                                : JSON.parse(JSON.stringify(error)).message,
+                        footer: error.message.includes("Network Error")
+                            ? "Intente más tarde"
+                            : error.message,
                     });
                 });
         }
@@ -183,7 +188,7 @@ function EditUser() {
                                 </div>
                             </div>
                             <Link to = {`/changePassword/${idUser}`}>
-                                    <button type="button" className="Btn btn-warning" id="btnChangePassword">Actualizar Contraseña</button>
+                                <button type="button" className="Btn btn-warning" id="btnChangePassword">Actualizar Contraseña</button>
                             </Link>
                             <div className="btnEditUser">
                                 <Link to = {`/userActive`}>
@@ -199,7 +204,6 @@ function EditUser() {
             </div>
             <div className="footerEditUser"></div>
         </div>
-        
     );
 }
 

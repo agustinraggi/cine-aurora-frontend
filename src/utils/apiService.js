@@ -12,14 +12,13 @@ const handleApiError = (error, message) => {
     throw error; 
 };
 
-// no anda
-// Obtener el usuario logeado
-export const fetchUser = async () => {
+// Obtener el token del usuario que se loguea
+export const tokenUser = async ({ mailOrDni, password }) => {
     try {
-        const response = await axiosInstance.get('/tokenUser');
-        return response.data;
+        const response = await axiosInstance.post('/login', { mailOrDni, password });
+        return response.data; 
     } catch (error) {
-        handleApiError(error, 'Error al obtener el usuario.');
+        handleApiError(error, 'Error al iniciar sesión.');
     }
 };
 
@@ -73,7 +72,6 @@ export const fetchMovieDetail = async (id) => {
     }
 };
 
-// no andaa
 // Obtener funciones de una película
 export const MovieFunctions = async (codeFilm) => {
     try {
@@ -84,8 +82,7 @@ export const MovieFunctions = async (codeFilm) => {
     }
 };
 
-// no anda
-// Obtener precio de la entrada 
+// Obtener precio de la entrada
 export const getPrice = async (params) => {
     try {
         const response = await axiosInstance.get('/getPrice', { params });

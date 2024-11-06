@@ -32,7 +32,6 @@ const LoginWrapper = ({ setUser }) => {
                 });
             } else {
                 const errorText = await response.text();
-                console.error("Error en la solicitud:", errorText);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -40,8 +39,7 @@ const LoginWrapper = ({ setUser }) => {
                     confirmButtonText: 'OK'
                 });
             }
-        } catch (error) {
-            console.error("Error al iniciar sesión:", error);
+        } catch{
             Swal.fire({
                 icon: 'error',
                 title: 'Error de conexión',

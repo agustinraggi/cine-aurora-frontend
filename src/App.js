@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Axios from 'axios'; 
-import { getToken, initAxiosInterceptors } from './Helpers/auth-helpers'; 
+import { getToken, initAxiosInterceptors } from './Helpers/auth-helpers';
+import Swal from 'sweetalert2'; 
 
 import Header from './components/header/Header';
 import FQ from "./pages/frequentQuestions/FQ";
@@ -53,16 +54,18 @@ function App() {
                 const { data: user } = await Axios.get(`${URL_BACK}/tokenUser`);
                 setUser(user);
             } catch (error) {
-                console.log(error);
+                Swal.fire({
+                    title: "Error",
+                    text: "No se pudo cargar la información del usuario.",
+                    icon: "error",
+                    confirmButtonText: "Cerrar"
+                });
             } finally {
                 setLoadingUser(false);
             }
         }
         loadUser();
     }, []);
-    if (loadingUser) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div className="App">

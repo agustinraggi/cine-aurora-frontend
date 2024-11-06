@@ -6,61 +6,63 @@ import "./carrusel.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MovieList from "../../components/movieList/movieList";
+import Loading from "../../components/loading/loading";
 
 const Carrusel = () => {
     const [dbMovies, setDbMovies] = useState([]);
     const [moviePosters, setMoviePosters] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // Mantener el estado de carga
 
     const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
+    // Cargar las películas desde la base de datos
     useEffect(() => {
         fetchDbMovies();
     }, []);
-    useEffect(() => {
-        const fetchMoviePosters = async () => {
-            const posters = await Promise.all(
-                dbMovies.map(async (dbMovie) => {
-                    const movieData = await fetchMovieData(dbMovie.codeFilm);
-                    if (movieData) {
-                        return {
-                            ...dbMovie,
-                            backdropPath: movieData.backdrop_path,
-                            posterPath: movieData.poster_path,
-                            id: movieData.id
-                        };
-                    } else {
-                        return {
-                            ...dbMovie,
-                            backdropPath: null,
-                            posterPath: null,
-                            id: null
-                        };
-                    }
-                })
-            );
-            setMoviePosters(posters.filter(movie => movie.backdropPath !== null || movie.posterPath !== null));
-        };
 
-        fetchMoviePosters();
+    // Cargar las imágenes de las películas después de que se obtienen las películas
+    useEffect(() => {
+        if (dbMovies.length > 0) {
+            const fetchMoviePosters = async () => {
+                const posters = await Promise.all(
+                    dbMovies.map(async (dbMovie) => {
+                        const movieData = await fetchMovieData(dbMovie.codeFilm);
+                        if (movieData) {
+                            return {
+                                ...dbMovie,
+                                backdropPath: movieData.backdrop_path,
+                                posterPath: movieData.poster_path,
+                                id: movieData.id
+                            };
+                        } else {
+                            return {
+                                ...dbMovie,
+                                backdropPath: null,
+                                posterPath: null,
+                                id: null
+                            };
+                        }
+                    })
+                );
+                setMoviePosters(posters.filter(movie => movie.backdropPath !== null || movie.posterPath !== null));
+                setLoading(false); // Set loading to false after loading the posters
+            };
+
+            fetchMoviePosters();
+        }
     }, [dbMovies]);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 1500);
-
-        return () => clearTimeout(timer); 
-    }, []);
-
+    // Obtener las películas de la base de datos
     const fetchDbMovies = async () => {
         try {
             const response = await axios.get(`${URL_BACK}/allFilm`);
             setDbMovies(response.data);
         } catch (error) {
+            console.error("Error fetching movies:", error);
         }
     };
 
+    // Obtener los datos de cada película usando su código
     const fetchMovieData = async (codeFilm) => {
         try {
             const response = await axios.get(`${URL_BACK}/movie/${codeFilm}`);
@@ -70,6 +72,12 @@ const Carrusel = () => {
         }
     };
 
+    // Si está cargando, mostrar el componente Loading
+    if (loading) {
+        return <Loading />;
+    }
+
+    // Configuración del slider
     const settings = {
         dots: true,
         infinite: true,
@@ -98,19 +106,6 @@ const Carrusel = () => {
         ),
         pauseOnHover: false 
     };
-
-    // Si está cargando, muestra la pantalla de carga
-        if (loading) {
-        return (
-            <div className="loadingScreen">
-                <div className="loadingFilm">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="poster">

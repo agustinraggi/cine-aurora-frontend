@@ -15,13 +15,11 @@ function LoggedUser({ userId }) {
     const [tickets, setTickets] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
-    // Generamos un código único para ese usuario
     const generateCode = (codeString) => {
         if (!codeString) return 'N/A';
         return codeString.replace(/[^a-zA-Z]/g, '').slice(0, 6).toUpperCase();
     };
 
-    // Reformatemos la fecha
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, '0');
@@ -33,7 +31,6 @@ function LoggedUser({ userId }) {
         return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     };
 
-    // Mostrar detalles del ticket
     const showTicketDetails = (ticket) => {
         Swal.fire({
             title: `<strong>Detalles del Ticket</strong>`,
@@ -50,8 +47,6 @@ function LoggedUser({ userId }) {
             `,
             icon: 'info',
             showCloseButton: true,
-            showCancelButton: false,
-            focusConfirm: false,
             confirmButtonText: 'Cerrar',
             customClass: {
                 popup: 'my-custom-popup'
@@ -82,7 +77,11 @@ function LoggedUser({ userId }) {
                     }
                 }
             } catch (error) {
-                console.error("Error al obtener los tickets:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al obtener los tickets. Por favor, intenta nuevamente más tarde.',
+                });
             }
         };
     
@@ -103,11 +102,9 @@ function LoggedUser({ userId }) {
                     const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid')
                         .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
                     setTickets(sortedTickets);
-                    // Obtener los asientos y el idMovieTheater del ticket más reciente
                     const mostRecentTicket = sortedTickets[0];
                     const { chair, idMovieTheater } = mostRecentTicket;
 
-                    // Actualizar los asientos
                     await axios.post(`${URL_BACK}/updateSeats`, {
                         chair: JSON.parse(chair), 
                         idMovieTheater: idMovieTheater,
@@ -125,7 +122,11 @@ function LoggedUser({ userId }) {
                     });
                 }
             } catch (error) {
-                console.error("Error al actualizar el estado del ticket o los asientos:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al actualizar el estado del ticket o los asientos. Por favor, intenta nuevamente.',
+                });
             }
         }
     };

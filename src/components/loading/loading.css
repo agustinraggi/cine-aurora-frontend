@@ -1,0 +1,61 @@
+.loadingScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    flex-direction: column;
+}
+.loadingFilm {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    gap: 0.625em;
+    transform: translate(-5%, -50%);
+}
+
+.loadingFilm .circleLoading {
+    border-radius: 50%;
+    height: 1.5em;
+    width: 1.5em;
+}
+
+.loadingFilm .circleLoading::before {
+    content: "";
+    display: block;
+    border-radius: inherit;
+    height: inherit;
+    width: inherit;
+    background-color: inherit;
+    animation: ripple 1.8s ease-out infinite;
+    animation-delay: inherit;
+    z-index: -1;
+}
+
+.loadingFilm .circleLoading:nth-of-type(1) {
+    background-color: #84cdfa;
+}
+
+.loadingFilm .circleLoading:nth-of-type(2) {
+    background-color: #5ad1cd;
+    animation-delay: 0.2s;
+}
+
+.loadingFilm .circleLoading:nth-of-type(3) {
+    background-color: #9b59b6;
+    animation-delay: 0.4s;
+}
+
+@keyframes ripple {
+    from {
+    opacity: 1;
+    transform: scale(0);
+}
+
+to {
+    opacity: 0;
+    transform: scale(3);
+    }
+}

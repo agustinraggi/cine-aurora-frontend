@@ -43,8 +43,19 @@ function MovieSoon() {
                 }
                 setTrailer(selectedTrailer);
             }
-        } catch (error) {
-            console.error("Error fetching movie details", error);
+        } catch{
+            Swal.fire({
+                title: "Error al obtener detalles de la pelicula",
+                text: "No se pudo cargar de la pelicula. ¿Quieres intentar nuevamente?",
+                icon: "error",
+                showCancelButton: true,
+                confirmButtonText: "Reintentar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetchMovie();
+                }
+            });
         }
     };
 
