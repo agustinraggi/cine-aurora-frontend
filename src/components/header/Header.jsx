@@ -3,13 +3,12 @@ import "./Header.css";
 import ImgUser from '../../assets/user.png'
 import { Link } from "react-router-dom";
 
-const Header = ({ user }) => {
+const Header = ({ user, userId }) => {
     const [isMenuActive, setMenuActive] = useState(false);
 
     const toggleMenu = () => {
         setMenuActive(!isMenuActive);
     };
-
     return (
         <nav className="headerNav">
             <div className={`hamMenuIcon ${isMenuActive ? "active" : ""}`} onClick={toggleMenu}>
@@ -43,10 +42,10 @@ const Header = ({ user }) => {
                 </span>
             </Link>
         ) : (
-            <Link className="linkHeader" to="/userActive">
+            <Link className="linkHeader" to={`/userActive/${userId}`}>
                 <span className="userActive textHeader">
                     {user.name}
-                    <img className="iconUser" src = {ImgUser} alt="imagen de usario logeado" />
+                    <img className="iconUser" src={ImgUser} alt="imagen de usuario logeado" />
                 </span>
             </Link>
         )}

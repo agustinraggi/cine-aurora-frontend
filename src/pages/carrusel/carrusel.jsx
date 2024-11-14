@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./carrusel.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MovieList from "../../components/movieList/movieList";
 import Loading from "../../components/loading/loading";
+import { getAllFilms, getMovieByCode } from "../../utils/apiFilm";
 
 const Carrusel = () => {
     const [dbMovies, setDbMovies] = useState([]);
     const [moviePosters, setMoviePosters] = useState([]);
-    const [loading, setLoading] = useState(true); // Mantener el estado de carga
-
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
+    const [loading, setLoading] = useState(true);
 
     // Cargar las películas desde la base de datos
     useEffect(() => {
         fetchDbMovies();
     }, []);
 
-    // Cargar las imágenes de las películas después de que se obtienen las películas
+    // Cargar las imágenes de las películas después de obtenerlas
     useEffect(() => {
         if (dbMovies.length > 0) {
             const fetchMoviePosters = async () => {
                 const posters = await Promise.all(
                     dbMovies.map(async (dbMovie) => {
-                        const movieData = await fetchMovieData(dbMovie.codeFilm);
+                        const movieData = await getMovieByCode(dbMovie.codeFilm);
                         if (movieData) {
                             return {
                                 ...dbMovie,
@@ -45,34 +43,23 @@ const Carrusel = () => {
                     })
                 );
                 setMoviePosters(posters.filter(movie => movie.backdropPath !== null || movie.posterPath !== null));
-                setLoading(false); // Set loading to false after loading the posters
+                setLoading(false);
             };
 
             fetchMoviePosters();
         }
     }, [dbMovies]);
 
-    // Obtener las películas de la base de datos
+    // Obtener todas las películas desde la base de datos
     const fetchDbMovies = async () => {
         try {
-            const response = await axios.get(`${URL_BACK}/allFilm`);
-            setDbMovies(response.data);
+            const movies = await getAllFilms();
+            setDbMovies(movies);
         } catch (error) {
             console.error("Error fetching movies:", error);
         }
     };
 
-    // Obtener los datos de cada película usando su código
-    const fetchMovieData = async (codeFilm) => {
-        try {
-            const response = await axios.get(`${URL_BACK}/movie/${codeFilm}`);
-            return response.data;
-        } catch (error) {
-            return null;
-        }
-    };
-
-    // Si está cargando, mostrar el componente Loading
     if (loading) {
         return <Loading />;
     }

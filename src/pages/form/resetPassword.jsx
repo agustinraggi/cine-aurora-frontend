@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { resetPassword } from "../../utils/apiUser";  
 import "./resetPassword.css";
 
 function ResetPassword() {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const { token } = useParams();
+    const navigate = useNavigate(); 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword1, setShowPassword1] = useState(false);
@@ -25,21 +25,22 @@ function ResetPassword() {
         }
 
         try {
-            const response = await axios.post(`${URL_BACK}/reset-password`, { token, newPassword: password });
-            if (response.status === 200) {
+            const data = await resetPassword(token, password);
+            if (data) {
                 Swal.fire({
                     title: "<strong>Contraseña Restablecida</strong>",
                     html: "<i>Su contraseña ha sido actualizada con éxito!</i>",
                     icon: "success",
                     timer: 4000,
                 });
+                navigate("/login"); 
             }
         } catch (error) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "No se pudo restablecer la contraseña",
-                footer: error.response ? error.response.data.message : "Intente más tarde",
+                footer: error.message || "Intente más tarde",
             });
         }
     };
@@ -107,7 +108,6 @@ function ResetPassword() {
             </div>
             <div className="footerResetPassword"></div>
         </div>
-        
     );
 }
 

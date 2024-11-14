@@ -5,7 +5,6 @@ import Loading from '../../components/loading/loading';
 import MovieListSoon from "../../components/movieList/movieListSoon"; 
 
 const UpcomingMovies = () => {
-  const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

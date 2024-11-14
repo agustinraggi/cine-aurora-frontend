@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import "./deleteFilm.css";
+import { deleteMovieSoon, getAllFilmSoon } from "../../../utils/apiFilmSoon";
 
 function DeleteFilmAdmin() {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
+
     const [listFilm, setListFilm] = useState([]);
     const [filteredFilm, setFilteredFilm] = useState([]);
     const [search, setSearch] = useState("");
 
     // Obtener todas las películas
     const getFilm = () => {
-        axios.get(`${URL_BACK}/allFilmSoon`)
-            .then((response) => {
-                setListFilm(response.data);
-                setFilteredFilm(response.data);
+        getAllFilmSoon()
+            .then((data) => {
+                setListFilm(data);
+                setFilteredFilm(data);
             })
             .catch((error) => {
                 console.error("Error al obtener datos:", error);
             });
     };
-
-    // Eliminar una película por su ID
+    // Eliminar película con confirmación
     const deleteData = (idSoonFilm, nameFilm) => {
         Swal.fire({
             title: "¿Estás seguro?",
@@ -33,24 +32,12 @@ function DeleteFilmAdmin() {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`${URL_BACK}/deleteSoonFilm/${idSoonFilm}`)
+                deleteMovieSoon(idSoonFilm, nameFilm)
                     .then(() => {
-                        Swal.fire({
-                            title: "¡Eliminado!",
-                            text: `La película ${nameFilm} ha sido eliminada.`,
-                            icon: "success",
-                            timer: 2000
-                        });
                         getFilm();
                     })
                     .catch((error) => {
                         console.error("Error al eliminar la película:", error);
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "No se pudo eliminar la película!",
-                            footer: error.message
-                        });
                     });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire({

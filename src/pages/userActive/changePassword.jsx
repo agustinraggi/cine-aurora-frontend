@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import Swal from "sweetalert2";
 import "./changePassword.css";
+import { changeUserPassword } from "../../utils/apiUser";
 
 function ChangePassword() {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
+
     const { idUser } = useParams();
     const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState("");
@@ -28,10 +29,7 @@ function ChangePassword() {
 
     const updatePassword = () => {
         if (validatePasswordForm()) {
-            axios
-                .put(`${URL_BACK}/changePassword/${idUser}`, {
-                    newPassword,
-                })
+            changeUserPassword(idUser, newPassword) 
                 .then(() => {
                     Swal.fire({
                         title: "<strong>Contraseña Actualizada</strong>",

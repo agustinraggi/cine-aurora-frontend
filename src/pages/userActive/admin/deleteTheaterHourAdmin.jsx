@@ -1,67 +1,35 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import "./deleteFilm.css";
+import { getAllMovieTheater, deleteMovieTheater } from "../../../utils/apiMovieTheater";
 
 function DeleteFilmAdmin() {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const [listFilm, setListFilm] = useState([]);
     const [filteredFilm, setFilteredFilm] = useState([]);
     const [search, setSearch] = useState("");
 
-    // Obtener todas las funciones
+   // Obtener todas las funciones de películas
     const getFilm = () => {
-        axios.get(`${URL_BACK}/allMovieTheater`)
-            .then((response) => {
-                setListFilm(response.data);
-                setFilteredFilm(response.data);
+        getAllMovieTheater()
+            .then((data) => {
+                setListFilm(data);
+                setFilteredFilm(data);
             })
             .catch((error) => {
-                console.error("Error al obtener datos:", error);
+                console.error("Error al obtener las funciones:", error);
             });
     };
 
     // Eliminar una función por su ID
-    const deleteData = (idMovieTheater, nameFilm) => {
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: `No podrás revertir esta acción. ¿Estás seguro de que deseas eliminar la función de ${nameFilm}?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sí, eliminar!",
-            cancelButtonText: "No, cancelar",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(`${URL_BACK}/deleteMovieTheater/${idMovieTheater}`)
-                    .then(() => {
-                        Swal.fire({
-                            title: "¡Eliminado!",
-                            text: `La función de ${nameFilm} ha sido eliminada.`,
-                            icon: "success",
-                            timer: 2000
-                        });
-                        getFilm();
-                    })
-                    .catch((error) => {
-                        console.error("Error al eliminar la función:", error);
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "No se pudo eliminar la función!",
-                            footer: error.message
-                        });
-                    });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire({
-                    title: "Cancelado",
-                    text: "Tu archivo está a salvo :)",
-                    icon: "error",
-                    timer: 2000
+        const deleteData = (idMovieTheater, nameFilm) => {
+            deleteMovieTheater(idMovieTheater, nameFilm)
+                .then(() => {
+                    getFilm();
+                })
+                .catch((error) => {
+                    console.error("Error al eliminar la función:", error);
                 });
-            }
-        });
-    };
+        };
 
     useEffect(() => {
         getFilm();

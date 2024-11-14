@@ -1,72 +1,70 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from 'axios';
 import YouTube from "react-youtube";
+import Swal from 'sweetalert2'; 
+import { getMovieDetails, getMovieTrailer } from '../../utils/apiFilm'; 
+
 import "./movie.css";
 
 function Movie() {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
-
     const [trailer, setTrailer] = useState(null);
     const [currentMovieDetail, setCurrentMovieDetail] = useState({ title: "Loading Movies" });
     const [playing, setPlaying] = useState(false);
-
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // Función para obtener los detalles de la película desde tu backend
+  // Función para obtener los detalles de la película
     const fetchMovie = async () => {
         try {
-            const { data } = await axios.get(`${URL_BACK}/movie/${id}`);
-            setCurrentMovieDetail(data);
-            const trailerResponse = await axios.get(`${URL_BACK}/movie/videos/${id}`);
-            if (trailerResponse.data.results) {
-                let selectedTrailer;
-                selectedTrailer = trailerResponse.data.results.find(
-                    (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "MX"
-                );
-                if (!selectedTrailer) {
-                    selectedTrailer = trailerResponse.data.results.find(
-                        (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "ES"
-                    );
-                }
-                if (!selectedTrailer) {
-                    selectedTrailer = trailerResponse.data.results.find(
-                        (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.name.toLowerCase().includes("subtitulado")
-                    );
-                }
-                if (!selectedTrailer) {
-                    selectedTrailer = trailerResponse.data.results.find(
-                        (vid) => vid.type === "Trailer"
-                    );
-                }
-                setTrailer(selectedTrailer);
+        const movieData = await getMovieDetails(id);
+        setCurrentMovieDetail(movieData);
+        const trailerResponse = await getMovieTrailer(id);
+        if (trailerResponse.results) {
+            let selectedTrailer;
+            selectedTrailer = trailerResponse.results.find(
+            (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "MX"
+            );
+            if (!selectedTrailer) {
+            selectedTrailer = trailerResponse.results.find(
+                (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.iso_3166_1 === "ES"
+            );
             }
-        } catch {
-            Swal.fire({
-                title: "Error al obtener detalles de la pelicula",
-                text: "No se pudo cargar de la pelicula. ¿Quieres intentar nuevamente?",
-                icon: "error",
-                showCancelButton: true,
-                confirmButtonText: "Reintentar",
-                cancelButtonText: "Cancelar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetchMovie();
-                }
-            });
+            if (!selectedTrailer) {
+            selectedTrailer = trailerResponse.results.find(
+                (vid) => vid.type === "Trailer" && vid.iso_639_1 === "es-MX" && vid.name.toLowerCase().includes("subtitulado")
+            );
+            }
+            if (!selectedTrailer) {
+                selectedTrailer = trailerResponse.results.find(
+                (vid) => vid.type === "Trailer"
+            );
+            }
+            setTrailer(selectedTrailer);
         }
-        
+        } catch {
+        Swal.fire({
+            title: "Error al obtener detalles de la pelicula",
+            text: "No se pudo cargar la película. ¿Quieres intentar nuevamente?",
+            icon: "error",
+            showCancelButton: true,
+            confirmButtonText: "Reintentar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+            fetchMovie();
+            }
+        });
+        }
     };
-
+    
     useEffect(() => {
         fetchMovie();
     }, [id]);
 
     useEffect(() => {
         if (trailer) {
-            setPlaying(true);
-        }
+        setPlaying(true);
+    }
     }, [trailer]);
 
     const closeTrailer = () => {
@@ -76,7 +74,6 @@ function Movie() {
     const handleCartClick = () => {
         navigate(`/buyTicket/${id}`);
     };
-
     return (
         <div className="movie">
             <div className="movie__intro">

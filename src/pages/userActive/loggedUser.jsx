@@ -1,12 +1,11 @@
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import "./loggedUser.css";
 import { FaSearch } from 'react-icons/fa';
+import { getTickets, updateTicketStatus, updateSeats } from '../../utils/apiUser';
+import "./loggedUser.css";
 
 function LoggedUser({ userId }) {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
@@ -14,12 +13,29 @@ function LoggedUser({ userId }) {
     const preference_id = queryParams.get('preference_id');
     const [tickets, setTickets] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [loading, setLoading] = useState(true); 
 
+    // Función para generar el código de la película
     const generateCode = (codeString) => {
         if (!codeString) return 'N/A';
         return codeString.replace(/[^a-zA-Z]/g, '').slice(0, 6).toUpperCase();
     };
 
+    // Función para traducir el estado del ticket
+    const translateStatus = (status) => {
+        switch (status) {
+        case 'paid':
+            return 'Pago';
+        case 'used':
+            return 'Usado';
+        case 'pending':
+            return 'Pendiente';
+        default:
+            return 'Desconocido';
+        }
+    };
+
+    // Formato de la fecha de compra
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, '0');
@@ -31,11 +47,12 @@ function LoggedUser({ userId }) {
         return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     };
 
+    // Mostrar detalles del ticket en un modal
     const showTicketDetails = (ticket) => {
         Swal.fire({
-            title: `<strong>Detalles del Ticket</strong>`,
-            html: `
-                <p><strong>Película:</strong> ${ticket.nameFilm}</p>
+            title: <strong>Detalles del Ticket</strong>,
+            html: 
+                `<p><strong>Película:</strong> ${ticket.nameFilm}</p>
                 <p><strong>Fecha de Compra:</strong> ${formatDate(ticket.purchaseDate)}</p>
                 <p><strong>Código:</strong> ${generateCode(ticket.voucher)}</p>
                 <p><strong>Precio Final:</strong> $${ticket.finalPrice}</p>
@@ -44,9 +61,11 @@ function LoggedUser({ userId }) {
                 <p><strong>Tipo de Función:</strong> ${ticket.typeOfFunction}</p>
                 <p><strong>Idioma:</strong> ${ticket.language}</p>
                 <p><strong>Asientos:</strong> ${JSON.parse(ticket.chair).join(', ')}</p>
-            `,
+                <p><strong>Estado del Ticket:</strong> ${translateStatus(ticket.status)}</p>`,
             icon: 'info',
             showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
             confirmButtonText: 'Cerrar',
             customClass: {
                 popup: 'my-custom-popup'
@@ -54,86 +73,62 @@ function LoggedUser({ userId }) {
         });
     };
 
+    // Manejo del cambio en el campo de búsqueda
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
+    // Obtener los tickets cuando cambia el término de búsqueda o el ID de usuario
     useEffect(() => {
         const fetchTickets = async () => {
+            setLoading(true);
             try {
-                if (searchTerm) {
-                    const searchResponse = await axios.get(`${URL_BACK}/searchMovies?name=${searchTerm}`);
-                    setTickets(searchResponse.data);
+                const ticketsData = await getTickets(userId, searchTerm);
+                if (ticketsData && ticketsData.length > 0) {
+                    const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid' || ticket.status === 'used')
+                        .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
+                    setTickets(sortedTickets);
                 } else {
-                    const ticketResponse = await axios.get(`${URL_BACK}/ticketUser/${userId}`);
-                    const ticketsData = ticketResponse.data;
-                    
-                    if (ticketsData.length > 0) {
-                        const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid' || ticket.status === 'used')
-                            .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
-                        setTickets(sortedTickets);
-                    } else {
-                        console.log("No se encontraron tickets para este usuario.");
-                    }
+                    console.log("No se encontraron tickets para este usuario.");
+                    setTickets([]);
                 }
             } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Hubo un error al obtener los tickets. Por favor, intenta nuevamente más tarde.',
-                });
+                console.error("Error al obtener los tickets:", error);
+                setTickets([]); 
+            } finally {
+                setLoading(false);
             }
         };
-    
         fetchTickets();
     }, [searchTerm, userId]);
 
-    const handlePaymentStatus = async () => {
-        if (status === 'approved' && preference_id) {
-            try {
-                await axios.post(`${URL_BACK}/updateTicketStatus`, {
-                    preference_id,
-                    status: 'paid',
-                });
-                const ticketResponse = await axios.get(`${URL_BACK}/ticketUser/${userId}`);
-                const ticketsData = ticketResponse.data;
-    
-                if (ticketsData.length > 0) {
-                    const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid')
-                        .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
-                    setTickets(sortedTickets);
-                    const mostRecentTicket = sortedTickets[0];
-                    const { chair, idMovieTheater } = mostRecentTicket;
-
-                    await axios.post(`${URL_BACK}/updateSeats`, {
-                        chair: JSON.parse(chair), 
-                        idMovieTheater: idMovieTheater,
-                    });
-    
-                    Swal.fire({
-                        title: "<strong>Compra Exitosa</strong>",
-                        html: `
-                            <i>¡La compra de tu ticket fue exitosa!</i><br>
-                            <strong>Código de la película:</strong> ${generateCode(preference_id)}<br>
-                            <p>Para más información presiona el código de la película</p>`,
-                        icon: "success",
-                        timer: 25000,
-                        timerProgressBar: true
-                    });
-                }
-            } catch (error) {
+    // Manejo del estado de la compra (aprobado)
+    useEffect(() => {
+        const handlePaymentStatus = async () => {
+            if (status === 'approved' && preference_id) {
+                await updateTicketStatus(preference_id);
+                const ticketsData = await getTickets(userId);
+                const sortedTickets = ticketsData.filter(ticket => ticket.status === 'paid')
+                    .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
+                setTickets(sortedTickets);
+                const mostRecentTicket = sortedTickets[0];
+                const { chair, idMovieTheater } = mostRecentTicket;
+                await updateSeats(JSON.parse(chair), idMovieTheater);
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Ocurrió un error al actualizar el estado del ticket o los asientos. Por favor, intenta nuevamente.',
+                    title: "<strong>Compra Exitosa</strong>",
+                    html: 
+                        `<i>¡La compra de tu ticket fue exitosa!</i><br>
+                        <strong>Código de la película:</strong> ${generateCode(preference_id)}<br>
+                        <p>Para más información presiona el código de la película</p>`,
+                    icon: "success",
+                    timer: 25000,
+                    timerProgressBar: true
                 });
             }
-        }
-    };
+        };
 
-    useEffect(() => {
         handlePaymentStatus();
-    }, [status, preference_id]);
+    }, [status, preference_id, userId]);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -159,24 +154,34 @@ function LoggedUser({ userId }) {
                 />
                 <FaSearch className="searchIcon" />
             </div>
-            <table className="userHistory">
-                <thead>
-                    <tr>
-                        <th>Fecha de Compra</th>
-                        <th>Código</th>
-                        <th>Película</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tickets.map((ticket, index) => (
-                        <tr key={index} onClick={() => showTicketDetails(ticket)}>
-                            <td>{formatDate(ticket.purchaseDate)}</td>
-                            <td className="codeCell">{generateCode(ticket.voucher)}</td>
-                            <td>{ticket.nameFilm}</td>
+            {loading ? (
+                <p>Cargando tus tickets...</p> 
+            ) : (
+                <table className="userHistory">
+                    <thead>
+                        <tr>
+                            <th>Fecha de Compra</th>
+                            <th>Código</th>
+                            <th>Película</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {tickets.length === 0 ? (
+                            <tr>
+                                <td colSpan="3">No se encontraron tickets para este usuario.</td>
+                            </tr>
+                        ) : (
+                            tickets.map((ticket, index) => (
+                                <tr key={index} onClick={() => showTicketDetails(ticket)}>
+                                    <td>{formatDate(ticket.purchaseDate)}</td>
+                                    <td className="codeCell">{generateCode(ticket.voucher)}</td>
+                                    <td>{ticket.nameFilm}</td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            )}
             <div className="footerLoggedUser"></div>
         </div>
     );

@@ -22,72 +22,28 @@ export const tokenUser = async ({ mailOrDni, password }) => {
     }
 };
 
-// Obtener todas las películas estrenadas
-export const getAllFilms = async () => {
+// Función para crear la preferencia de pago en el backend
+export const createPreference = async ({ title, quantity = 1, price, userId }) => {
     try {
-        const response = await axiosInstance.get('/allFilm');
-        return response.data;
+        const response = await axiosInstance.post(`/create_preference`, {
+            title,
+            quantity,
+            price,
+            idUser: userId,
+        });
+        return response;
     } catch (error) {
-        handleApiError(error, 'Error al obtener las películas estrenadas.');
+        handleApiError(error, "Error al crear la preferencia de pago.");
     }
 };
 
-// Obtener información del carrusel de una película por código
-export const getCarrusel = async (codeFilm) => {
+// Función para crear un ticket en el backend
+export const createTicket = async (ticketInfo) => {
     try {
-        const response = await axiosInstance.get(`/movie/${codeFilm}`);
+        const response = await axiosInstance.post(`/createTicket`, ticketInfo);
         return response.data;
     } catch (error) {
-        handleApiError(error, 'Error al obtener datos del carrusel.');
+        handleApiError(error, "Error al registrar el ticket en el sistema.");
     }
 };
 
-// Obtener todas las películas próximas a estrenarse
-export const getAllFilmSoon = async () => {
-    try {
-        const response = await axiosInstance.get('/allFilmSoon');
-        return response.data;
-    } catch (error) {
-        handleApiError(error, 'Error al obtener las películas próximas a estrenarse.');
-    }
-};
-
-// Obtener sillas ocupadas por ID de sala
-export const getOccupiedSeats = async (idMovieTheater) => {
-    try {
-        const response = await axiosInstance.get(`/occupiedSeats/${idMovieTheater}`);
-        return response.data;
-    } catch (error) {
-        handleApiError(error, 'Error al obtener sillas ocupadas.');
-    }
-};
-
-// Obtener detalles de la película por ID
-export const fetchMovieDetail = async (id) => {
-    try {
-        const response = await axiosInstance.get(`/movie/${id}`);
-        return response.data;
-    } catch (error) {
-        handleApiError(error, 'Error al obtener los detalles de la película.');
-    }
-};
-
-// Obtener funciones de una película
-export const MovieFunctions = async (codeFilm) => {
-    try {
-        const response = await axiosInstance.get(`/movieFunctions/${codeFilm}`);
-        return response.data;
-    } catch (error) {
-        handleApiError(error, 'Error al obtener funciones de la película.');
-    }
-};
-
-// Obtener precio de la entrada
-export const getPrice = async (params) => {
-    try {
-        const response = await axiosInstance.get('/getPrice', { params });
-        return response.data;
-    } catch (error) {
-        handleApiError(error, 'Error al obtener el precio de la entrada.');
-    }
-};

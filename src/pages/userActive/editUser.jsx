@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns"; 
 import { es } from 'date-fns/locale'; 
 import "react-datepicker/dist/react-datepicker.css";
-import "./editUser.css"
+import "./editUser.css";
+import { allCostumer, updateUser } from "../../utils/apiUser";
 
 function EditUser() {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const { idUser } = useParams();
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
@@ -21,10 +20,9 @@ function EditUser() {
     
     useEffect(() => {
         if (idUser) {
-            axios
-                .get(`${URL_BACK}/allCustomer/${idUser}`)
+            allCostumer(idUser)
                 .then((response) => {
-                    const user = response.data;
+                    const user = response;
                     setMail(user.mail || "");
                     setName(user.name || "");
                     setSurname(user.surname || "");
@@ -76,16 +74,15 @@ function EditUser() {
     const update = () => {
         if (validateForm()) {
             const formattedDate = selectedDate.toISOString().split("T")[0];
-            axios
-                .put(`${URL_BACK}/update`, {
-                    idUser,
-                    mail,
-                    name,
-                    surname,
-                    dni,
-                    date: formattedDate,
-                    password,
-                })
+            updateUser({
+                idUser, // Asegúrate de incluir idUser si es necesario
+                mail,
+                name,
+                surname,
+                dni,
+                date: formattedDate,
+                password,
+            })
                 .then(() => {
                     Swal.fire({
                         title: "<strong>Usuario Actualizado</strong>",
@@ -191,10 +188,10 @@ function EditUser() {
                                 <button type="button" className="Btn btn-warning" id="btnChangePassword">Actualizar Contraseña</button>
                             </Link>
                             <div className="btnEditUser">
-                                <Link to = {`/userActive`}>
+                                <Link to = {`/userActive/${idUser}`}>
                                     <button type="button" className="Btn btn-primary" id="btnUpdate" onClick={update}>Actualizar</button>
                                 </Link>
-                                <Link to = "/userActive">
+                                <Link to = {`/userActive/${idUser}`}>
                                     <button type="button" className="Btn btn-primary btnCancel" id="btnCancel">Cancelar</button>
                                 </Link>
                             </div>                        

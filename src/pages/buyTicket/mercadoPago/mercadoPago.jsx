@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import "../ticket.css";
+import { createPreference, createTicket } from "../../../utils/apiService";
 
 function MercadoPago({ ticketData, userId }) {
   const [showButton, setShowButton] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null);
-  const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
   useEffect(() => {
     const initializeMercadoPago = async () => {
@@ -16,14 +15,12 @@ function MercadoPago({ ticketData, userId }) {
           const script = document.createElement("script");
           script.src = "https://sdk.mercadopago.com/js/v2";
           script.async = true;
-          script.onload = () => {
-            setShowButton(true);
-          };
+          script.onload = () => setShowButton(true);
           document.body.appendChild(script);
         } else {
           setShowButton(true);
         }
-      } catch{
+      } catch {
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -46,19 +43,18 @@ function MercadoPago({ ticketData, userId }) {
         locale: "es-AR",
       });
 
-      const response = await axios.post(`${URL_BACK}/create_preference`, {
+      // Crear preferencia de pago en el backend
+      const preference = await createPreference({
         title: ticketData.title,
         quantity: ticketData.quantity || 1,
         price: ticketData.price,
-        idUser: userId,
+        userId
       });
-
-      const preference = response.data;
 
       const bricksBuilder = mp.bricks();
       bricksBuilder.create("wallet", "wallet_container", {
         initialization: {
-          preferenceId: preference.id,
+          preferenceId: preference.data.id,
         },
       });
 
@@ -66,7 +62,7 @@ function MercadoPago({ ticketData, userId }) {
         nameFilm: ticketData.title,
         chair: seatLabels,
         finalPrice: ticketData.price,
-        voucher: preference.id,
+        voucher: preference.data.id,
         idUser: userId,
         date: ticketData.date,
         time: ticketData.time,
@@ -74,13 +70,12 @@ function MercadoPago({ ticketData, userId }) {
         language: ticketData.language,
         idMovieTheater: ticketData.idMovieTheater,
       };
-
-      await axios.post(`${URL_BACK}/createTicket`, ticketInfo);
+      await createTicket(ticketInfo);
 
       setInitialized(true);
       setShowButton(false);
       setPaymentStatus("pending");
-    } catch{
+    } catch {
       Swal.fire({
         icon: 'error',
         title: 'Error',

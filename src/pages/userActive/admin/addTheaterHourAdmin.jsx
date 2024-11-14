@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import "./addTheaterHourAdmin.css"
 import { MuiPickersUtilsProvider, DatePicker, TimePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns"; 
-import { es } from 'date-fns/locale'; 
+import { es } from 'date-fns/locale';
+import { getAllFilms } from "../../../utils/apiFilm";
+import { createMovieTheater } from "../../../utils/apiMovieTheater";
+import "./addTheaterHourAdmin.css"
 
 function AgregarFuncionCine() {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
+
     const [listaPeliculas, setListaPeliculas] = useState([]);
     const [peliculasFiltradas, setPeliculasFiltradas] = useState([]);
     const [busqueda, setBusqueda] = useState("");
@@ -17,14 +17,14 @@ function AgregarFuncionCine() {
     const [es3D, setEs3D] = useState(false);
     const [esSubtitulada, setEsSubtitulada] = useState(false);
     const [peliculaSeleccionada, setPeliculaSeleccionada] = useState(null);
-    const [precio, setPrecio] = useState([])
+    const [precio, setPrecio] = useState("");
 
     // Obtener todas las películas
     const obtenerPeliculas = () => {
-        axios.get(`${URL_BACK}/allFilm`)
-            .then((response) => {
-                setListaPeliculas(response.data);
-                setPeliculasFiltradas(response.data);
+        getAllFilms()
+            .then((data) => {
+                setListaPeliculas(data);
+                setPeliculasFiltradas(data);
             })
             .catch((error) => {
                 console.error("Error al obtener datos:", error);
@@ -67,33 +67,8 @@ function AgregarFuncionCine() {
             precio: precio
         };
 
-        console.log("Detalles de la función:", detallesFuncion);
-
-        axios.post(`${URL_BACK}/createMovieTheater`, { 
-            nameFilm: detallesFuncion.nombrePelicula,
-            codeFilm: detallesFuncion.codigoPelicula,
-            date: detallesFuncion.fecha,
-            time: detallesFuncion.hora,
-            typeOfFunction: detallesFuncion.tipo,
-            language: detallesFuncion.subtitulada,
-            price: detallesFuncion.precio
-        })
-        .then(() => {
-            Swal.fire({
-                title: "<strong>Función Registrada</strong>",
-                html: `<i>La película <strong>${peliculaSeleccionada.nameFilm}</strong> fue registrada con éxito y ya está disponible para su venta!</i>`,
-                icon: "success",
-                timer: 6000
-            });
-        })
-        .catch((error) => {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "¡No se pudo registrar la función!",
-                footer: error.message === "Network Error" ? "Intente más tarde" : error.message
-            });
-        });
+        // Usar la función createMovieTheater
+        createMovieTheater(detallesFuncion, peliculaSeleccionada);
     };
 
     return (

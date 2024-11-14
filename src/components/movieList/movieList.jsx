@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { getAllFilms } from "../../utils/apiService";
+import { getAllFilms } from "../../utils/apiFilm";
 import "./movieList.css";
 
 const MovieList = () => {
@@ -52,6 +52,7 @@ const MovieList = () => {
                     </div>
                 ))}
             </div>
+            <div className="movieListFooter"></div>
         </div>
     );
 };

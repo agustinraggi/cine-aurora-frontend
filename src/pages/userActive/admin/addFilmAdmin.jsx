@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import "./addFilmAdmin.css";
+import { createFilm } from "../../../utils/apiFilm";
 
 const AddSoonFilmAdmin = () => {
     const [title, setTitle] = useState("");
@@ -29,9 +30,11 @@ const AddSoonFilmAdmin = () => {
         };
         searchMovies();
     }, [title]);
+
     const handleMovieSelect = (selectedMovie) => {
         setTitle(selectedMovie.nameFilm);
     };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -46,12 +49,11 @@ const AddSoonFilmAdmin = () => {
             console.error("Error al agregar la película:", error);
         }
     };
-    const addFilm = (movie) => {
-        axios.post(`${URL_BACK}/createFilm`, {
-            codeFilm: movie.id,
-            nameFilm: movie.nameFilm
-        })
-        .then(() => {
+
+    // Función para agregar una nueva película
+    const addFilm = async (movie) => {
+        try {
+            await createFilm(movie.id, movie.nameFilm);
             clearForm();
             Swal.fire({
                 title: "<strong>Película Registrada</strong>",
@@ -59,19 +61,20 @@ const AddSoonFilmAdmin = () => {
                 icon: "success",
                 timer: 2000
             });
-        })
-        .catch((error) => {
+        } catch (error) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "No se pudo registrar la película!",
                 footer: error.message === "Network Error" ? "Intente más tarde" : error.message
             });
-        });
+        }
     };
+
     const clearForm = () => {
         setTitle("");
     };
+
     return (
         <div className="add-film-container">
             <h2>Agregar Película</h2>

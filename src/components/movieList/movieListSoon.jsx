@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "./movieList.css";
-import { getAllFilmSoon } from "../../utils/apiService"; 
+import { getAllFilmSoon } from "../../utils/apiFilmSoon"; 
 
 const MovieList = () => {
     const [moviePosters, setMoviePosters] = useState([]);
@@ -51,6 +51,7 @@ const MovieList = () => {
                     </div>
                 ))}
             </div>
+            <div className="movieListFooter"></div>
         </div>
     );
 };

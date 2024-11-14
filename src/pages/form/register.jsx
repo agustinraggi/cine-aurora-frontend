@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns"; 
 import { es } from 'date-fns/locale'; 
+import Swal from 'sweetalert2';
+import { createUser } from "../../utils/apiUser";
 import "react-datepicker/dist/react-datepicker.css";
 import "./register.css";
 import { Link } from "react-router-dom";
-import axios from 'axios';
-import Swal from 'sweetalert2';
 
 function Register() {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [mail, setMail] = useState("");
     const [name, setName] = useState("");
@@ -19,7 +18,6 @@ function Register() {
     const [tips, setTips] = useState("client");
     const [showPassword, setShowPassword] = useState(false);
 
-    // VALIDACIONES DE FORMULARIO
     const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const validateText = (text) => /^[a-zA-Z\s]+$/.test(text);
     const validateDNI = (dni) => /^[0-9]{7,8}$/.test(dni);
@@ -49,11 +47,11 @@ function Register() {
         return true;
     };
 
-    // REGISTRAR USUARIO
-    const add = () => {
+    // Función para agregar un usuario
+    const add = async () => {
         if (validateForm()) {
             const formattedDate = selectedDate.toISOString().split('T')[0];
-            axios.post(`${URL_BACK}/create`, {
+            const userData = {
                 mail,
                 name,
                 surname,
@@ -61,9 +59,12 @@ function Register() {
                 date: formattedDate,
                 password,
                 tips
-            })
-            .then((response) => {
-                if (response.status === 200) { 
+            };
+
+            try {
+                // Llamamos a la función createUser para registrar al usuario
+                const response = await createUser(userData);
+                if (response) {
                     Swal.fire({
                         title: "<strong>Usuario Registrado</strong>",
                         html: "<i>El usuario <strong>" + name + "</strong> fue REGISTRADO con éxito!</i>",
@@ -71,15 +72,14 @@ function Register() {
                         timer: 2000
                     });
                 }
-            })
-            .catch((error) => {
+            } catch (error) {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
                     text: "No se pudo registrar el usuario!",
                     footer: error.response ? error.response.data.message : "Intente más tarde"
                 });
-            });
+            }
         }
     };
 
@@ -88,7 +88,7 @@ function Register() {
             <div className="container mb-5">
                 <div className="row">
                     <form className="formUserRegister">
-                        <h1>REGISTRAR USUARIO</h1>
+                        <h1 className="titleRegisterUser">REGISTRAR USUARIO</h1>
                         <div className="registerForm">
                             <label className="form-label" id="text">Correo Electrónico</label>
                             <input onChange={(event) => setMail(event.target.value)} value={mail} type="email" className="formControl" id="inputEmail" placeholder="Ingrese su correo electrónico" />

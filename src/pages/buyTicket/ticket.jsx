@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ticket.css";
-import axios from 'axios';
 import Chair from "./chair/chair";
 import MercadoPago from "./mercadoPago/mercadoPago";
 import Sala from "./salas/salas";
 import Swal from "sweetalert2";
-import {fetchMovieDetail, MovieFunctions, getPrice} from '../../utils/apiService'
+import {fetchMovieDetail, MovieFunctions, getPrice} from '../../utils/apiTicket'
 
 function Ticket({ userId }) {
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     const [currentMovieDetail, setCurrentMovieDetail] = useState({});
     const [ticketQuantity, setTicketQuantity] = useState(0);
@@ -41,11 +39,11 @@ function Ticket({ userId }) {
     };
 
     // Función para obtener las funciones de la película
-    const fetchMovieFunctions = async (codeFilm) => {
+    const fetchMovieFunctions = async () => {
         try {
-            const { data } = await axios.get(`${URL_BACK}/movieFunctions/${codeFilm}`);
+            const data = await MovieFunctions(id);
             setMovieFunctions(data);
-        } catch{
+        } catch {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -59,18 +57,16 @@ function Ticket({ userId }) {
     // Función para obtener el precio de la entrada
     const fetchPrice = async () => {
         try {
-            const { data } = await axios.get(`${URL_BACK}/getPrice`, {
-                params: {
-                    codeFilm: id,
-                    date: selectedDate,
-                    time: selectedTime,
-                    typeOfFunction: selectedTypeOfFunction,
-                    language: selectedLanguage,
-                },
+            const data = await getPrice({
+                codeFilm: id,
+                date: selectedDate,
+                time: selectedTime,
+                typeOfFunction: selectedTypeOfFunction,
+                language: selectedLanguage,
             });
             setPrice(data.price);
             setMovieTheaterId(data.id); 
-        } catch{
+        } catch {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',

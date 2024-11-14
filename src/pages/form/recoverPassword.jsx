@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
-import "./recoverPassword.css"; 
+import { recoverPassword } from "../../utils/apiUser"; 
+import "./recoverPassword.css";
 
 function RecoverPassword() {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${URL_BACK}/recover-password`, { email });
-            setMessage(response.data.message);
+            const response = await recoverPassword(email); 
+            setMessage(response.message);
 
             Swal.fire({
                 title: "Correo enviado",

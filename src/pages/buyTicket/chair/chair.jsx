@@ -4,7 +4,7 @@ import seleccionado from "../../../assets/chair/seleccionado.png";
 import ocupado from "../../../assets/chair/ocupado.png";
 import Swal from "sweetalert2";
 import "../ticket.css";
-import { getOccupiedSeats} from '../../../utils/apiService';
+import { getOccupiedSeats} from '../../../utils/apiMovieTheater';
 
 function Chair({ ticketQuantity, onSeatsSelected, idMovieTheater }) {
     const [selectedSeats, setSelectedSeats] = useState([]);

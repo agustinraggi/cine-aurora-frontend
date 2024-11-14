@@ -3,8 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Axios from 'axios'; 
-import { getToken, initAxiosInterceptors } from './Helpers/auth-helpers';
+import axiosInstance,  { getToken, initAxiosInterceptors } from './utils/axiosConfig';
 import Swal from 'sweetalert2'; 
 
 import Header from './components/header/Header';
@@ -42,24 +41,21 @@ initAxiosInterceptors();
 function App() {
     const [user, setUser] = useState(null);
     const [loadingUser, setLoadingUser] = useState(true);
-    const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
 
     useEffect(() => {
         async function loadUser() {
-            if (!getToken()) {
+            const token = getToken();
+            if (!token) {
                 setLoadingUser(false);
                 return;
             }
             try {
-                const { data: user } = await Axios.get(`${URL_BACK}/tokenUser`);
-                setUser(user);
+                const { data: userData } = await axiosInstance.get("/tokenUser");
+                setUser(userData);
             } catch (error) {
-                Swal.fire({
-                    title: "Error",
-                    text: "No se pudo cargar la información del usuario.",
-                    icon: "error",
-                    confirmButtonText: "Cerrar"
-                });
+                if (error.response && error.response.status === 401) {
+                    deleteToken();
+                }
             } finally {
                 setLoadingUser(false);
             }
@@ -67,10 +63,11 @@ function App() {
         loadUser();
     }, []);
 
+
     return (
         <div className="App">
             <Router>
-                <Header user={user} />
+                <Header user={user} userId={user ? user.id : null} />
                 <Routes>
                     <Route path="/" element={<Carrusel />} />
                     <Route path="movie/:id" element={<Movie />} />
@@ -84,7 +81,7 @@ function App() {
                     <Route path="recoverPassword" element={<RecoverPassword />} />
                     <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route 
-                        path="userActive" 
+                        path="userActive/:userId"
                         element={
                             <ProtectedRoute user={user}>
                                 <UserActive userId={user ? user.id : null} />
@@ -199,7 +196,7 @@ function App() {
                         path="mercadoPago"
                         element={
                             <ProtectedRoute user={user}>
-                                <MercadoPago user={user} />
+                                <MercadoPago  userId={user ? user.id : null} />
                             </ProtectedRoute>
                         } 
                     />

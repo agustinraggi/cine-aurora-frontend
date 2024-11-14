@@ -18,7 +18,7 @@ function EmployeeActive (){
             <h1>empelados</h1>
             <div className="adminFeatures">
                 <Link to="/verifyVoucher" className="adminLink">
-                        <span className="featureCard">Verificar Código de Entrada</span>
+                    <span className="featureCard">Verificar Código de Entrada</span>
                 </Link>
             </div>
             <div className="footerLoggedEmployee"></div>

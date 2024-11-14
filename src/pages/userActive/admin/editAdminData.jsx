@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import "./editData.css";
+import { updateUser, fetchCustomers, deleteUser } from "../../../utils/apiUser";
 
 function EditAdminData() {
     const URL_BACK = process.env.REACT_APP_BACK_URL || "http://localhost:3001";
@@ -45,94 +46,51 @@ function EditAdminData() {
     // UPDATE
     const update = () => {
         if (validateForm()) {
-            const formattedDate = selectedDate.toISOString().split('T')[0];
-            axios.put(`${URL_BACK}/update`, {
+            const formattedDate = selectedDate.toISOString().split("T")[0];
+            updateUser({
                 idUser,
                 mail,
                 name,
                 surname,
                 dni,
                 date: formattedDate,
-                tips
             })
-            .then(() => {
-                Swal.fire({
-                    title: "<strong>Usuario Actualizado</strong>",
-                    html: "<i>El usuario <strong>" + name + "</strong> fue ACTUALIZADO con éxito!</i>",
-                    icon: "success",
-                    timer: 2000
+                .then(() => {
+                    Swal.fire({
+                        title: "<strong>Usuario Actualizado</strong>",
+                        html: `<i>El usuario <strong>${name}</strong> fue ACTUALIZADO con éxito!</i>`,
+                        icon: "success",
+                        timer: 2000,
+                    });
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "No se pudo actualizar el usuario!",
+                        footer: error.message.includes("Network Error")
+                            ? "Intente más tarde"
+                            : error.message,
+                    });
                 });
-                fetchCustomers();
-                clearForm();
-                setEditIndex(null);
-            })
-            .catch((error) => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "No se pudo registrar el usuario!",
-                    footer: error.response?.data?.error || "Intente más tarde"
-                });
-            });
         }
-    }
+    };
 
     // DELETE
     const deleteData = (idUser, name) => {
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: `No podrás revertir esta acción. ¿Estás seguro de que deseas eliminar a ${name}?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sí, eliminar!",
-            cancelButtonText: "No, cancelar",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(`${URL_BACK}/delete/${idUser}`)
-                    .then(() => {
-                        Swal.fire({
-                            title: "¡Eliminado!",
-                            text: `El usuario ${name} ha sido eliminado.`,
-                            icon: "success",
-                            timer: 2000
-                        });
-                        fetchCustomers();
-                        clearForm();
-                        setEditIndex(null);
-                    })
-                    .catch((error) => {
-                        const errorMessage = error.response?.data?.error || "No se pudo eliminar el usuario ya que tiene una entrada comprada.";
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: errorMessage,
-                            footer: errorMessage
-                        });
-                    });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire({
-                    title: "Cancelado",
-                    text: "Tu archivo está a salvo :)",
-                    icon: "error",
-                    timer: 2000
-                });
-            }
-        });
-    }
+        deleteUser(idUser, name, fetchCustomers);
+    };
 
     // FETCH CUSTOMERS
-    const fetchCustomers = () => {
-        axios.get(`${URL_BACK}/allCustomer?page=${page}&limit=5`)
-        .then(response => {
-            setListPeople(response.data.users);
-            setFilteredPeople(response.data.users);
-            setTotalPages(response.data.totalPages);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetchCustomers(page, 5);
+            setListPeople(data.users);
+            setFilteredPeople(data.users);
+            setTotalPages(data.totalPages);
+        };
+        fetchData();
+    }, [page]);
 
     useEffect(() => {
         fetchCustomers();

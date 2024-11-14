@@ -1,0 +1,11 @@
+.verificationMessage {
+    font-size: 20px;   
+    text-align: center;
+    margin-right: 200px;
+}
+
+@media (max-width: 475px){
+    .verificationMessage {
+        font-size: 15px;
+    }
+}
