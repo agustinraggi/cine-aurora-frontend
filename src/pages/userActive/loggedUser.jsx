@@ -13,7 +13,6 @@ function LoggedUser({ userId }) {
     const preference_id = queryParams.get('preference_id');
     const [tickets, setTickets] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [loading, setLoading] = useState(true); 
 
     // Función para generar el código de la película
     const generateCode = (codeString) => {
@@ -24,14 +23,14 @@ function LoggedUser({ userId }) {
     // Función para traducir el estado del ticket
     const translateStatus = (status) => {
         switch (status) {
-        case 'paid':
-            return 'Pago';
-        case 'used':
-            return 'Usado';
-        case 'pending':
-            return 'Pendiente';
-        default:
-            return 'Desconocido';
+            case 'paid':
+                return 'Pago';
+            case 'used':
+                return 'Usado';
+            case 'pending':
+                return 'Pendiente';
+            default:
+                return 'Desconocido';
         }
     };
 
@@ -47,21 +46,38 @@ function LoggedUser({ userId }) {
         return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     };
 
+    const formatShortDateInfoTicket = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     // Mostrar detalles del ticket en un modal
     const showTicketDetails = (ticket) => {
+        let chairDetails;
+        try {
+            chairDetails = Array.isArray(ticket.chair)
+                ? ticket.chair.join(', ')
+                : JSON.parse(ticket.chair).join(', ');
+        } catch (error) {
+            chairDetails = 'N/A';
+        }
         Swal.fire({
-            title: <strong>Detalles del Ticket</strong>,
-            html: 
-                `<p><strong>Película:</strong> ${ticket.nameFilm}</p>
-                <p><strong>Fecha de Compra:</strong> ${formatDate(ticket.purchaseDate)}</p>
+            title: '<strong>Detalles del Ticket</strong>',
+            html: `
+                <p><strong>Película:</strong> ${ticket.nameFilm}</p>
+                <p><strong>Fecha de Compra:</strong> ${formatShortDateInfoTicket(ticket.purchaseDate)}</p>
                 <p><strong>Código:</strong> ${generateCode(ticket.voucher)}</p>
                 <p><strong>Precio Final:</strong> $${ticket.finalPrice}</p>
-                <p><strong>Fecha:</strong> ${ticket.date}</p>
+                <p><strong>Fecha de la funcion:</strong> ${formatShortDateInfoTicket(ticket.date)}</p>
                 <p><strong>Hora:</strong> ${ticket.time}</p>
                 <p><strong>Tipo de Función:</strong> ${ticket.typeOfFunction}</p>
                 <p><strong>Idioma:</strong> ${ticket.language}</p>
-                <p><strong>Asientos:</strong> ${JSON.parse(ticket.chair).join(', ')}</p>
-                <p><strong>Estado del Ticket:</strong> ${translateStatus(ticket.status)}</p>`,
+                <p><strong>Asientos:</strong> ${chairDetails}</p>
+                <p><strong>Estado del Ticket:</strong> ${translateStatus(ticket.status)}</p>
+            `,
             icon: 'info',
             showCloseButton: true,
             showCancelButton: false,
@@ -81,7 +97,6 @@ function LoggedUser({ userId }) {
     // Obtener los tickets cuando cambia el término de búsqueda o el ID de usuario
     useEffect(() => {
         const fetchTickets = async () => {
-            setLoading(true);
             try {
                 const ticketsData = await getTickets(userId, searchTerm);
                 if (ticketsData && ticketsData.length > 0) {
@@ -89,14 +104,20 @@ function LoggedUser({ userId }) {
                         .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
                     setTickets(sortedTickets);
                 } else {
-                    console.log("No se encontraron tickets para este usuario.");
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Sin resultados',
+                        text: 'No se encontraron tickets para este usuario.',
+                    });
                     setTickets([]);
                 }
             } catch (error) {
-                console.error("Error al obtener los tickets:", error);
-                setTickets([]); 
-            } finally {
-                setLoading(false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al obtener los tickets.',
+                });
+                setTickets([]);
             }
         };
         fetchTickets();
@@ -154,34 +175,30 @@ function LoggedUser({ userId }) {
                 />
                 <FaSearch className="searchIcon" />
             </div>
-            {loading ? (
-                <p>Cargando tus tickets...</p> 
-            ) : (
-                <table className="userHistory">
-                    <thead>
+            <table className="userHistory">
+                <thead>
+                    <tr>
+                        <th>Fecha de Compra</th>
+                        <th>Código</th>
+                        <th>Película</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {tickets.length === 0 ? (
                         <tr>
-                            <th>Fecha de Compra</th>
-                            <th>Código</th>
-                            <th>Película</th>
+                            <td colSpan="3">No se encontraron tickets para este usuario.</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {tickets.length === 0 ? (
-                            <tr>
-                                <td colSpan="3">No se encontraron tickets para este usuario.</td>
+                    ) : (
+                        tickets.map((ticket, index) => (
+                            <tr key={index} onClick={() => showTicketDetails(ticket)}>
+                                <td>{formatDate(ticket.purchaseDate)}</td>
+                                <td className="codeCell">{generateCode(ticket.voucher)}</td>
+                                <td>{ticket.nameFilm}</td>
                             </tr>
-                        ) : (
-                            tickets.map((ticket, index) => (
-                                <tr key={index} onClick={() => showTicketDetails(ticket)}>
-                                    <td>{formatDate(ticket.purchaseDate)}</td>
-                                    <td className="codeCell">{generateCode(ticket.voucher)}</td>
-                                    <td>{ticket.nameFilm}</td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            )}
+                        ))
+                    )}
+                </tbody>
+            </table>
             <div className="footerLoggedUser"></div>
         </div>
     );

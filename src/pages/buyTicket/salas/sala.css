@@ -1,0 +1,66 @@
+.salaContainer{
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.formSala {
+    margin-bottom: 20px;
+}
+
+.titleDataSala{
+    text-align: center;
+}
+
+.btnSala {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    text-align: center;
+    justify-content: center;
+}
+
+.btnDataSala {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.btnDataSala:hover {
+    background-color: #0056b3;
+}
+
+button.selectedTime,
+button.selectedFech {
+    background-color: #1fb33d;
+    color: white;
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.formatBtn,
+.languageBtn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #46a519;;
+    color: white;
+    pointer-events: none;
+}
+
+
+

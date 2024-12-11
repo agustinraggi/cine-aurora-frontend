@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from "react";
+import "./sala.css";
 
-function Sala({ movieFunctions, onDateSelect, onTimeSelect, onFormatSelect, onLanguageSelect }) {
+function Sala({ movieFunctions, onDateSelect, onTimeSelect }) {
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
     const [selectedTypeOfFunction, setSelectedTypeOfFunction] = useState("");
     const [selectedLanguage, setSelectedLanguage] = useState("");
     const [availableTimes, setAvailableTimes] = useState([]);
-    const [formats, setFormats] = useState([]);
-    const [languages, setLanguages] = useState([]);
-    const [error, setError] = useState("");
+
+    const today = new Date();
+    const todayString = today.getDate().toString().padStart(2, '0') + "-" + 
+                        (today.getMonth() + 1).toString().padStart(2, '0') + "-" + 
+                        today.getFullYear();
+    const formatDate = (date) => {
+        const [year, month, day] = date.split("-");
+        return `${day}-${month}-${year}`;
+    };
 
     useEffect(() => {
         if (selectedDate) {
-            const times = movieFunctions.filter(func => func.date === selectedDate);
+            const times = movieFunctions.filter(func => func.date >= todayString && func.date === selectedDate);
             setAvailableTimes(times);
-
-            
-            const uniqueFormats = Array.from(new Set(times.map(func => func.typeOfFunction)));
-            const uniqueLanguages = Array.from(new Set(times.map(func => func.language)));
-
-            setFormats(uniqueFormats);
-            setLanguages(uniqueLanguages);
         } else {
-            setAvailableTimes([]);
-            setFormats([]);
-            setLanguages([]);
+            const futureFunctions = movieFunctions.filter(func => func.date >= todayString);
+            setAvailableTimes(futureFunctions);
         }
     }, [selectedDate, movieFunctions]);
 
@@ -32,23 +31,21 @@ function Sala({ movieFunctions, onDateSelect, onTimeSelect, onFormatSelect, onLa
         if (selectedDate && selectedTime) {
             const selectedFunc = movieFunctions.find(func => func.date === selectedDate && func.time === selectedTime);
             if (selectedFunc) {
-                setFormats([selectedFunc.typeOfFunction]);
-                setLanguages([selectedFunc.language]);
+                setSelectedTypeOfFunction(selectedFunc.typeOfFunction);
+                setSelectedLanguage(selectedFunc.language);
             }
         } else {
-            setFormats([]);
-            setLanguages([]);
+            setSelectedTypeOfFunction("");
+            setSelectedLanguage("");
         }
     }, [selectedTime, selectedDate, movieFunctions]);
 
-    const handleDateChange = (event) => {
-        const date = event.target.value;
+    const handleDateSelection = (date) => {
         setSelectedDate(date);
         setSelectedTime("");
         setSelectedTypeOfFunction("");
         setSelectedLanguage("");
         onDateSelect(date);
-        setError("");
     };
 
     const handleTimeSelection = (func) => {
@@ -56,75 +53,57 @@ function Sala({ movieFunctions, onDateSelect, onTimeSelect, onFormatSelect, onLa
         setSelectedTypeOfFunction(func.typeOfFunction);
         setSelectedLanguage(func.language);
         onTimeSelect(func);
-        setError("");
-    };
-
-    const handleFormatChange = (event) => {
-        const typeOfFunction = event.target.value;
-        setSelectedTypeOfFunction(typeOfFunction);
-        onFormatSelect(typeOfFunction);
-        setError("");
-    };
-
-    const handleLanguageChange = (event) => {
-        const language = event.target.value;
-        setSelectedLanguage(language);
-        onLanguageSelect(language);
-        setError("");
     };
 
     return (
-        <div className="sala-container">
-            <div className="form-group">
-                <label htmlFor="dateSelect">Selecciona una fecha:</label>
-                <select id="dateSelect" value={selectedDate} onChange={handleDateChange}>
-                    <option value="">Selecciona una fecha</option>
+        <div className="salaContainer">
+            <div className="formSala">
+                <h4 className="titleDataSala">Selecciona una fecha:</h4>
+                <div className="btnSala">
                     {Array.from(new Set(movieFunctions.map(func => func.date)))
                         .sort()
+                        .filter(date => date >= todayString)
                         .map(date => (
-                            <option key={date} value={date}>{date}</option>
+                            <button
+                                key={date}
+                                className={`dateBtn btnDataSala ${selectedDate === date ? "selectedFech" : ""}`}
+                                onClick={() => handleDateSelection(date)}
+                            >
+                                {formatDate(date)}
+                            </button>
                         ))}
-                </select>
+                </div>
             </div>
-
             {selectedDate && (
-                <>
-                    <div className="form-group">
-                        <label htmlFor="timeSelect">Selecciona una hora:</label>
-                        <select id="timeSelect" value={selectedTime} onChange={(e) => handleTimeSelection(movieFunctions.find(func => func.time === e.target.value))}>
-                            <option value="">Selecciona una hora</option>
-                            {availableTimes.map(func => (
-                                <option key={func.time} value={func.time}>{func.time}</option>
-                            ))}
-                        </select>
+                <div className="formSala">
+                    <h4 className="titleDataSala">Selecciona una hora:</h4>
+                    <div className="btnSala">
+                        {availableTimes.map(func => (
+                            <button
+                                key={func.time}
+                                className={`timeBtn btnDataSala  ${selectedTime === func.time ? "selectedTime" : ""}`}
+                                onClick={() => handleTimeSelection(func)}
+                            >
+                                {func.time}
+                            </button>
+                        ))}
                     </div>
-
-                    {selectedTime && (
-                        <>
-                            <div className="form-group">
-                                <label htmlFor="formatSelect">Selecciona un formato:</label>
-                                <select id="formatSelect" value={selectedTypeOfFunction} onChange={handleFormatChange}>
-                                    <option value="">Selecciona un formato</option>
-                                    {formats.map(typeOfFunction => (
-                                        <option key={typeOfFunction} value={typeOfFunction}>{typeOfFunction}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="languageSelect">Selecciona un idioma:</label>
-                                <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
-                                    <option value="">Selecciona un idioma</option>
-                                    {languages.map(language => (
-                                        <option key={language} value={language}>{language}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </>
-                    )}
+                </div>
+            )}
+            {selectedTime && (
+                <>
+                    <div className="formSala">
+                        <h4 className="titleDataSala">Formato:</h4>
+                        <div className="btnSala">
+                            <button className="formatBtn">{selectedTypeOfFunction}</button>
+                        </div>
+                        <h4 className="titleDataSala">Idioma:</h4>
+                        <div className="btnSala">
+                            <button className="languageBtn">{selectedLanguage}</button>
+                        </div>
+                    </div>
                 </>
             )}
-            {error && <p className="error">{error}</p>}
         </div>
     );
 }

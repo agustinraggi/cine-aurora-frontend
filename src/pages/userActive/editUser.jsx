@@ -75,7 +75,7 @@ function EditUser() {
         if (validateForm()) {
             const formattedDate = selectedDate.toISOString().split("T")[0];
             updateUser({
-                idUser, // Asegúrate de incluir idUser si es necesario
+                idUser,
                 mail,
                 name,
                 surname,
